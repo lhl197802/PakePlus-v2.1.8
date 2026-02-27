@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 3 Period 1 · 答案与精析（译文填完）</title>
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #f5f7fa;
+            --text-color: #333;
+            --accent-color: #e74c3c;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+        }
+
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+        }
+
+        .close-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .close-btn:hover {
+            background-color: #c0392b;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            flex: 1;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .accordion-section {
+            background: #fff;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            user-select: none;
+            transition: background-color 0.3s;
+        }
+
+        .accordion-header:hover {
+            background-color: #357abd;
+        }
+
+        .accordion-icon {
+            transition: transform var(--transition-speed);
+            font-size: 1.2rem;
+        }
+
+        .accordion-section.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--transition-speed) ease-out;
+            background-color: #fff;
+        }
+
+        .question-card {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .question-card:last-child {
+            border-bottom: none;
+        }
+
+        .question-text {
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .translation {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            background-color: #f8f9fa;
+            padding: 6px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            width: auto;
+        }
+
+        .answer {
+            color: #27ae60;
+            font-weight: bold;
+            margin-top: 8px;
+            font-size: 0.95rem;
+        }
+
+        .explanation {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #eee;
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .explanation strong {
+            color: var(--primary-color);
+        }
+
+        .footer-promo {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: #fff;
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+        }
+
+        .promo-text {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin: 0;
+        }
+
+        footer {
+            background-color: #fff;
+            padding: 15px 20px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            margin-top: auto;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1rem;
+            }
+            .accordion-header {
+                font-size: 1rem;
+                padding: 12px 15px;
+            }
+            .question-card {
+                padding: 15px;
+            }
+        }
+    </style>
+    <script>
+        function closePage() {
+            window.close();
+            //if (window.opener || window.history.length > 1) {
+            //    window.close();
+            //} else {
+            //    alert("由于浏览器安全限制，无法直接关闭此标签页，请手动关闭。");
+            //}
+        }
+
+        function toggleAccordion(headerElement) {
+            const section = headerElement.parentElement;
+            const content = section.querySelector('.accordion-content');
+            
+            section.classList.toggle('active');
+
+            if (section.classList.contains('active')) {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } else {
+                content.style.maxHeight = null;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const contents = document.querySelectorAll('.accordion-content');
+            contents.forEach(content => {
+                content.style.maxHeight = null;
+            });
+        });
+        // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+    </script>
+</head>
+<body>
+
+    <header>
+        <h1>Unit 3 Period 1: Welcome to the unit</h1>
+        <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+    </header>
+
+    <main>
+        
+        <!-- 第一部分：单词拼写（翻译已按答案补全） -->
+        <div class="accordion-section">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <span>Ⅰ. 单词拼写 (根据汉语或首字母填空)</span>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <!-- 题1 -->
+                <div class="question-card">
+                    <div class="question-text">1. After you finish writing your email, _______（点击）on "Send".</div>
+                    <div class="translation">中文翻译：写完邮件后，点击“发送”。</div>
+                    <div class="answer">答案：click</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> 祈使句或一般现在时，主语隐含为you，动词用原形。Click on 意为“点击”。
+                    </div>
+                </div>
+                <!-- 题2 -->
+                <div class="question-card">
+                    <div class="question-text">2. He taught himself how to play the guitar by watching ________（在线的）videos.</div>
+                    <div class="translation">中文翻译：他通过观看在线视频自学了如何弹吉他。</div>
+                    <div class="answer">答案：online</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> 形容词修饰名词videos。Online意为“在线的”。
+                    </div>
+                </div>
+                <!-- 题3 -->
+                <div class="question-card">
+                    <div class="question-text">3. The ________（导游）lead many visitors to the Shanghai Museum every day.</div>
+                    <div class="translation">中文翻译：导游们每天带领许多游客参观上海博物馆。</div>
+                    <div class="answer">答案：guides</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> 谓语动词lead是原形（若主语是单数第三人称应为leads），且语境暗示导游不止一个，故用复数guides。
+                    </div>
+                </div>
+                <!-- 题4 -->
+                <div class="question-card">
+                    <div class="question-text">4. We v________ many interesting places during our summer vacation.</div>
+                    <div class="translation">中文翻译：暑假期间我们参观了许多有趣的地方。</div>
+                    <div class="answer">答案：visited</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> 根据during our summer vacation可知动作发生在过去，用一般过去时。Visit意为“参观”，过去式为visited。
+                    </div>
+                </div>
+                <!-- 题5 -->
+                <div class="question-card">
+                    <div class="question-text">5. With the development of AI, our lives are becoming more c__________________.</div>
+                    <div class="translation">中文翻译：随着人工智能的发展，我们的生活变得更加方便/多彩。</div>
+                    <div class="answer">答案：convenient / colourful / colorful</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> become后接形容词作表语。根据AI发展的语境，通常指生活更“便利”(convenient)；若指生活更多彩，也可填colourful/colorful。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第二部分：单项选择（翻译已根据选项正确答案补全） -->
+        <div class="accordion-section">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <span>Ⅱ. 单项选择</span>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <!-- 题6 -->
+                <div class="question-card">
+                    <div class="question-text">6. Mr Wang wants to know ________ about the clubs. ( )<br>A. an information &nbsp; B. many informations &nbsp; C. a lot of informations &nbsp; D. more information</div>
+                    <div class="translation">中文翻译：王先生想了解关于这些俱乐部的更多信息。</div>
+                    <div class="answer">答案：D</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> Information是不可数名词，没有复数形式，也不能用不定冠词an修饰。故选D项（更多信息）。
+                    </div>
+                </div>
+                <!-- 题7 -->
+                <div class="question-card">
+                    <div class="question-text">7. —Could I ________ the magazine from you?<br>—Sure. You can ________ it for one week. ( )<br>A. borrow; lend &nbsp; B. lend; borrow &nbsp; C. keep; lend &nbsp; D. borrow; keep</div>
+                    <div class="translation">中文翻译：——我能从你这儿借这本杂志吗？——当然可以。你可以保留一周。</div>
+                    <div class="answer">答案：D</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> 第一空根据from you可知是“借入”，用borrow；第二空后有时间段for one week，需用延续性动词keep。Borrow和lend都是瞬间动词，不能与时间段连用。
+                        <br><strong>易混辨析：</strong> borrow强调从他人处获得物品；lend强调把物品给他人；keep强调持续持有物品的状态，可与时间段搭配。
+                    </div>
+                </div>
+                <!-- 题8 -->
+                <div class="question-card">
+                    <div class="question-text">8. In the nature, male birds are usually ________ than female ones. ( )<br>A. colourful &nbsp; B. much colourful &nbsp; C. much more colourful &nbsp; D. most colourful</div>
+                    <div class="translation">中文翻译：在自然界中，雄鸟通常比雌鸟色彩更鲜艳得多。</div>
+                    <div class="answer">答案：C</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> 根据than可知此处用比较级。Colourful是多音节词，比较级前加more。Much用来修饰比较级，表示“...得多”。
+                    </div>
+                </div>
+                <!-- 题9 -->
+                <div class="question-card">
+                    <div class="question-text">9. You can have a better understanding of Chinese culture by ________ Chinese history. ( )<br>A. learning about &nbsp; B. thinking about &nbsp; C. caring about &nbsp; D. talking about</div>
+                    <div class="translation">中文翻译：通过了解中国历史，你可以更好地理解中国文化。</div>
+                    <div class="answer">答案：A</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> Learn about意为“了解、学习”。句意逻辑为：了解历史有助于理解文化。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三部分：用所给单词的适当形式填空（译文已补全） -->
+        <div class="accordion-section">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <span>Ⅲ. 用所给单词的适当形式填空</span>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <!-- 题10 -->
+                <div class="question-card">
+                    <div class="question-text">10. The news is not _____________（interest）at all. I don't want to watch it anymore.</div>
+                    <div class="translation">中文翻译：这新闻一点也不有趣。我再也不想看它了。</div>
+                    <div class="answer">答案：interesting</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> 修饰物(news)用-ing结尾的形容词interesting（有趣的）；修饰人感到有趣用interested。
+                    </div>
+                </div>
+                <!-- 题11 -->
+                <div class="question-card">
+                    <div class="question-text">11. It's an ______________（convenient）day to visit them. We'd better put the visit off.</div>
+                    <div class="translation">中文翻译：今天去拜访他们不方便。我们最好把拜访推迟。</div>
+                    <div class="answer">答案：inconvenient</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> 根据后半句“最好推迟拜访”可知今天不方便。Convenient意为“方便的”，其反义词inconvenient意为“不方便的”。
+                    </div>
+                </div>
+                <!-- 题12 -->
+                <div class="question-card">
+                    <div class="question-text">12. It's great to have many friends, but it's more important ________（see）clearly who is truly helping you.</div>
+                    <div class="translation">中文翻译：拥有众多朋友固然很好，但更重要的是要清楚地看清谁才是真正帮助你的那个人。</div>
+                    <div class="answer">答案：to see</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> 固定句型 "It's + adj. + to do sth"，意为“做某事是……的”。
+                    </div>
+                </div>
+                <!-- 题13 -->
+                <div class="question-card">
+                    <div class="question-text">13. There are some children _________（play）on the playground now.</div>
+                    <div class="translation">中文翻译：现在操场上有一些孩子正在玩。</div>
+                    <div class="answer">答案：playing</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> "There be + sb. + doing sth." 结构，表示“有某人正在做某事”。Now提示正在进行。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第四部分：按要求完成句子（译文已包含语境，无需填空，保留原样） -->
+        <div class="accordion-section">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <span>Ⅳ. 按要求完成句子</span>
+                <span class="accordion-icon">▼</span>
+            </div>
+            <div class="accordion-content">
+                <!-- 题14 -->
+                <div class="question-card">
+                    <div class="question-text">14. The girl can spell her first name. (改为否定句)<br>The girl _______________ _______ her first name.</div>
+                    <div class="translation">中文翻译：这个女孩会拼写她的名字。（改为否定句）</div>
+                    <div class="answer">答案：can't/cannot; spell</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> 情态动词can的否定形式直接在后面加not，缩写为can't，后接动词原形。
+                    </div>
+                </div>
+                <!-- 题15 -->
+                <div class="question-card">
+                    <div class="question-text">15. Study hard, or you won't pass the exam. (改为同义句)<br>___ you study hard, ____ ____ pass the exam.</div>
+                    <div class="translation">中文翻译：努力学习，否则你考试不及格。（改为同义句）</div>
+                    <div class="answer">答案：If; you will / Unless; you won't</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> “祈使句 + or + 陈述句”可转换为“If引导的条件状语从句”。<br>方案一：If you study hard, you will pass the exam. (如果你努力，你就会及格)<br>方案二：Unless you study hard, you won't pass the exam. (除非你努力，否则你不会及格)
+                    </div>
+                </div>
+                <!-- 题16 -->
+                <div class="question-card">
+                    <div class="question-text">16. He lent an English dictionary to me this morning. (改为同义句)<br>I __________ an English dictionary ______ him this morning.</div>
+                    <div class="translation">中文翻译：今天早上他借给我一本英语词典。（改为同义句）</div>
+                    <div class="answer">答案：borrowed; from</div>
+                    <div class="explanation">
+                        <strong>解析：</strong> Lent ... to me (借给我) = I borrowed ... from him (我从他那借了)。注意时态保持一致，用过去式borrowed。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 底部宣传语（已含电话号码） -->
+    <div class="footer-promo">
+        <p class="promo-text">小红本英语。祝你快速提升，13193606199</p>
+    </div>
+
+    <!-- 页脚关闭按钮 -->
+    <footer>
+        <!--button class="close-btn" onclick="closePage()">关闭本页</button-->
+        <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+    </footer>
+</body>
+</html>
