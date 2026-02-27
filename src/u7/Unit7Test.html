@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 7 Charities · 单元限时检测</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>❤️ Unit 7 Charities · 单元限时检测</h1>
+        <p>满分 60分  |  建议用时 40分钟</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 单项选择 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 单项选择 (共10小题，每小题1分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">—Is Mr Wang ________ UNICEF volunteer? —No, he is ________ ORBIS doctor. He has worked for it for years.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. a; an</span>
+            <span class="opt-item">B. an; a</span>
+            <span class="opt-item">C. an; an</span>
+            <span class="opt-item">D. a; a</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：UNICEF 以辅音音素开头用 a；ORBIS 以元音音素开头用 an。</div>
+        <div class="trans-box">🌐 翻译：——王先生是联合国儿童基金会的志愿者吗？——不，他是奥比斯的一名医生。他已经在奥比斯工作多年了。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">Having been out of work for almost a year, he couldn't even ________ an air-conditioner in such hot summer.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. fix</span>
+            <span class="opt-item">B. afford</span>
+            <span class="opt-item">C. request</span>
+            <span class="opt-item">D. receive</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：失业近一年，买不起空调，afford 买得起。</div>
+        <div class="trans-box">🌐 翻译：失业近一年了，这么热的夏天他甚至连一台空调都买不起。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">I hope I can do something to support the ________. It's meaningful and important to save some endangered animals.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. ORBIS</span>
+            <span class="opt-item">B. UNICEF</span>
+            <span class="opt-item">C. OXFAM</span>
+            <span class="opt-item">D. WWF</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：WWF 世界自然基金会，保护濒危动物。</div>
+        <div class="trans-box">🌐 翻译：我希望我能做点什么来支持世界野生动物基金会。拯救一些濒危动物很有意义也很重要。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">—How will you help with the activity? —We will ________ leaflets to ask people to take part in it.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. put out</span>
+            <span class="opt-item">B. hand out</span>
+            <span class="opt-item">C. work out</span>
+            <span class="opt-item">D. take out</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：hand out 分发（传单）。</div>
+        <div class="trans-box">🌐 翻译：——你们将如何帮助这项活动？——我们将分发传单，请人们参加。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">【2024四川广元期末】We are going to ________ a group to help each other with study.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. give up</span>
+            <span class="opt-item">B. look up</span>
+            <span class="opt-item">C. set up</span>
+            <span class="opt-item">D. turn up</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：set up a group 成立一个小组。</div>
+        <div class="trans-box">🌐 翻译：我们将建立一个团体来互相帮助学习。</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">【2024江苏镇江期末】—Another three Chinese astronauts have arrived at the Tiangong space station. When will they come back? —Not until their task ________.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. finishes</span>
+            <span class="opt-item">B. will finish</span>
+            <span class="opt-item">C. will be finished</span>
+            <span class="opt-item">D. is finished</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：until 引导的时间状语从句用一般现在时，task 与 finish 被动，用 is finished。</div>
+        <div class="trans-box">🌐 翻译：——又有三名中国航天员抵达天宫空间站。他们什么时候回来？——直到他们的任务完成。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">The charity organization was ________ by a group of kind-hearted people to help the poor children in remote areas.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. found</span>
+            <span class="opt-item">B. founded</span>
+            <span class="opt-item">C. discovered</span>
+            <span class="opt-item">D. invented</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：was founded 被建立，found 的过去分词 founded。</div>
+        <div class="trans-box">🌐 翻译：这个慈善组织是由一群好心人创建的，来帮助偏远地区的贫困儿童。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">Taking regular exercise can ________ your health a lot. You'll feel more energetic and have a stronger immune system.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. benefit</span>
+            <span class="opt-item">B. damage</span>
+            <span class="opt-item">C. behave</span>
+            <span class="opt-item">D. destroy</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：benefit 有益于，符合句意。</div>
+        <div class="trans-box">🌐 翻译：定期锻炼对你的健康大有好处。你会感觉更有活力，免疫系统也会更强。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">I don't like this shirt. It's too small for me. ________, the colour doesn't suit me at all.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Except</span>
+            <span class="opt-item">B. Besides</span>
+            <span class="opt-item">C. Except for</span>
+            <span class="opt-item">D. But</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：besides 此外，而且，用于补充说明。</div>
+        <div class="trans-box">🌐 翻译：我不喜欢这件衬衫。它对我来说太小了。而且，颜色也完全不适合我。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【2025江苏连云港期中】Few students could understand the sentence until it ________ twice or three times.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. explains</span>
+            <span class="opt-item">B. was explained</span>
+            <span class="opt-item">C. will be explained</span>
+            <span class="opt-item">D. has explained</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：it (sentence) 与 explain 被动，主句 could 为过去，从句用一般过去时的被动语态。</div>
+        <div class="trans-box">🌐 翻译：很少有学生能理解这个句子，直到它被解释了两三次。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 完形填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 完形填空 (共15小题，每小题1分，计15分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文作者介绍了自己帮助残疾人的志愿活动。</div>
+        <div class="passage-box">
+            <p>When you hear the word "volunteering", what do you think of it? You may think volunteering is to <strong>11.</strong> others without money. But the experience of helping others can be more meaningful than <strong>12.</strong>.</p>
+            <p>A few months ago, I learnt that the city food bank needed some <strong>13.</strong>. I used to be the organizer in my group of friends. So, I sent letters to 10 friends. I'd like to <strong>14.</strong> a group that would volunteer to make and serve dinner for the disabled people. I wanted to <strong>15.</strong> my friends to be part of the group. Almost all of my friends <strong>16.</strong>.</p>
+            <p>One day, several of my friends brought some food and helped prepare the meal. "I felt good when I saw the <strong>17.</strong> people get the food!" said one friend. Later, <strong>18.</strong> friend made a list about serving, <strong>19.</strong> we could do it quickly and easily. Now each month there are new <strong>20.</strong> that join the group. One woman <strong>21.</strong> invited another group of her friends to serve.</p>
+            <p>It's hard to imagine that simple letters asking friends to help have made a great <strong>22.</strong>. At first, I just wanted to be an organizer. Now, I <strong>23.</strong> my idea. I also love to work <strong>24.</strong> a volunteer, because I can get more joy from the happy faces of the disabled people.</p>
+            <p>So, volunteering is a good way to make the world <strong>25.</strong>. Do you want to join us?</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            当你听到“志愿服务”这个词时，你会想到什么？你可能认为志愿服务是无偿帮助其他人。但是，帮助他人的经历可能比金钱更有意义。<br>
+            几个月前，我得知城市食品银行需要一些志愿者。我以前是我朋友小组的组织者。于是，我给10个朋友发了信。我想成立一个团体，自愿为残疾人制作、提供晚餐。我想邀请我的朋友成为团体的一部分。几乎我所有的朋友都同意了。<br>
+            一天，几个朋友带来了一些食物，帮忙准备饭菜。“当我看到残疾人得到食物时，我感觉很好！”一个朋友说。后来，另一个朋友列了一个关于服务的清单，所以我们可以做得快速又容易。现在每个月都有新面孔加入这个团体。一个女人甚至邀请了她的另一群朋友来服务。<br>
+            很难想象请求朋友帮助的简单的信件产生了很大的影响。起初，我只是想当个组织者。现在，我改变主意了。我也喜欢作为一名志愿者工作，因为从残疾人的笑脸上我得到了更多的快乐。<br>
+            所以，志愿服务是一个让世界更美好的好方法。你想加入我们吗？
+        </div>
+
+        <!-- 11-25 -->
+        <div class="q-item-inline"><span class="q-num-inline">11</span><span class="q-text-inline">A. help  B. play  C. rest  D. carry</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：帮助他人，选 help。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">12</span><span class="q-text-inline">A. food  B. time  C. money  D. milk</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：比金钱更有意义。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">A. nurses  B. volunteers  C. players  D. passengers</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：需要志愿者。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">A. set up  B. cheer up  C. give up  D. clean up</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：set up a group 成立团体。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">A. take  B. move  C. invite  D. teach</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：invite friends to join 邀请朋友加入。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">A. refused  B. agreed  C. stayed  D. left</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：朋友们同意了。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">A. disabled  B. deaf  C. proper  D. kind</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：残疾人得到食物。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">A. the other  B. others  C. other  D. another</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：另一个朋友。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">A. but  B. so  C. because  D. or</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：因果关系，所以能快速做好。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">A. books  B. hands  C. faces  D. climbers</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：新面孔（新人）。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">A. still  B. hardly  C. only  D. even</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：甚至邀请另一群朋友。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">A. mistake  B. difference  C. decision  D. plan</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：make a great difference 产生很大影响。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">A. keep  B. get  C. change  D. open</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：改变主意。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">24</span><span class="q-text-inline">A. as  B. of  C. to  D. in</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：作为一名志愿者工作。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">25</span><span class="q-text-inline">A. better  B. worse  C. quieter  D. smaller</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：让世界更美好。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 阅读选择 (共5小题，每小题2分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：文章主要讲述了两个人在退休后为一家图书馆帮忙的故事。</div>
+        <div class="passage-box">
+            <p>Some people work all their lives and for them, it is only a way to make money. But Carole Cassidy and Russ Cassidy are lucky. They worked as teachers with interest and got lots of pleasure. Now they are retired and luck is still with them.</p>
+            <p>"We just didn't want to be sitting and not doing anything," Carole said. "We tried a few things, but they were not for us." Soon, they found the Princeton Public Library's Children's Storytime programme and wanted to get involved. "We were lucky. We found them and asked them to come to help," Rebecca Marrs, the librarian at the Princeton Public Library said. Marrs said the kids loved the retired teachers.</p>
+            <p>Marrs began the programme at the Princeton Public Library several years ago. The Book Babies programme, for newborns to 3-year-olds, is held on Thursday and the Preschool programme is held on Friday.</p>
+            <p>The Cassidys said that they didn't ask the children to sit quietly during the storytime. They understand that children can listen while playing. "I love being with kids. I enjoy watching kids playing together and using their imagination most," Carole said. "For example, I asked them why they made a robot with bricks and they told their reasons to me. Their imagination is so good."</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            有些人工作一辈子，对他们来说，这只是赚钱的方式。但卡罗尔·卡西迪和拉斯·卡西迪很幸运。他们怀着兴趣当老师，得到了很多快乐。现在他们退休了，幸运依然伴随着他们。<br>
+            “我们只是不想坐着无所事事，”卡罗尔说。“我们试过几件事，但都不适合我们。”不久，他们发现了普林斯顿公共图书馆的儿童故事时间项目，并想参与其中。“我们很幸运。我们找到他们，请他们来帮忙，”普林斯顿公共图书馆的图书管理员丽贝卡·马尔斯说。马尔斯说孩子们喜欢这两位退休教师。<br>
+            马尔斯几年前在普林斯顿公共图书馆开始了这个项目。面向新生儿到3岁儿童的“图书宝贝”项目在星期四举行，学前项目在星期五举行。<br>
+            卡西迪夫妇说，在故事时间他们不要求孩子们安静地坐着。他们理解孩子可以在玩耍时听。“我喜欢和孩子们在一起。我最喜欢看孩子们一起玩耍，发挥他们的想象力，”卡罗尔说。“比如，我问他们为什么用积木做了一个机器人，他们告诉了我原因。他们的想象力真好。”</div>
+
+        <!-- 26 -->
+        <div class="q-item-inline"><span class="q-num-inline">26</span><span class="q-text-inline">In the Cassidys' eyes, working as teachers is ________.</span></div>
+        <div class="options">
+            <span class="opt-item">A. interesting</span>
+            <span class="opt-item">B. boring</span>
+            <span class="opt-item">C. busy</span>
+            <span class="opt-item">D. terrible</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：第一段说他们怀着兴趣当老师，得到很多快乐，所以是有趣的。</div>
+
+        <!-- 27 -->
+        <div class="q-item-inline"><span class="q-num-inline">27</span><span class="q-text-inline">What do the underlined words "get involved" in Paragraph 2 mean in Chinese?</span></div>
+        <div class="options">
+            <span class="opt-item">A. 推荐</span>
+            <span class="opt-item">B. 参与</span>
+            <span class="opt-item">C. 欣赏</span>
+            <span class="opt-item">D. 效仿</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：get involved 参与，根据后文 asked them to come to help 可知。</div>
+
+        <!-- 28 -->
+        <div class="q-item-inline"><span class="q-num-inline">28</span><span class="q-text-inline">What do we know about the Book Babies programme?</span></div>
+        <div class="options">
+            <span class="opt-item">A. It is for children under five years old.</span>
+            <span class="opt-item">B. It has a history of only one year.</span>
+            <span class="opt-item">C. It is held once a week.</span>
+            <span class="opt-item">D. It is the Cassidys' idea.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：第三段说每周四举行，所以一周一次。</div>
+
+        <!-- 29 -->
+        <div class="q-item-inline"><span class="q-num-inline">29</span><span class="q-text-inline">What did Carole enjoy most in the Princeton Public Library?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Watching kids playing with imagination.</span>
+            <span class="opt-item">B. Answering kids' questions.</span>
+            <span class="opt-item">C. Playing bricks with kids.</span>
+            <span class="opt-item">D. Telling kids stories.</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：第四段明确说 I enjoy watching kids playing together and using their imagination most。</div>
+
+        <!-- 30 -->
+        <div class="q-item-inline"><span class="q-num-inline">30</span><span class="q-text-inline">Which word might we use to describe the Cassidys?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Strict.</span>
+            <span class="opt-item">B. Kind.</span>
+            <span class="opt-item">C. Funny.</span>
+            <span class="opt-item">D. Shy.</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：他们主动去图书馆帮忙，对孩子们有爱心，因此是善良的。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 阅读表达 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 阅读表达 (共5小题，每小题2分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了国际志愿者日的意义以及为初次参与志愿者活动的人提供的建议。</div>
+        <div class="passage-box">
+            <p>International Volunteer Day is held every December. It is time to thank volunteers for what they did in the past for the people in need. It is also a perfect chance to encourage others to take their first step toward becoming a volunteer. Making the decision to take the first step can be the biggest problem, because some people are afraid of not knowing anyone else in the group, while others don't have enough time to take part in it.</p>
+            <p>The following suggestions will help you if you have some of these worries.</p>
+            <p>Choose an organization with the same interests and common values. Take part in a training meeting for new volunteers so that you will be able to do the job well.</p>
+            <p>Work with an experienced volunteer. He/She volunteered a lot and he/she can tell you a lot about the volunteer work and help you get used to it quickly.</p>
+            <p>Invite a friend or family member to serve. It will be a good experience to volunteer with him/her.</p>
+            <p>Finally, it is important to enjoy the volunteer experience and to remember that not all volunteer experiences are perfect. If one experience isn't good enough, don't give up and you'll surely find the right chance to enjoy yourself. Spend some time on volunteer work and you will see great changes in people's lives.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            国际志愿者日在每年十二月举行。这是感谢志愿者过去为有需要的人所做贡献的时刻。这也是鼓励他人迈出成为志愿者第一步的绝佳机会。做出迈出第一步的决定可能是最大的问题，因为有些人害怕在团队里不认识其他人，而另一些人则没有足够的时间参与。<br>
+            如果你有这些担忧，以下建议会帮助你。<br>
+            选择与你有相同兴趣和共同价值观的组织。参加新志愿者培训会议，这样你就能把工作做好。<br>
+            与有经验的志愿者一起工作。他/她做过很多志愿工作，可以告诉你很多关于志愿工作的事情，并帮助你快速适应。<br>
+            邀请朋友或家人一起服务。和他/她一起做志愿者会是很好的经历。<br>
+            最后，重要的是享受志愿者经历，记住不是所有的志愿者经历都是完美的。如果一次经历不够好，不要放弃，你一定会找到合适的机会享受其中。花时间做志愿工作，你会看到人们生活中的巨大变化。
+        </div>
+
+        <!-- 31 -->
+        <div class="q-item-inline"><span class="q-num-inline">31</span><span class="q-text-inline">When is International Volunteer Day every year?</span></div>
+        <div class="answer-box">✅ 答案：In December.</div>
+        <div class="analysis-box">📝 解析：第一段第一句明确。</div>
+
+        <!-- 32 -->
+        <div class="q-item-inline"><span class="q-num-inline">32</span><span class="q-text-inline">What does International Volunteer Day encourage people to do according to the passage?</span></div>
+        <div class="answer-box">✅ 答案：It encourages people to take their first step toward becoming a volunteer.</div>
+        <div class="analysis-box">📝 解析：第一段第二句。</div>
+
+        <!-- 33 -->
+        <div class="q-item-inline"><span class="q-num-inline">33</span><span class="q-text-inline">How can an experienced volunteer help new volunteers?</span></div>
+        <div class="answer-box">✅ 答案：He/She can tell them a lot about the volunteer work and help them get used to it quickly.</div>
+        <div class="analysis-box">📝 解析：第四段。</div>
+
+        <!-- 34 -->
+        <div class="q-item-inline"><span class="q-num-inline">34</span><span class="q-text-inline">How many suggestions does the writer give?</span></div>
+        <div class="answer-box">✅ 答案：Four.</div>
+        <div class="analysis-box">📝 解析：文中给出了四条建议（选择组织、与有经验者合作、邀请朋友、保持乐观）。</div>
+
+        <!-- 35 开放性试题 -->
+        <div class="q-item-inline"><span class="q-num-inline">35</span><span class="q-text-inline">What would you like to do as a volunteer? Why? (开放性试题)</span></div>
+        <div class="answer-box">✅ 答案示例：I'd like to help the old people, because the old can't do a lot of things on their own.</div>
+        <div class="analysis-box">📝 解析：开放性试题，言之有理即可。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 书面表达 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 书面表达 (15分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📝 36. 【2025江苏南通期末】假如你是李华，本月是你们学校的“志愿与慈善活动月”，倡导学生积极伸出援助之手，以各种形式帮助他人。请你根据以下提示信息写一篇日记，记录下你本月的慈善事迹。要求：80词左右，开头已给出。</div>
+        <div class="passage-box">
+            <p><strong>26 September, Friday</strong></p>
+            <p><strong>Sunny</strong></p>
+            <p>I used to spend most of my money buying clothes and toys. But my English teacher says that there are still many poor children in some places. And they are too poor to go to school. So this month, I saved my pocket money and collected books to send to them. I also gave away clothes and toys along with books.</p>
+            <p>I'm very happy that I can help others in need. From now on, I plan to volunteer every week. I believe a simple kindness can make a big difference to the world.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>9月26日 星期五</strong><br>
+            <strong>晴</strong><br>
+            我过去大部分钱都花在买衣服和玩具上。但我的英语老师说有些地方还有很多贫困儿童。他们穷得上不起学。所以这个月，我省下了零花钱，收集了书籍寄给他们。我还把衣服和玩具连同书一起捐了出去。<br>
+            我很开心能帮助有需要的人。从现在开始，我计划每周都做志愿者。我相信简单的善举能给世界带来大不同。
+        </div>
+        <div class="analysis-box">📝 解析：日记格式正确，内容包含过去习惯、老师的话、本月行动（省钱、捐书、捐衣物）、感受和未来计划。语言简洁，情感真挚。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
