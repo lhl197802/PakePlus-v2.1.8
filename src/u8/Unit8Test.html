@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 8 A green world · 单元限时检测</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🌱 Unit 8 A green world · 单元限时检测</h1>
+        <p>满分 58分  |  建议用时 40分钟</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 单项选择 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 单项选择 (共10小题，每小题1分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">【2024江苏南通期末】—What should I do to live ________ green life? —I think you should go by ________ bike instead of driving your car.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. a; a</span>
+            <span class="opt-item">B. the; /</span>
+            <span class="opt-item">C. a; /</span>
+            <span class="opt-item">D. /; the</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：live a green life 过环保生活，固定搭配；by bike 骑自行车，固定短语。</div>
+        <div class="trans-box">🌐 翻译：——我应该做什么来过上环保的生活呢？——我认为你应该骑自行车出行，而不是开你的车。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">It's a good habit to ________ the lights when you leave a room.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. turn down</span>
+            <span class="opt-item">B. turn up</span>
+            <span class="opt-item">C. turn off</span>
+            <span class="opt-item">D. turn on</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：turn off 关灯，符合句意。</div>
+        <div class="trans-box">🌐 翻译：你离开房间时关灯是个好习惯。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">—________ can we reduce air pollution? —By riding bikes.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. What</span>
+            <span class="opt-item">B. How</span>
+            <span class="opt-item">C. When</span>
+            <span class="opt-item">D. Where</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：答语 By riding bikes 是方式，用 How 提问。</div>
+        <div class="trans-box">🌐 翻译：——我们如何减少空气污染？——通过骑自行车。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">【2025江苏苏州期中】—Some apps are ________ used in our everyday life. —Exactly, but we should use them ________.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. widely; wisely</span>
+            <span class="opt-item">B. wide; wise</span>
+            <span class="opt-item">C. wise; widely</span>
+            <span class="opt-item">D. wisely; wide</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：widely used 被广泛使用；use them wisely 明智地使用。</div>
+        <div class="trans-box">🌐 翻译：——一些软件在我们的日常生活中被广泛应用。——没错，但我们应该明智地使用它们。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">The story of Liuchi Alley teaches us the importance of tolerance, which ________ everyone.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. affect</span>
+            <span class="opt-item">B. affects</span>
+            <span class="opt-item">C. affected</span>
+            <span class="opt-item">D. is affected</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：which 指 tolerance，不可数名词，一般现在时主动，用 affects。</div>
+        <div class="trans-box">🌐 翻译：六尺巷的故事教会我们宽容的重要性，这影响着每个人。</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">Students could ________ understand what he was saying because it was ________ to follow a quick speaker.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. hard; hardly</span>
+            <span class="opt-item">B. hardly; hardly</span>
+            <span class="opt-item">C. hard; hard</span>
+            <span class="opt-item">D. hardly; hard</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：hardly 几乎不，修饰 understand；hard 困难的，形容词作表语。</div>
+        <div class="trans-box">🌐 翻译：学生们几乎听不懂他在说什么，因为很难跟上一个说话很快的人。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">—Mum, can I go to the cinema with my classmates this afternoon? —Of course, if your homework ________.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. is finished</span>
+            <span class="opt-item">B. has finished</span>
+            <span class="opt-item">C. finishes</span>
+            <span class="opt-item">D. will be finished</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：if 条件句用一般现在时，homework 与 finish 被动，用 is finished。</div>
+        <div class="trans-box">🌐 翻译：——妈妈，今天下午我可以和同学去看电影吗？——当然，如果你的作业完成了。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">The factory has found a way to ________ the waste and doesn't put it into the river any more.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. produce</span>
+            <span class="opt-item">B. recycle</span>
+            <span class="opt-item">C. require</span>
+            <span class="opt-item">D. protect</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：recycle 回收利用，符合句意。</div>
+        <div class="trans-box">🌐 翻译：该工厂已经找到了回收利用废弃物的办法，并不再将其排进河流里了。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">【2023江苏扬州质检】Don't ________ others too much. You should do things by yourself.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. agree with</span>
+            <span class="opt-item">B. think about</span>
+            <span class="opt-item">C. depend on</span>
+            <span class="opt-item">D. look after</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：depend on 依赖，符合句意。</div>
+        <div class="trans-box">🌐 翻译：不要太依靠别人。你应该自己做事。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">—Dear, please get some fruit before it ________. —OK. I'll go to the supermarket right away.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. runs out</span>
+            <span class="opt-item">B. is run out</span>
+            <span class="opt-item">C. is running out</span>
+            <span class="opt-item">D. will be run out</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：run out 用完，主动语态，一般现在时表示将来。</div>
+        <div class="trans-box">🌐 翻译：——亲爱的，在水果吃完之前，请买点水果吧。——好的。我马上去超市。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 完形填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 完形填空 (共15小题，每小题1分，计15分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要讲了约翰和父亲因担忧气候变化而筹集资金保护环境。</div>
+        <div class="passage-box">
+            <p>John is 16 years old. He and his father, Brian, <strong>11.</strong> cycling in their free time. John said, "Cycling is a <strong>12.</strong> thing in our family. I started going cycling with my father at weekends <strong>13.</strong> I was very young."</p>
+            <p>Two years ago, John and his father <strong>14.</strong> one week taking a special bike trip. The trip helped <strong>15.</strong> the environment. John and his father left their home and travelled lots of places. After they finished the trip, they <strong>16.</strong> more than $9,000. They said that they would use the money to do something <strong>17.</strong> for the environment.</p>
+            <p>Why did John and Brian start this bike trip? Brian is a good <strong>18.</strong>. He worked in a big hospital in the city. He thought that climate change would be bad for people's <strong>19.</strong>. And John learnt about climate change in a science class. They both <strong>20.</strong> the future of the earth and felt the need to take action. So they <strong>21.</strong> to take this special bike trip.</p>
+            <p>During the long bike trip, they met with much <strong>22.</strong>, and at times they were really tired. But they felt <strong>23.</strong> to take part in such a meaningful activity. "I was very <strong>24.</strong> to spend time together with John. <strong>25.</strong>, the bike trip encouraged people of all ages to do their part to prevent climate change," Brian said. They hope more people will join them in protecting the earth in the future.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            约翰16岁。他和父亲布赖恩在空闲时间喜欢骑自行车。约翰说：“骑自行车在我们家是一件重要的事。当我非常小的时候，我就开始和父亲在周末去骑自行车。”<br>
+            两年前，约翰和他的父亲花了一周时间进行了一次特殊的自行车旅行。这次旅行帮助保护了环境。约翰和父亲离开家，去了很多地方。在他们完成旅行后，他们筹集了9,000多美元。他们说他们会用这笔钱做一些对环境有帮助的事情。<br>
+            为什么约翰和布赖恩开始这次自行车旅行？布赖恩是一名好医生。他在城里一家大医院工作。他认为气候变化会对人们的健康有害。约翰在科学课上学到了气候变化。他们都担心地球的未来，觉得有必要采取行动。所以他们决定进行这次特殊的自行车旅行。<br>
+            在漫长的自行车旅行中，他们遇到了很多麻烦，有时他们真的很累。但他们觉得参加这样一个有意义的活动是幸运的。“我很高兴能和约翰共度时光。尤其是，这次自行车旅行鼓励了各个年龄段的人尽自己的一份力来防止气候变化，”布赖恩说。他们希望将来有更多的人加入他们保护地球的行列。
+        </div>
+
+        <!-- 11-25 选项 -->
+        <div class="q-item-inline"><span class="q-num-inline">11</span><span class="q-text-inline">A. hate  B. enjoy  C. remember  D. forget</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：根据下文可知他们喜欢骑行，enjoy。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">12</span><span class="q-text-inline">A. terrible  B. dangerous  C. famous  D. big</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：a big thing 一件重要的事。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">A. when  B. until  C. if  D. though</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：when 当……时，引导时间状语从句。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">A. knew  B. kept  C. had  D. spent</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：spend time doing 花时间做某事。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">A. deal  B. check  C. protect  D. fill</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：protect the environment 保护环境。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">A. raised  B. lost  C. took  D. counted</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：raise money 筹集资金。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">A. interesting  B. common  C. helpful  D. comfortable</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：helpful 有帮助的。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">A. passenger  B. doctor  C. boss  D. teacher</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：下文说在医院工作，所以是医生。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">A. risk  B. work  C. study  D. health</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：对健康有害。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">A. dealt with  B. worried about  C. agreed with  D. waited for</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：担心地球未来。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">A. refused  B. feared  C. decided  D. failed</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：决定做某事。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">A. trouble  B. noise  C. pleasure  D. pollution</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：遇到麻烦，很累。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">A. nervous  B. shy  C. lucky  D. serious</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：感到幸运。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">24</span><span class="q-text-inline">A. strict  B. glad  C. angry  D. careless</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：glad 高兴。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">25</span><span class="q-text-inline">A. Easily  B. Really  C. Finally  D. Especially</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：especially 尤其，特别。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 阅读选择 (共4小题，每小题2分，计8分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了萨拉的环保项目。</div>
+        <div class="passage-box">
+            <p>Sarah sits in her yard with her handmade crafts on the table. There are baskets, flower pots, and cloth bags—all made from recycled materials. They are not just creative objects. They're part of Sarah's project to make a greener community.</p>
+            <p>Two years ago, Sarah passed by a park and found plastic bottles and empty cans everywhere. Sarah felt sad. One day, Sarah noticed some kids selling orange juice at the park. That was when Sarah got an idea. "Mum, what if we sell handmade crafts?" she asked excitedly. "Then we can buy trees for our neighbourhood with the money."</p>
+            <p>With her mum's help, Sarah started making crafts with great interest, using plastic bottles and empty cans. Every day after school, she sat in her yard, waiting for customers. At first, no one came. Sarah felt down, but she didn't give up.</p>
+            <p>Later, people began to stop by. A kind woman bought a cloth bag, saying it was perfect for shopping. By the end of the first month, Sarah had made $150. She bought 30 small trees. Together with her parents, they planted the trees around the park.</p>
+            <p>Now, the neighbourhood looks nicer, and the birds have more places to rest. Sarah even teaches her friends how to make eco-friendly crafts after school. They organize sales every month to raise money for new projects like bird feeders.</p>
+            <p>Sarah shared her story at a community event. "Making a greener community is important," she said proudly. "If everyone helps a little, we can make our life better."</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            莎拉坐在自家院子里，桌上摆着她手工制作的手工艺品。有篮子、花盆和布袋——都是用回收材料制成的。它们不仅仅是创意物品，更是莎拉建设绿色社区项目的一部分。<br>
+            两年前，莎拉经过一个公园，发现到处都是塑料瓶和空易拉罐。莎拉感到难过。一天，莎拉注意到一些孩子在公园卖橙汁。就在那时莎拉有了主意。“妈妈，如果我们卖手工制品呢？”她兴奋地问。“然后我们可以用这些钱为社区买树。”<br>
+            在妈妈的帮助下，莎拉开始饶有兴趣地用塑料瓶和空易拉罐制作手工艺品。每天放学后，她坐在院子里等待顾客。起初，没有人来。莎拉感到沮丧，但她没有放弃。<br>
+            后来，人们开始驻足。一位好心的女士买了一个布袋，说它非常适合购物。第一个月结束时，莎拉赚了150美元。她买了30棵小树，和父母一起种在公园周围。<br>
+            现在，社区看起来更漂亮了，鸟儿也有更多地方休息。莎拉甚至放学后教朋友们如何制作环保手工艺品。他们每月组织义卖，为喂鸟器等新项目筹款。<br>
+            莎拉在社区活动中分享了她的故事。“建设绿色社区很重要，”她自豪地说。“如果每个人都帮一点忙，我们就能让生活更美好。”</div>
+
+        <!-- 26 -->
+        <div class="q-item-inline"><span class="q-num-inline">26</span><span class="q-text-inline">What did Sarah sell to make money?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Small trees.</span>
+            <span class="opt-item">B. Orange juice.</span>
+            <span class="opt-item">C. Handmade crafts.</span>
+            <span class="opt-item">D. Plastic bottles.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：第二段提到她通过卖手工艺品挣钱。</div>
+
+        <!-- 27 -->
+        <div class="q-item-inline"><span class="q-num-inline">27</span><span class="q-text-inline">Which of the following can be put in ▲ ? (根据上下文，描述心情变化)</span></div>
+        <div class="options">
+            <span class="opt-item">A. sad; sharing her story</span>
+            <span class="opt-item">B. afraid; feeding birds</span>
+            <span class="opt-item">C. bored; caring for nature</span>
+            <span class="opt-item">D. nervous; recycling old boxes</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：一开始没人来，她感到沮丧(sad)，后来分享故事时是自豪的。</div>
+
+        <!-- 28 -->
+        <div class="q-item-inline"><span class="q-num-inline">28</span><span class="q-text-inline">What can you learn from Sarah's words in the last paragraph?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Doing is better than saying.</span>
+            <span class="opt-item">B. The first step is the only difficulty.</span>
+            <span class="opt-item">C. Great hopes make great men.</span>
+            <span class="opt-item">D. Small actions can make a difference.</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：最后一句“If everyone helps a little, we can make our life better.”说明小行动能带来大改变。</div>
+
+        <!-- 29 -->
+        <div class="q-item-inline"><span class="q-num-inline">29</span><span class="q-text-inline">What's the best title for the text?</span></div>
+        <div class="options">
+            <span class="opt-item">A. A Girl's Dream Job</span>
+            <span class="opt-item">B. A Community Park</span>
+            <span class="opt-item">C. A Girl's Green Project</span>
+            <span class="opt-item">D. An Eco-friendly Habit</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：全文围绕莎拉的绿色环保项目展开。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 阅读表达 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 阅读表达 (共5小题，每小题2分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文介绍了学生们通过加入环保俱乐部，采取各种措施来减少污染的活动。</div>
+        <div class="passage-box">
+            <p>In most parts of the world, many students help their schools make less pollution. They join environment clubs. In an environment club, people work together to protect the environment.</p>
+            <p><strong>No rubbish lunches.</strong> How much rubbish do you throw after lunch? Environment clubs ask students to bring their lunches in bags that can be recycled. The students try their best to make less rubbish.</p>
+            <p><strong>World Car-Free Day</strong> was first started by 35 cities in France on 22 September, 1998. It was started to protect the environment. By now, more than 1,000 cities around the world have had a no-car day. In China, more and more people are taking part in the activity. On the day, nobody comes to school by car—neither the students nor the teachers!</p>
+            <p>Cars give pollution to the air, so remember: Walk, ride or run! Use your legs! It's lots of fun!</p>
+            <p><strong>Turn off water!</strong> Do you know that some toilets could waste 20-40 ml of water an hour? In a year, that will fill a small river! To save the water, the members of the environment clubs try to mend those broken toilets.</p>
+            <p>We have only one earth. Let's work hard together to make our world cleaner and more beautiful.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            在世界大部分地区，许多学生帮助学校减少污染。他们加入环保俱乐部。在环保俱乐部里，人们共同努力保护环境。<br>
+            <strong>无垃圾午餐。</strong>你午饭后扔掉多少垃圾？环保俱乐部要求学生用可回收袋子装午餐。学生们尽量少制造垃圾。<br>
+            <strong>世界无车日</strong>于1998年9月22日由法国35个城市首次发起，目的是保护环境。到目前为止，全世界已有1000多个城市实行了无车日。在中国，越来越多的人参加这项活动。在这一天，没有人开车上学——学生和老师都不开！<br>
+            汽车污染空气，所以记住：步行、骑车或跑步！用你的腿！这很有趣！<br>
+            <strong>关掉水！</strong>你知道有些厕所每小时会浪费20-40毫升水吗？一年下来，那能灌满一条小河！为了节约用水，环保俱乐部的成员们会修理那些坏掉的厕所。<br>
+            我们只有一个地球。让我们一起努力，让我们的世界更清洁、更美丽。
+        </div>
+
+        <!-- 30 -->
+        <div class="q-item-inline"><span class="q-num-inline">30</span><span class="q-text-inline">What do the environment clubs ask students to do in Paragraph 2?</span></div>
+        <div class="answer-box">✅ 答案：To bring their lunches in bags that can be recycled.</div>
+        <div class="analysis-box">📝 解析：第二段明确说明。</div>
+
+        <!-- 31 -->
+        <div class="q-item-inline"><span class="q-num-inline">31</span><span class="q-text-inline">When was World Car-Free Day first started?</span></div>
+        <div class="answer-box">✅ 答案：On 22 September, 1998.</div>
+        <div class="analysis-box">📝 解析：第三段第一句。</div>
+
+        <!-- 32 -->
+        <div class="q-item-inline"><span class="q-num-inline">32</span><span class="q-text-inline">How many cities around the world have had a no-car day by now?</span></div>
+        <div class="answer-box">✅ 答案：More than 1,000 cities.</div>
+        <div class="analysis-box">📝 解析：第三段提到。</div>
+
+        <!-- 33 -->
+        <div class="q-item-inline"><span class="q-num-inline">33</span><span class="q-text-inline">How can people go anywhere on a no-car day?</span></div>
+        <div class="answer-box">✅ 答案：They can walk, ride or run.</div>
+        <div class="analysis-box">📝 解析：第四段建议用腿。</div>
+
+        <!-- 34 -->
+        <div class="q-item-inline"><span class="q-num-inline">34</span><span class="q-text-inline">What can we do to protect the environment? (开放性试题)</span></div>
+        <div class="answer-box">✅ 答案示例：We can try to save water.</div>
+        <div class="analysis-box">📝 解析：开放性试题，言之有理即可。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 书面表达 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 书面表达 (15分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📝 35. 假设你是李辉。你校英语报“Protect the Environment”专栏面向全校学生征集主题海报及宣传稿，需要用英语向大家宣讲环保的意义及作为中学生怎样保护环境。请你根据以下海报提示，以“Save the Earth: Let's Do Our Part!”为题，用英语给专栏写一篇稿件。</div>
+        <div class="passage-box">
+            <p><strong>Save the Earth: Let's Do Our Part!</strong></p>
+            <p>The earth is the only home for everyone on it. It's crying for our help now. As middle school students, we have the power to make a difference and help save the earth!</p>
+            <p>To protect the earth, we can start by saving water, growing more trees, and reducing pollution. We can also save animals and recycle whenever possible.</p>
+            <p>We can also choose to ride a cycle instead of taking a taxi to help stop pollution, and make sure to always throw rubbish in the proper bins. By doing our part, we can make a positive impact on the environment and create a better future for ourselves and generations to come.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>拯救地球：尽我们的一份力！</strong><br>
+            地球是每个人唯一的家园。它现在正在呼求我们的帮助。作为中学生，我们有能力带来改变，帮助拯救地球！<br>
+            为了保护地球，我们可以从节约用水、多种树和减少污染开始。我们也可以尽可能保护动物和回收利用。<br>
+            我们还可以选择骑自行车而不是坐出租车来帮助阻止污染，并确保总是把垃圾扔进合适的垃圾桶。通过尽我们的一份力，我们可以对环境产生积极的影响，为我们自己和子孙后代创造一个更美好的未来。
+        </div>
+        <div class="analysis-box">📝 解析：范文涵盖环保意义、中学生具体做法（节水、种树、减少污染、回收、骑车、垃圾分类），结构清晰，语言简洁有力，符合宣传稿要求。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
