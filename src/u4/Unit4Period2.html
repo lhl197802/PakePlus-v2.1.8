@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 4 A good read · Period 2 Reading (Ⅰ)</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>📚 Unit 4 A good read · Period 2</h1>
+        <p>Reading (Ⅰ) 基础+能力 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础单词填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础单词填空 (4小题·首字母/音标)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">After having a rest, he c__________ working until he finished the task.</span>
+        </div>
+        <div class="answer-box">✅ 答案：continued</div>
+        <div class="analysis-box">📝 解析：continue doing 继续做某事，根据语境用一般过去时 continued。</div>
+        <div class="trans-box">🌐 翻译：休息之后，他继续工作直到完成任务。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">【2024江苏苏州期末】Kites fly higher a________ the wind, not with it.</span>
+        </div>
+        <div class="answer-box">✅ 答案：against</div>
+        <div class="analysis-box">📝 解析：against the wind 逆风，与后文 with it (顺风) 对应。</div>
+        <div class="trans-box">🌐 翻译：风筝逆风飞得更高，而不是顺风。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">After playing football, David was too tired and couldn't l______ even a book.</span>
+        </div>
+        <div class="answer-box">✅ 答案：lift</div>
+        <div class="analysis-box">📝 解析：lift 举起，此处指连一本书都举不起来。</div>
+        <div class="trans-box">🌐 翻译：踢完足球后，大卫太累了，连一本书都举不起来。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">【2025江苏无锡期末·节选】The mother told the boy to go __________ /streɪt/ ahead and not to look back.</span>
+        </div>
+        <div class="answer-box">✅ 答案：straight</div>
+        <div class="analysis-box">📝 解析：音标 /streɪt/ 对应 straight，straight ahead 径直向前。</div>
+        <div class="trans-box">🌐 翻译：母亲告诉男孩径直向前走，不要回头。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 单项选择 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (3小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 5 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">【2024江苏苏州期末】—The news has mentioned the Chinese modernization many times. Could you please tell me what it means? —I don't know ________. Let's check it online to learn about it.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. neither</span>
+            <span class="opt-item">B. too</span>
+            <span class="opt-item">C. either</span>
+            <span class="opt-item">D. also</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：否定句句末用 either 表示“也”。</div>
+        <div class="trans-box">🌐 翻译：——新闻多次提到中国的现代化。你能告诉我这是什么意思吗？——我也不知道。让我们在网上查一下。</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">—The paper cutting is pretty lively. Who made it? —It ________ be Mary. None of us except her is able to do it.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. can</span>
+            <span class="opt-item">B. must</span>
+            <span class="opt-item">C. need</span>
+            <span class="opt-item">D. might</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：根据“除了她没人能做到”可知是肯定推测，用 must。</div>
+        <div class="trans-box">🌐 翻译：——剪纸很生动。它是谁做的？——一定是玛丽。除了她，我们谁也做不了。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">—It is easy to ________ when the floor is wet. —I agree with you.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. fall behind</span>
+            <span class="opt-item">B. fall over</span>
+            <span class="opt-item">C. get away</span>
+            <span class="opt-item">D. move away</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：fall over 摔倒，符合句意。</div>
+        <div class="trans-box">🌐 翻译：——当地板湿的时候很容易摔倒。——我同意你的说法。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (3小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 8 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">【2025江苏镇江期末·节选】那只小鸟最终从笼子里挣脱出来，飞向了蓝天。</span>
+        </div>
+        <div class="answer-box">✅ 答案：The little bird finally broke free from the cage and flew into the blue sky.</div>
+        <div class="analysis-box">📝 解析：break free from 挣脱……。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">我看见一大群人在往北走。</span>
+        </div>
+        <div class="answer-box">✅ 答案：I saw an army of people / a big crowd of people walking north.</div>
+        <div class="analysis-box">📝 解析：an army of / a crowd of 一大群。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【2024江苏无锡调研】尽管他已经筋疲力尽了，但是他还是决定尽快动身。</span>
+        </div>
+        <div class="answer-box">✅ 答案：Though he was tired out, he decided to set off as soon as possible.</div>
+        <div class="analysis-box">📝 解析：tired out 筋疲力尽；set off 动身。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 短文填空 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (10小题·方框选词)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">🔤 方框内单词：write, adventure, another, water, finally, friend, defeat, face, stay, enjoy (需适当形式变化)</div>
+        <div class="passage-box">
+            <p>I have always been interested in the animal world. Recently, I have read a novel about animals called A Lion's Travelling. Chinese writer Shen Shixi <strong>11.</strong> it over ten years ago.</p>
+            <p>The book tells the story of five young lions. They are driven out of their home so they begin their <strong>12.</strong> . Unluckily, one is hurt by a giraffe, and <strong>13.</strong> is killed by a hunter. The third one dies during a fight for <strong>14.</strong> with a rhino. The fourth lion drowns. Only the youngest one, named Red Ribbon, is still alive. After going through many difficulties, he <strong>15.</strong> becomes the lion king.</p>
+            <p>The story shows the love and care between <strong>16.</strong> and the passion for life. The fact that the youngest lion becomes the king in the end teaches me a great lesson: Those who cannot <strong>17.</strong> you will make you stronger. Everyone will <strong>18.</strong> lots of difficulties during their lifetime. So I advise you <strong>19.</strong> strong and continue to make yourself a better person.</p>
+            <p>The book is filled with exciting details about the lions. Together with lively pictures, it gives readers an immersive experience. You can not only <strong>20.</strong> the great story but also learn a lot about the animals in the real world.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            我一直对动物世界感兴趣。最近，我读了一本关于动物的小说《雄狮去流浪》。中国作家沈石溪十多年前写了这本书。<br>
+            这本书讲述了五只幼狮的故事。它们被赶出家园，于是开始了它们的冒险。不幸的是，一只被长颈鹿弄伤，另一只被猎人杀死。第三只在与犀牛争水时死去。第四只狮子淹死了。只有最小的一只，名叫红飘带，还活着。经历了许多困难之后，他最终成为了狮子王。<br>
+            这个故事展示了朋友之间的爱与关怀以及对生活的热情。最小的狮子最终成为国王的事实给了我一个重要的教训：那些打不倒你的会让你更强大。每个人在一生中都会面对许多困难。所以我建议你保持坚强，继续让自己成为一个更好的人。<br>
+            这本书充满了关于狮子的激动人心的细节。加上生动的图片，给读者一种沉浸式的体验。你不仅可以享受这个伟大的故事，还可以学到很多关于现实世界中的动物的知识。
+        </div>
+
+        <div class="q-item-inline"><span class="q-num-inline">11</span><span class="q-text-inline">wrote</span></div>
+        <div class="answer-box">✅ 答案：wrote</div>
+        <div class="analysis-box">📝 解析：ten years ago 用过去式，wrote。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">12</span><span class="q-text-inline">adventure(s)</span></div>
+        <div class="answer-box">✅ 答案：adventure(s)</div>
+        <div class="analysis-box">📝 解析：begin their adventure 开始冒险。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">another</span></div>
+        <div class="answer-box">✅ 答案：another</div>
+        <div class="analysis-box">📝 解析：另一只狮子，用 another。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">water</span></div>
+        <div class="answer-box">✅ 答案：water</div>
+        <div class="analysis-box">📝 解析：fight for water 争水。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">finally</span></div>
+        <div class="answer-box">✅ 答案：finally</div>
+        <div class="analysis-box">📝 解析：finally 最终。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">friends</span></div>
+        <div class="answer-box">✅ 答案：friends</div>
+        <div class="analysis-box">📝 解析：between friends 朋友之间。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">defeat</span></div>
+        <div class="answer-box">✅ 答案：defeat</div>
+        <div class="analysis-box">📝 解析：cannot defeat you 打不倒你。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">face</span></div>
+        <div class="answer-box">✅ 答案：face</div>
+        <div class="analysis-box">📝 解析：face difficulties 面对困难。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">to stay</span></div>
+        <div class="answer-box">✅ 答案：to stay</div>
+        <div class="analysis-box">📝 解析：advise sb. to do 建议做某事。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">enjoy</span></div>
+        <div class="answer-box">✅ 答案：enjoy</div>
+        <div class="analysis-box">📝 解析：can enjoy 可以享受。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 阅读选择 (4小题·《海底两万里》节选)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要讲述了在地中海附近内德一行人的逃跑计划。</div>
+        <div class="passage-box">
+            <p>Ned wanted to escape from the Nautilus while we were in the Mediterranean. However, he had no chance. The submarine raced into the Atlantic in two days mostly staying deep under the water. I saw many shipwrecks along the way. Some were very old. Others were recent. As it surfaced, the submarine turned north.</p>
+            <p>Ned came to my room. "Tonight!" he said. "Tonight?" I wasn't ready for this. "Tonight," he repeated, "we are a few miles off the Spanish coast. It will be dark, and the wind is blowing in the right direction. You agreed, Dr Aronnax, to escape with me. Remember your promise!" I said nothing. "At nine, I will go to the staircase with Conseil. You will wait in the library for our signal. Everything is ready."</p>
+            <p>"The sea is quite rough," I said.</p>
+            <p>"Yes, but if we don't go tonight, we will soon be too far from land!"</p>
+            <p>I knew he was right. I was also frightened. What would Captain Nemo do if he discovered our plan or if we failed? I had not seen him for several days. Now I didn't want to see him. He might notice that I was nervous. So I stayed in my room.</p>
+            <p>As I waited for Ned's signal, the Nautilus's engines stopped. I felt a bump as the submarine came to rest on the ocean floor.</p>
+            <p>The library door opened and Captain Nemo entered. He took me to the window. I found the crew of the Nautilus were gathering some gold from the sand and bringing it to the submarine. Now I knew how the captain became so rich. "But of what use is all this gold to you?" I asked. "It's of no use to me!" he replied. "But it can help people who are suffering."</p>
+            <p>Ned came to my room the next morning. "We were unlucky. The Nautilus stopped just as we were about to escape."</p>
+            <p>I told him what I had learnt about Nemo and the gold. I hoped that Ned would change his mind, but he didn't. The Nautilus was going away from the land. The escape was impossible now. Ned was disappointed, but I was not.</p>
+            <p>At eleven that night, I was surprised that Captain Nemo invited me to go for a night walk under the sea.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            当我们在地中海时，内德想逃离鹦鹉螺号。然而，他没有机会。潜艇在两天内急速驶入大西洋，大部分时间深潜水中。沿途我看到许多沉船。有些很古老，有些是最近的。浮出水面后，潜艇转向北行。<br>
+            内德来到我的房间。“今晚！”他说。“今晚？”我还没准备好。“今晚，”他重复道，“我们离西班牙海岸几英里。天会黑，风向也合适。你同意过，阿罗纳克斯博士，和我一起逃走。记住你的承诺！”我没说话。“九点，我和孔塞伊去楼梯口。你在图书馆等我们的信号。一切都准备好了。”<br>
+            “海面很汹涌，”我说。<br>
+            “是的，但如果我们今晚不走，很快就会离陆地太远！”<br>
+            我知道他是对的。我也很害怕。如果尼摩船长发现我们的计划或者我们失败了，他会怎么做？我好几天没见他了。现在我更不想见他。他可能会注意到我紧张。所以我待在房间里。<br>
+            当我等待内德的信号时，鹦鹉螺号的引擎停了。我感觉到潜艇震动了一下，停在了海底。<br>
+            图书馆门开了，尼摩船长走了进来。他带我到窗边。我发现鹦鹉螺号的船员们正在从沙子里收集黄金并运回潜艇。现在我知道船长为什么这么富有了。“但这些金子对你有什么用？”我问。“对我来说没用！”他回答。“但它们可以帮助受苦的人。”<br>
+            第二天早上内德来到我房间。“我们运气不好。我们正要逃走时鹦鹉螺号停了。”<br>
+            我把关于尼摩和金子的事告诉了他。我希望内德会改变主意，但他没有。鹦鹉螺号正远离陆地。现在逃跑是不可能的了。内德很失望，但我没有。<br>
+            那天晚上十一点，我很惊讶尼摩船长邀请我去海底夜行。
+        </div>
+
+        <!-- 1 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">What reasons did Ned give for wanting to escape that night? a. They were close to the Spanish coast. b. There had been a lot of shipwrecks. c. It would be dark. d. The wind was blowing in the right direction. e. The sea was quite peaceful.</span></div>
+        <div class="options">
+            <span class="opt-item">A. abc</span>
+            <span class="opt-item">B. acd</span>
+            <span class="opt-item">C. abd</span>
+            <span class="opt-item">D. ace</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：第二段明确提到 a (离西班牙海岸几英里)、c (天会黑)、d (风向合适)。b (许多沉船) 和 e (海面平静) 不是原因。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">Why did Dr Aronnax remain in his room?</span></div>
+        <div class="options">
+            <span class="opt-item">A. He wanted to have a rest.</span>
+            <span class="opt-item">B. He wanted to collect some gold.</span>
+            <span class="opt-item">C. He didn't want to leave the submarine.</span>
+            <span class="opt-item">D. He didn't want to see Captain Nemo.</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：第五段“Now I didn't want to see him. He might notice that I was nervous. So I stayed in my room.”</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">Which of the following shows the correct order? ① The submarine passed many shipwrecks. ② Captain Nemo invited Dr Aronnax for a walk. ③ The Nautilus moved away from land. ④ The crew brought gold to the submarine. ⑤ Ned asked Dr Aronnax to escape.</span></div>
+        <div class="options">
+            <span class="opt-item">A. ①-②-③-④-⑤</span>
+            <span class="opt-item">B. ②-①-③-④-⑤</span>
+            <span class="opt-item">C. ①-④-⑤-③-②</span>
+            <span class="opt-item">D. ①-⑤-④-③-②</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：顺序：先看见沉船(①) → 内德请求逃跑(⑤) → 船员收集黄金(④) → 潜艇远离陆地(③) → 尼摩邀请散步(②)。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">What's the best title for the passage?</span></div>
+        <div class="options">
+            <span class="opt-item">A. A Plan to Escape</span>
+            <span class="opt-item">B. Gathering Some Gold</span>
+            <span class="opt-item">C. A Chance to Be Rich</span>
+            <span class="opt-item">D. Helping Unlucky People</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：全文围绕内德的逃跑计划展开。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
