@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 6 Sunshine for all · 外刊时文阅读速递</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>☀️ Unit 6 Sunshine for all · 外刊时文阅读速递</h1>
+        <p>Grow Ensemble  |  词数277 难度★★★★</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 外刊时文阅读卡片 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>📖 阅读选择 · 志愿服务的好处</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 语篇导读 -->
+        <div class="word-box" style="background: #f2e8d5;">
+            📘 语篇导读：本文主要介绍了志愿活动的概念以及做志愿活动的好处。建议用时8分钟。
+        </div>
+        
+        <!-- 阅读原文 (英文) -->
+        <div class="passage-box">
+            <h3 style="margin-top:0; color:#6b4f2a;">📜 阅读原文</h3>
+            <p>Volunteering means giving your time and abilities to help others without the want of anything. Put simply, volunteering is a service to your community. While you won't get paid for your community service, volunteering comes with a lot of other benefits. Donating your time, energy, and resources can be just as rewarding for you as for those you are helping. Here are some ways volunteering can affect you.</p>
+            <p><strong>Meet new people and build a community</strong><br>Everyone loves new friends! Volunteering means helping people, and that means you'll be creating meaningful relationships with others and increasing your social activities. You're sure to meet people and make new friends that share common interests, values, and opinions. You will build a community in which you are all working together towards common future goals.</p>
+            <p><strong>Get knowledge and understanding of other ways of life</strong><br>Volunteering might take you to a new part of your community you have never been to before. Volunteer programmes can give you the opportunity to bring people into your social network. You can get to meet and learn from those who come from different walks of life. This experience can expand your understanding of others who are different from you. Learning about different cultures and ways of life can help you know better about the world.</p>
+            <p><strong>Gain a sense of purpose and become happier</strong><br>What an amazing reason to do something! Who doesn't want to become happier? Volunteering has been shown to give you a sense of accomplishment and to increase your feelings of happiness. When you help somebody in need, it is like realizing one of your dreams and you are sure to feel happier in your heart.</p>
+        </div>
+        
+        <!-- 全文翻译 (中文) -->
+        <div class="trans-box" style="margin-bottom:20px;">
+            🌐 <strong>全文翻译：</strong><br>
+            志愿服务意味着付出你的时间和能力去帮助他人，而不求任何回报。简言之，志愿服务就是为你的社区服务。虽然你不会因为社区服务得到报酬，但志愿服务会带来许多其他好处。付出你的时间、精力和资源对你和受助者同样有益。以下是志愿服务可以影响你的一些方式。<br>
+            <strong>结识新朋友，建立社区</strong><br>每个人都喜欢新朋友！志愿服务意味着帮助他人，这意味着你将与他人建立有意义的关系，增加你的社交活动。你一定会遇到志同道合、分享共同兴趣、价值观和观点的人，结交新朋友。你将建立一个社区，在那里你们共同朝着共同的未来目标努力。<br>
+            <strong>获取对其他生活方式的知识和理解</strong><br>志愿服务可能会带你到社区中你从未去过的新地方。志愿者项目可以给你机会将人们引入你的社交网络。你可以结识来自不同生活背景的人，并向他们学习。这种经历可以拓展你对与自己不同的他人的理解。了解不同的文化和生活方式可以帮助你更好地认识世界。<br>
+            <strong>获得目标感，变得更快乐</strong><br>这是多么棒的理由啊！谁不想变得更快乐？研究表明，志愿服务能给你成就感，并增加你的幸福感。当你帮助有需要的人时，就像实现了自己的一个梦想，你一定会感到内心更快乐。
+        </div>
+
+        <!-- 题目1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">How does the writer start the passage?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. By listing numbers.</span>
+            <span class="opt-item">B. By asking questions.</span>
+            <span class="opt-item">C. By comparing differences.</span>
+            <span class="opt-item">D. By introducing facts.</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：第一段介绍了志愿服务的定义和好处，是通过介绍事实开始的。</div>
+        <div class="trans-box">🌐 翻译：作者如何开始这篇文章？A. 通过列举数字；B. 通过提问；C. 通过比较差异；D. 通过介绍事实。</div>
+
+        <!-- 题目2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">What can you share with your friends during volunteering? a. interests b. values c. studies d. opinions</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. a, b, c</span>
+            <span class="opt-item">B. a, b, d</span>
+            <span class="opt-item">C. a, c, d</span>
+            <span class="opt-item">D. b, c, d</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：第二段提到“share common interests, values, and opinions”，即兴趣、价值观和观点。</div>
+        <div class="trans-box">🌐 翻译：在志愿服务中你可以和朋友分享什么？a. 兴趣 b. 价值观 c. 学习 d. 观点</div>
+
+        <!-- 题目3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">Which word has the similar meaning to the underlined word “opportunity”?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Chance.</span>
+            <span class="opt-item">B. Confidence.</span>
+            <span class="opt-item">C. Project.</span>
+            <span class="opt-item">D. Background.</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：opportunity 意为“机会”，与 chance 同义。</div>
+        <div class="trans-box">🌐 翻译：哪个单词与划线词“opportunity”意思相近？A. 机会；B. 信心；C. 项目；D. 背景。</div>
+
+        <!-- 题目4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">What is the best Chinese saying for the fourth paragraph?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. 读万卷书，行万里路。</span>
+            <span class="opt-item">B. 千里之行，始于足下。</span>
+            <span class="opt-item">C. 赠人玫瑰，手有余香。</span>
+            <span class="opt-item">D. 攻无不克，战无不胜。</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：第四段讲帮助他人自己也会快乐，对应“赠人玫瑰，手有余香”。</div>
+        <div class="trans-box">🌐 翻译：哪一句中国谚语最适合第四段？</div>
+
+        <!-- 题目5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">Where can we read this passage?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. In a newspaper about school education.</span>
+            <span class="opt-item">B. In a magazine about social activities.</span>
+            <span class="opt-item">C. In a book about healthy family life.</span>
+            <span class="opt-item">D. On a website about science development.</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：本文介绍志愿服务对社会和个人的好处，最可能出现在关于社会活动的杂志中。</div>
+        <div class="trans-box">🌐 翻译：我们在哪里可以读到这篇文章？A. 关于学校教育的报纸；B. 关于社会活动的杂志；C. 关于健康家庭生活的书；D. 关于科学发展的网站。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
