@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 2 Amazing China · Period 6 Integration (Ⅱ) & Assessment & Further study</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 40px;
+            padding: 14px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 12px rgba(0,30,45,0.05);
+            border: 1px solid #dde7f0;
+        }
+        .top-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+        }
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f8fbfe;
+        }
+        .title-area h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #0d4c6e, #0b3b55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title-area p {
+            color: #54738f;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .close-btn {
+            background: #ecf3fa;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1d577b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid #bed3e6;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .close-btn:hover {
+            background: #dae6f2;
+            color: #093852;
+            border-color: #7fa9c7;
+            box-shadow: 0 4px 10px rgba(0,60,90,0.1);
+        }
+        .close-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: white;
+            border-radius: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 22px -6px rgba(20, 50, 70, 0.12);
+            overflow: hidden;
+            border: 1px solid #e2eef9;
+            transition: box-shadow 0.2s;
+        }
+        .section-header {
+            background: white;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #10435c;
+            transition: background 0.15s, padding 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .section-header:hover {
+            background: #e9f2fa;
+        }
+        .section-header .toggle-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #2c779b;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+        /* 折叠样式 */
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .section-content {
+            padding: 8px 28px 28px 28px;
+            border-top: 1px solid #d1e2f0;
+            background: #ffffff;
+        }
+
+        /* 题目元素（常规） */
+        .question-item {
+            margin-top: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e0ecf5;
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+        .q-num {
+            display: inline-block;
+            background: #cde1f0;
+            color: #0f4b6b;
+            font-weight: 700;
+            padding: 4px 16px 5px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin-bottom: 12px;
+            border: 1px solid #aac6dd;
+        }
+        .q-text {
+            font-size: 1.04rem;
+            font-weight: 500;
+            color: #113845;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: #f5faff;
+            padding: 16px 22px;
+            border-radius: 24px;
+            border-left: 5px solid #3182a3;
+            box-shadow: inset 0 1px 4px #d7e6f5;
+        }
+
+        /* 新样式：题号与题目同行，美化设计 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0ecf5;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .q-num-inline {
+            display: inline-block;
+            background: #cde1f0;
+            color: #0f4b6b;
+            font-weight: 700;
+            padding: 4px 16px 5px 16px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            letter-spacing: 0.4px;
+            border: 1px solid #aac6dd;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+        .q-text-inline {
+            font-size: 1.04rem;
+            font-weight: 500;
+            color: #113845;
+            line-height: 1.6;
+            padding: 0 0 0 0px;
+            border-left: 4px solid #3182a3;
+            padding-left: 16px;
+            flex: 1;
+        }
+
+        .options {
+            margin: 12px 0 16px 8px;
+            color: #1d506b;
+            background: #f0f6fd;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-weight: 460;
+        }
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 28px;
+            white-space: nowrap;
+        }
+        .answer-box, .analysis-box, .trans-box {
+            margin: 12px 0 8px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+        .answer-box {
+            background: #e2f0fa;
+            color: #004d7c;
+            font-weight: 600;
+            border-left: 6px solid #0073aa;
+        }
+        .analysis-box {
+            background: #fff6e5;
+            color: #624c2a;
+            border-left: 6px solid #efb13b;
+        }
+        .trans-box {
+            background: #e1f1e8;
+            color: #1b6e4a;
+            border-left: 6px solid #2e9e68;
+        }
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+        .small-note {
+            font-size: 0.86rem;
+            color: #6a859e;
+            margin-top: 12px;
+            padding-left: 12px;
+        }
+        .word-box {
+            background: #e7f0fa;
+            padding: 12px 20px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #145a82;
+            border: 1px dashed #7dafd1;
+        }
+        .passage-box {
+            background: #f9f7f0;
+            padding: 20px 24px;
+            border-radius: 28px;
+            margin: 20px 0 10px 0;
+            border-left: 6px solid #8f6d3f;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #2d3b45;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #c4d7e8;
+            margin: 20px 0;
+        }
+        .topic-item {
+            display: flex;
+            align-items: baseline;
+            margin: 16px 0;
+            background: #f5faff;
+            padding: 12px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #3182a3;
+        }
+        .topic-zh {
+            width: 120px;
+            font-weight: 500;
+            color: #113845;
+        }
+        .topic-zh1 {
+            width: 240px;
+            font-weight: 500;
+            color: #113845;
+        }
+        .topic-en {
+            flex: 1;
+            font-weight: 600;
+            color: #0073aa;
+        }
+        @media (max-width: 600px) {
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 12px 18px; }
+            .title-area h1 { font-size: 1.4rem; }
+            .section-header { font-size: 1.15rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 20px; }
+            .q-text { padding: 12px; font-size: 0.98rem; }
+            .opt-item { display: block; margin: 6px 0; }
+            .topic-item { flex-direction: column; }
+            .topic-zh { width: auto; margin-bottom: 6px; }
+            .q-item-inline { flex-direction: column; align-items: stretch; }
+            .q-num-inline { align-self: flex-start; margin-bottom: 8px; }
+            .q-text-inline { padding-left: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🇨🇳 Unit 2 Amazing China · Period 6</h1>
+        <p>Integration (Ⅱ) & Assessment & Further study 写作专项</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 高分词句储备 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 高分词句储备 (话题词汇+佳句仿写)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 话题词汇 -->
+        <div class="word-box">📝 一、话题词汇</div>
+        <div class="topic-item">
+            <span class="topic-zh">1. 欣赏；钦佩</span>
+            <span class="topic-en">admire</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">2. 艺术作品</span>
+            <span class="topic-en">artwork</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">3. 因……而著名</span>
+            <span class="topic-en">be famous for</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh1">4. 不论……；无论……；不管……</span>
+            <span class="topic-en">no matter…</span>
+        </div>
+
+        <!-- 佳句仿写 (5,6) -->
+        <div class="word-box" style="margin-top:30px;">📝 二、佳句仿写</div>
+
+        <div class="q-item-inline">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">【教材原句】It is a place full of history. (full of) → 仿写：这个热带花园一年四季都开满了五颜六色的花朵。</span>
+        </div>
+        <div class="answer-box">✅ 答案：This tropical garden is full of colorful/colourful flowers all year round.</div>
+        <div class="analysis-box">📝 解析：full of 充满……，be full of 描述状态；all year round 一年四季。</div>
+        <div class="trans-box">🌐 翻译：这个热带花园一年四季都开满了五颜六色的花朵。</div>
+
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">【教材原句】They include over 2,300 caves and are one of the finest examples of ancient stone carving art. (one of…) → 仿写：西塞山是黄石最漂亮的地方之一。</span>
+        </div>
+        <div class="answer-box">✅ 答案：The Xisai Mountain is one of the most beautiful places in Huangshi.</div>
+        <div class="analysis-box">📝 解析：one of the + 形容词最高级 + 可数名词复数，表示“最……之一”。</div>
+        <div class="trans-box">🌐 翻译：西塞山是黄石最漂亮的地方之一。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 经典范文模板 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 经典范文模板 (Beijing—A Place You Will Never Forget)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p><strong>Beijing—A Place You Will Never Forget</strong></p>
+            <p>Beijing, the capital of China, lies in northern China. With a population of about 21.9 million, it is one of the most vibrant cities in the world.</p>
+            <p>The city has four distinct seasons: warm springs, hot summers, cool autumns, and cold winters. Beijing is full of amazing sights. The Great Wall, a world-famous wonder, shows its long history. The Forbidden City, once home to emperors, impresses visitors with its grand buildings. Don’t miss its delicious food either. Peking Duck, crispy and tasty, is a must-try.</p>
+            <p>With its rich culture and charm, Beijing is truly a place you’ll never forget.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>北京——一个你永远不会忘记的地方</strong><br>
+            北京，中国的首都，位于中国北部。它拥有约2190万人口，是世界上最具活力的城市之一。<br>
+            这座城市四季分明：温暖的春天、炎热的夏天、凉爽的秋天和寒冷的冬天。北京充满了令人惊叹的景点。长城，一个世界闻名的奇迹，展示了其悠久的历史。故宫，曾是皇帝的居所，以其宏伟的建筑给游客留下深刻印象。也不要错过它的美食。北京烤鸭，酥脆可口，是必尝之选。<br>
+            凭借其丰富的文化和魅力，北京真的是一个你永远不会忘记的地方。
+        </div>
+        <div class="analysis-box">
+            📝 写作结构：引入主题（地理位置、人口）→ 细节描述（季节、景点、美食）→ 总结全文。使用了 distinct seasons, full of amazing sights, a world-famous wonder 等表达。
+        </div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 高分范文赏析 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 高分范文赏析 (My Hometown—Wuhan)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 【2025江苏镇江期末】假如你是李华，学校正在举行“美丽家乡我代言”的活动，请从文化、美食、美景等方面为热爱中国文化的外国友人介绍武汉，让世界了解武汉。请你根据以下提示，写一篇英语短文来介绍武汉。</div>
+        <div class="passage-box">
+            <p><strong>My Hometown—Wuhan</strong></p>
+            <p>There is a beautiful city by the Yangtze River. Its name is Wuhan. Today I’m going to talk about my hometown—Wuhan.</p>
+            <p>Wuhan is a city with a long history and rich culture. It is famous for its educational institutions like Wuhan University. The city also offers delicious food, such as hot dry noodles and Doupi, which are loved by many. For sightseeing, you can visit the Yellow Crane Tower, a symbol of Wuhan, and enjoy the beautiful view of the Yangtze River. East Lake, one of the largest urban lakes in China, is another great place to relax.</p>
+            <p>As a local, I hope more people can know about Wuhan and its charm. I will always be proud to introduce my hometown to the world.</p>
+            <p>Welcome to Wuhan!</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>我的家乡——武汉</strong><br>
+            长江边有一座美丽的城市。它的名字叫武汉。今天我要谈谈我的家乡——武汉。<br>
+            武汉是一座历史悠久、文化丰富的城市。它以其教育机构如武汉大学而闻名。这座城市也提供美味的食物，如热干面和豆皮，深受人们喜爱。在观光方面，你可以参观黄鹤楼——武汉的象征，欣赏长江的美景。东湖，中国最大的城市湖泊之一，是另一个放松的好去处。<br>
+            作为本地人，我希望更多人了解武汉及其魅力。我将永远自豪地向世界介绍我的家乡。<br>
+            欢迎来武汉！
+        </div>
+        <div class="analysis-box">
+            📝 解析：范文采用总—分—总结构，第一段引出话题，第二段从文化（教育）、美食、美景三个方面介绍，第三段表达愿望，最后发出邀请。要点齐全，语言流畅。
+        </div>
+        <div class="small-note">第一步：审题（体裁说明文，时态一般现在时，人称第一/三人称）第二步：列要点（地理位置、文化、美食、景点）</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 实战演练 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 实战演练 (邮件写作·暑假旅行)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📧 【2025江苏南京调研】“读万卷书，行万里路”，旅行越来越成为人们放松和开阔眼界的好方法。假设你是李华，你的好友付兴发邮件询问你的暑假旅行，请你给他回一封邮件，向他讲述你的旅行。内容提示：(1) Where did you go? (2) What did you see or do there? (3) What did you learn from this experience?</div>
+        
+        <!-- 参考范文 -->
+        <div class="passage-box">
+            <p><strong>Dear Fu Xing,</strong></p>
+            <p>How's everything going?</p>
+            <p>I'm glad to share my summer trip with you! This year, I travelled to Guilin with my family. It's a famous city for its beautiful mountains and rivers.</p>
+            <p>We took a boat tour along the Li River. The clear water reflected the green hills, which looked like a nice painting. We also climbed Elephant Trunk Hill—its shape was so amazing that I couldn't stop taking photos. At night, we walked around West Street and tried local snacks like rice noodles.</p>
+            <p>This trip taught me a lot. Seeing the tall mountains and clear rivers made me feel how amazing nature is. Being away from daily routines relaxed me and filled me with energy. I realized the world is big and full of different things, and that every trip can help us grow. I feel refreshed and ready for the new term!</p>
+            <p>I'm looking forward to seeing you.</p>
+            <p>Yours,<br>Li Hua</p>
+        </div>
+
+        <div class="trans-box">
+            🌐 <strong>参考范文翻译：</strong><br>
+            <strong>亲爱的付兴：</strong><br>
+            一切都好吗？<br>
+            我很高兴和你分享我的暑假旅行！今年，我和家人去了桂林。那是一个以美丽的山水而闻名的城市。<br>
+            我们乘船游览了漓江。清澈的江水倒映着青山，就像一幅美丽的画。我们还爬了象鼻山——它的形状太神奇了，我忍不住一直拍照。晚上，我们在西街散步，品尝了当地小吃，比如米粉。<br>
+            这次旅行教会了我很多。看到高山和清澈的河流，让我感受到大自然的奇妙。远离日常琐事让我放松，充满能量。我意识到世界很大，充满了不同的事物，每一次旅行都能帮助我们成长。我感到精神焕发，为新学期做好了准备！<br>
+            期待见到你。<br>
+            你的朋友，<br>
+            李华
+        </div>
+
+        <div class="analysis-box">
+            📝 解析：邮件格式正确，内容涵盖三个提示点：去了桂林、做了乘船/爬山/逛街/品尝小吃、学到了感受自然/放松/成长。语言流畅，使用了 took a boat tour, reflected, couldn't stop taking photos, relaxed me, filled me with energy 等表达。
+        </div>
+        <div class="small-note">知识拓展：energetic adj. 精力充沛的</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#3f627c; font-size:0.95rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
