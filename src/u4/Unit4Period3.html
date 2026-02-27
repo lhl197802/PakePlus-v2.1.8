@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 4 A good read · Period 3 Reading (Ⅱ)</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>📚 Unit 4 A good read · Period 3</h1>
+        <p>Reading (Ⅱ) 基础+能力 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础适当形式填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础适当形式填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">He put one of his _________ (finger) into his mouth to show his tooth.</span>
+        </div>
+        <div class="answer-box">✅ 答案：fingers</div>
+        <div class="analysis-box">📝 解析：one of 后接可数名词复数，finger 的复数为 fingers。</div>
+        <div class="trans-box">🌐 翻译：他把一根手指放进嘴里以展示他的牙齿。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">【2024江苏扬州期末】The camel has three __________ (stomach), so they can live in the desert for a long time.</span>
+        </div>
+        <div class="answer-box">✅ 答案：stomachs</div>
+        <div class="analysis-box">📝 解析：three 后接可数名词复数，stomach 的复数形式为 stomachs。</div>
+        <div class="trans-box">🌐 翻译：骆驼有三个胃，所以它们可以在沙漠里生活很长时间。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">【2024江苏盐城调研】The boy stood there, ______ (tie) his dog to the tree.</span>
+        </div>
+        <div class="answer-box">✅ 答案：tying</div>
+        <div class="analysis-box">📝 解析：stood 是谓语，空处用现在分词作伴随状语，tie 的现在分词为 tying。</div>
+        <div class="trans-box">🌐 翻译：男孩站在那儿，把他的狗拴到树上。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">【2024江苏南京质检】It is frightening when two ________ (army) meet in the battle.</span>
+        </div>
+        <div class="answer-box">✅ 答案：armies</div>
+        <div class="analysis-box">📝 解析：two 后接可数名词复数，army 的复数为 armies。</div>
+        <div class="trans-box">🌐 翻译：两军在战役中相遇是可怕的。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">【2025江苏南京期末】After a short break, he continued __________________ (argue) with his mother about the same thing.</span>
+        </div>
+        <div class="answer-box">✅ 答案：arguing/to argue</div>
+        <div class="analysis-box">📝 解析：continue doing/to do 均可，表示继续做某事。</div>
+        <div class="trans-box">🌐 翻译：短暂休息后，他继续与他母亲争论同样的事情。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 方框选词填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 方框选词填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">🔤 方框内单词：rope, call, fall asleep, pull, finish (需适当形式变化)</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">【2025江苏徐州期末·节选】We need strong _______ to tie the heavy box to the car.</span>
+        </div>
+        <div class="answer-box">✅ 答案：ropes</div>
+        <div class="analysis-box">📝 解析：rope 绳子，此处用复数表示多根。</div>
+        <div class="trans-box">🌐 翻译：我们需要结实的绳子把重箱子绑在车上。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">The girl ________ Lucy is my new deskmate, and she is very friendly.</span>
+        </div>
+        <div class="answer-box">✅ 答案：called</div>
+        <div class="analysis-box">📝 解析：过去分词作后置定语，called 名叫……的。</div>
+        <div class="trans-box">🌐 翻译：那个叫露西的女孩是我的新同桌，她很友好。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">【2025江苏常州期末·节选】The little boy was so tired that he _____________ as soon as he lay on the bed.</span>
+        </div>
+        <div class="answer-box">✅ 答案：fell asleep</div>
+        <div class="analysis-box">📝 解析：fall asleep 入睡，根据 was 用过去式 fell。</div>
+        <div class="trans-box">🌐 翻译：小男孩太累了，一躺在床上就睡着了。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">Could you please help me _____________ this door open? It's stuck.</span>
+        </div>
+        <div class="answer-box">✅ 答案：(to) pull</div>
+        <div class="analysis-box">📝 解析：help sb. (to) do sth. 帮助某人做某事，pull 拉。</div>
+        <div class="trans-box">🌐 翻译：你能帮我把这扇门拉开吗？卡住了。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【2025江苏南通质检】After trying many times, she finally managed __________ the difficult Maths problem.</span>
+        </div>
+        <div class="answer-box">✅ 答案：to solve</div>
+        <div class="analysis-box">📝 解析：manage to do 设法做成某事。</div>
+        <div class="trans-box">🌐 翻译：试了很多次后，她终于设法解出了那道数学难题。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 11 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">【2025江苏南京期末·节选】老师总是让我们在课堂上认真记笔记。(make+宾语+do sth)</span>
+        </div>
+        <div class="answer-box">✅ 答案：The teacher always makes us take notes carefully in class.</div>
+        <div class="analysis-box">📝 解析：make sb. do sth. 让某人做某事。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">【2025江苏镇江质检】她还没决定这周末穿什么去参加聚会。(特殊疑问词+动词不定式)</span>
+        </div>
+        <div class="answer-box">✅ 答案：She hasn't decided what to wear to attend the party this weekend.</div>
+        <div class="analysis-box">📝 解析：疑问词+不定式作宾语。</div>
+
+        <!-- 13 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">13</span>
+            <span class="q-text-inline">【2024江苏扬州质检】直到故事的最后你才会发现它很精彩。(until)</span>
+        </div>
+        <div class="answer-box">✅ 答案：You won't find it very wonderful until the end of the story.</div>
+        <div class="analysis-box">📝 解析：not...until 直到……才……。</div>
+
+        <!-- 14 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">14</span>
+            <span class="q-text-inline">当我走出家时，天开始下雨了。(as引导的时间状语从句)</span>
+        </div>
+        <div class="answer-box">✅ 答案：As I went out of my home, it began to rain.</div>
+        <div class="analysis-box">📝 解析：as 当……时，引导时间状语从句。</div>
+
+        <!-- 15 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">15</span>
+            <span class="q-text-inline">【2025江苏盐城期末·节选】当我读完这本书的时候，天已经黑了。(by the time)</span>
+        </div>
+        <div class="answer-box">✅ 答案：By the time I finished reading this book, it was dark.</div>
+        <div class="analysis-box">📝 解析：by the time 到……时候为止。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 短文填空 (首字母) ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (10小题·首字母)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>Little Women is a novel published in 1868 and written by American author Louisa May Alcott. The story describes the lives and <strong>16. l_____</strong> of four sisters growing up during the American Civil War.</p>
+            <p>Mr Madge's four daughters and their mother lived a <strong>17. p_____</strong> but strong and happy life. Meg is the <strong>18. e_______</strong> daughter of beauty, full of longing for love; the second daughter Jo, decides to become a <strong>19. w_______</strong>; the third daughter Beth is a traditional girl; gentle and lovely little daughter Amy loves <strong>20. p_________</strong>. Although they were poor, they were <strong>21. w________</strong> to help Hummel, a neighbour who was <strong>22. m_____</strong> in need of help. They wanted to get beautiful clothes, eat delicious food, live <strong>23. l_____</strong> a princess. Although the story is full of fantasy, but in <strong>24. r_____</strong> life, they depended on their own efforts to solve all kinds of hardships in life. Finally, they eventually <strong>25. r______________</strong> their own dreams.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            《小妇人》是1868年出版的一部小说，由美国作家路易莎·梅·奥尔科特所著。故事描述了在美国内战期间成长的四个姐妹的生活和爱。<br>
+            马奇先生的四个女儿和她们的母亲过着贫穷但坚强而幸福的生活。梅格是美丽的大女儿，充满对爱情的渴望；二女儿乔决定成为一名作家；三女儿贝丝是个传统的女孩；温柔可爱的小女儿艾米喜欢画画。虽然她们很穷，但她们愿意帮助非常需要帮助的邻居哈梅尔。她们想要得到漂亮的衣服，吃美味的食物，像公主一样生活。虽然故事充满幻想，但在现实生活中，她们依靠自己的努力解决生活中的各种艰难困苦。最终，她们实现了自己的梦想。
+        </div>
+
+        <!-- 16-25 -->
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">love</span></div>
+        <div class="answer-box">✅ 答案：love</div>
+        <div class="analysis-box">📝 解析：与 lives 并列，指“爱”。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">poor</span></div>
+        <div class="answer-box">✅ 答案：poor</div>
+        <div class="analysis-box">📝 解析：与 but strong and happy 对应，贫穷的。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">eldest</span></div>
+        <div class="answer-box">✅ 答案：eldest</div>
+        <div class="analysis-box">📝 解析：根据下文 the second, the third 可知是“最大的”。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">writer</span></div>
+        <div class="answer-box">✅ 答案：writer</div>
+        <div class="analysis-box">📝 解析：成为作家。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">painting</span></div>
+        <div class="answer-box">✅ 答案：painting</div>
+        <div class="analysis-box">📝 解析：love painting 喜欢画画。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">willing</span></div>
+        <div class="answer-box">✅ 答案：willing</div>
+        <div class="analysis-box">📝 解析：be willing to do 愿意做。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">much</span></div>
+        <div class="answer-box">✅ 答案：much</div>
+        <div class="analysis-box">📝 解析：修饰介词短语 in need，用 much 表示程度。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">like</span></div>
+        <div class="answer-box">✅ 答案：like</div>
+        <div class="analysis-box">📝 解析：live like a princess 像公主一样生活。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">24</span><span class="q-text-inline">real</span></div>
+        <div class="answer-box">✅ 答案：real</div>
+        <div class="analysis-box">📝 解析：in real life 在现实生活中。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">25</span><span class="q-text-inline">realized/realised</span></div>
+        <div class="answer-box">✅ 答案：realized/realised</div>
+        <div class="analysis-box">📝 解析：realize one's dream 实现梦想。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 完形填空 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 完形填空 (15小题·索比与监狱)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要讲述了索比为了进监狱度过冬天而采取的一系列措施。</div>
+        <div class="passage-box">
+            <p>Soapy sat on a seat in Madison Square, New York, and looked up the sky. A dead leaf fell into his arm. <strong>1.</strong> was coming, and Soapy knew that he must make his plans.</p>
+            <p>He waited three months in a nice, warm prison, with food and good friends. This is <strong>2.</strong> he usually spent his winters. And now it was time, because at night on his seat in the square, three newspapers did not <strong>3.</strong> the cold.</p>
+            <p>Soapy made up his mind to go to prison, and at once began to try his <strong>4.</strong> plan. It was usually <strong>5.</strong>. He ate dinner at an expensive restaurant. Then he told the owner he had no <strong>6.</strong> and the owner called a policeman. Nice and easy, with no trouble.</p>
+            <p><strong>7.</strong> Soapy left his seat and came to a bright restaurant on Broadway. But when Soapy went <strong>8.</strong> the restaurant, the waiter saw Soapy's dirty old trousers and <strong>9.</strong> shoes. Strong hands turned him round and helped him out into the street.</p>
+            <p>Now he had to <strong>10.</strong> something different. Soapy walked and walked. He stopped in front of a shop window and looked at it. It was nice and bright, and everybody in the street could see it. Slowly but <strong>11.</strong>, he picked up a stone and threw it at the window. The <strong>12.</strong> broke with a loud noise. People ran round the corner and Soapy was <strong>13.</strong> because the man in front of him was a policeman. Soapy did not move. He <strong>14.</strong> there with his hands in his pockets, and he smiled. "I'll <strong>15.</strong> be in prison," he thought.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            索比坐在纽约麦迪逊广场的一条长椅上，仰望天空。一片枯叶落在他的手臂上。冬天就要来了，索比知道他必须制订计划。<br>
+            他可以在一个舒适温暖的监狱里待三个月，有食物和好朋友。这是他通常度过冬天的方式。现在时候到了，因为在广场的长椅上过夜，三份报纸也挡不住寒冷。<br>
+            索比决定进监狱，并立即开始尝试他的第一个计划。这通常很简单。他去一家昂贵的餐厅吃晚餐，然后告诉店主他没有钱，店主就会报警。轻松容易，没有麻烦。<br>
+            因此索比离开座位，来到百老汇的一家明亮的餐馆。但当索比走进餐馆时，服务员看见了索比脏的旧裤子和脏的鞋子。有力的双手把他转了个身，帮他推到街上。<br>
+            现在他不得不考虑一些不一样的事情。索比走啊走。他在一个商店橱窗前停下，看着橱窗。橱窗明亮漂亮，街上每个人都能看到。他缓慢而小心地捡起一块石头，朝窗户扔去。玻璃碎了一声巨响。人们从拐角跑过来，索比很高兴，因为他面前的人是一名警察。索比没有动。他站在那里，双手插在口袋里，笑了。“我很快就要进监狱了，”他想。
+        </div>
+
+        <!-- 1-15 选项 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">A. Spring  B. Summer  C. Autumn  D. Winter</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：根据下文他通常在监狱过冬，可知冬天来了。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">A. why  B. when  C. what  D. how</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：这是他在冬天通常度过的方式。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">A. find out  B. bring out  C. keep out  D. try out</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：keep out the cold 挡住寒冷。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">A. first  B. second  C. third  D. last</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：开始尝试他的第一个计划。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">5</span><span class="q-text-inline">A. difficult  B. simple  C. safe  D. interesting</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：通常很简单。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">6</span><span class="q-text-inline">A. water  B. food  C. money  D. friends</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：告诉店主他没有钱。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">7</span><span class="q-text-inline">A. Because  B. So  C. But  D. If</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：因此他离开座位去百老汇。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">8</span><span class="q-text-inline">A. into  B. past  C. round  D. through</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：走进餐馆，go into。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">9</span><span class="q-text-inline">A. new  B. cool  C. dirty  D. clean</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：与 dirty old trousers 并列，脏的鞋子。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">10</span><span class="q-text-inline">A. look after  B. think of  C. care about  D. feel like</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：不得不考虑别的办法。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">11</span><span class="q-text-inline">A. comfortably  B. differently  C. loudly  D. carefully</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：缓慢而小心地捡起石头。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">12</span><span class="q-text-inline">A. glass  B. table  C. seat  D. street</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：玻璃碎了。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">A. afraid  B. happy  C. tired  D. sad</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：看到警察他应该高兴，因为想进监狱。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">A. ran  B. walked  C. jumped  D. stood</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：他站在那里。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">A. always  B. never  C. soon  D. often</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：他很快就要进监狱了。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅵ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section6">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅵ 阅读选择 (3小题·黑骏马)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了安娜·塞维尔写的《黑骏马》的大致内容。</div>
+        <div class="passage-box">
+            <p>Published in 1877, Black Beauty is one of the literature's best-loved classics and is the only book Anna Sewell ever wrote.</p>
+            <p>In the book, Black Beauty, a horse, tells the story of his life in his own words. It is a story of how he was treated with kindness and love when he was young, but later his treatment changed at the hands of different owners. Black Beauty spent his young life with his mother on Farmer Grey's farm. Farmer Grey is a good, kind man and the horses had a good life. His mother told him to be good and work hard. Black Beauty tried to follow this advice all his life.</p>
+            <p>First, he went to live with Mr Gordon and his family, who treated their horses well. He was cared for by a kind groom called John, who never used a whip. Black Beauty saved Mrs Gordon's life when he ran fast to bring the doctor to her. The Gordons moved abroad and Black Beauty was sold to Lord Westland. Things became totally different. Lady Westland made the horses wear reins so that they held their heads up high. One day, a groom called Smith was left to look after the horses. He was drunk and rode Black Beauty very hard and used a whip. Black Beauty lost a shoe and in the end fell. Smith was killed in the accident and Black Beauty stayed alive but his legs were left a bad scar and Lord Westland decided to sell him.</p>
+            <p>Black Beauty's next home was with a London cab driver Jerry Barker. Jerry and his family treated Black Beauty very well, but the work was hard and the hours were long. Jerry became ill and had to sell Black Beauty to a farmer. The farmer took him to some women at Rose Hall. There, Black Beauty came together again with the young groom who used to look after him at Mr Gordon's home. The women wanted to keep Black Beauty, so once again he had a kind and happy home.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            《黑骏马》出版于1877年，是文学界最受喜爱的经典作品之一，也是安娜·塞维尔一生中唯一写的一本书。<br>
+            书中，一匹名叫黑骏马的马用自己的语言讲述了他一生的故事。故事讲述了他年轻时受到善待和爱护，但后来在不同主人手下，待遇发生了变化。黑骏马早年和他的母亲一起生活在农夫格雷的农场。农夫格雷是个善良的好人，马儿们生活得很好。母亲告诉他要做一匹好马，努力工作。黑骏马一生都试图遵循这个建议。<br>
+            起初，他和戈登先生一家住在一起，他们待马很好。一位善良的马夫约翰照顾他，从不用鞭子。黑骏马飞奔去给戈登夫人请医生，救了她一命。戈登一家搬去了国外，黑骏马被卖给了威斯特兰勋爵。情况完全不同了。威斯特兰夫人让马戴上缰绳，使它们昂着头。一天，一个叫史密斯的马夫被留下来照看马匹。他喝醉了，骑着黑骏马拼命跑，还用鞭子。黑骏马掉了一只蹄铁，最后摔倒了。史密斯在事故中丧生，黑骏马活了下来，但腿上留下了难看的伤疤，威斯特兰勋爵决定卖掉他。<br>
+            黑骏马的下一个家是与伦敦马车夫杰里·巴克。杰里和他的家人对黑骏马很好，但工作辛苦，时间很长。杰里生病了，不得不把黑骏马卖给一个农夫。农夫把他带到了玫瑰厅的一些女人那里。在那里，黑骏马又见到了曾经在戈登家照顾他的年轻马夫。女人们想留下黑骏马，于是他又有了一个友善快乐的家。
+        </div>
+
+        <!-- 16 -->
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">What does the underlined word “they” refer to?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Lady Westland's grooms.</span>
+            <span class="opt-item">B. Lady Westland's horses.</span>
+            <span class="opt-item">C. Black Beauty and his mother.</span>
+            <span class="opt-item">D. Black Beauty's owners.</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：they 指代前文的 horses。</div>
+
+        <!-- 17 -->
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">What might be the correct order of what happened in the story? a. Black Beauty met the young groom who used to look after him. b. A doctor was brought to save Mrs Gordon's life in time. c. Farmer Grey treated Black Beauty and his mum with kindness and love. d. Black Beauty worked for long hours for Jerry.</span></div>
+        <div class="options">
+            <span class="opt-item">A. a-b-c-d</span>
+            <span class="opt-item">B. c-a-b-d</span>
+            <span class="opt-item">C. a-d-c-b</span>
+            <span class="opt-item">D. c-b-d-a</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：正确顺序：c 农场善待 → b 救戈登夫人 → d 为杰里工作 → a 再见年轻马夫。</div>
+
+        <!-- 18 -->
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">The passage is probably taken from ________.</span></div>
+        <div class="options">
+            <span class="opt-item">A. a sports magazine</span>
+            <span class="opt-item">B. a book review</span>
+            <span class="opt-item">C. science fiction</span>
+            <span class="opt-item">D. a travel report</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：文章是对《黑骏马》这本书的介绍，可能来自书评。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅶ 阅读还原 ========= -->
+<div class="section-card collapsed" id="section7">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅶ 阅读还原 (5小题·格列佛在大人国)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要讲述了格列佛在大人国的经历。</div>
+        <div class="passage-box">
+            <p>Gulliver tried his best to get away from the small men. He found a boat and tried to sail home. However, there was a great storm at sea. <strong>19.</strong> _____</p>
+            <p>Everyone on the island was very large. They were all more than 20 metres tall. <strong>20.</strong> _____ Gulliver seemed very small to them, like a toy or a pet. The farmer's daughter took Gulliver to town to show him around. Everyone in town was very surprised to see such a small person.</p>
+            <p>The Queen heard about Gulliver and bought him from the farmer. <strong>21.</strong> _____ The King enjoyed listening to Gulliver's stories about his home country and his travels. Their chairs, tables, knives, forks and plates were all much too big for Gulliver to use. <strong>22.</strong> _____ Wherever the King and Queen went, they carried Gulliver with them in his house.</p>
+            <p>One day they went to the beach. While they were there, a large eagle picked up Gulliver's house—with Gulliver in it—and carried him high up into the air. But the house was so heavy that the eagle couldn't carry it. So the eagle dropped it into the sea. <strong>23.</strong> _____ The ship took him home.</p>
+        </div>
+        <div class="word-box">🔤 选项：<br>A. The strong wind blew his boat to another island.<br>B. (未使用)<br>C. A farmer found Gulliver and took him home to his daughter.<br>D. Gulliver used his house as a small boat until a ship found him.<br>E. She gave him as a gift to the King.<br>F. So they had to build a small house for him to live in.</div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            格列佛尽力逃离小人国。他找到一条船，试图航行回家。然而海上起了大风暴。强风把他的船吹到了另一个岛上。<br>
+            岛上所有人都非常巨大，都超过20米高。一个农民发现了格列佛，把他带回家交给他的女儿。在她们看来，格列佛非常小，像个玩具或宠物。农夫的女儿带格列佛去镇上四处展示。镇上的每个人看到这么小的人都非常惊讶。<br>
+            王后听说了格列佛，从农夫那里买下了他。她把他作为礼物送给了国王。国王喜欢听格列佛讲他的祖国和他的旅行故事。他们的椅子、桌子、刀叉和盘子对格列佛来说都太大，没法用。所以他们不得不建一个小房子给他住。无论国王和王后去哪里，他们都把格列佛放在他的小房子里带着。<br>
+            一天他们去了海滩。他们在那里时，一只大鹰叼起了格列佛的房子——格列佛还在里面——把他高高带入空中。但房子太重，鹰叼不动，于是把房子扔进了海里。格列佛把他的房子当小船用，直到一艘轮船发现了他。轮船把他带回了家。
+        </div>
+
+        <!-- 19-23 -->
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：风暴导致船被吹到另一个岛。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：农民发现格列佛并带回家。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：E</div>
+        <div class="analysis-box">📝 解析：王后把他作为礼物送给国王。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：F</div>
+        <div class="analysis-box">📝 解析：东西太大，所以建小房子。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：房子掉海里，格列佛用它当小船直到被船发现。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
