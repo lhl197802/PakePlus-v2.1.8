@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 7 Charities · Period 6 Integration (Ⅱ) & Assessment & Further study</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        .topic-item {
+            display: flex;
+            align-items: baseline;
+            margin: 16px 0;
+            background: #f5faff;
+            padding: 12px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #8bb9d1;
+        }
+        .topic-zh {
+            width: 160px;
+            font-weight: 500;
+            color: #1b3c4f;
+        }
+        .topic-en {
+            flex: 1;
+            font-weight: 600;
+            color: #1e4f6b;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+            .topic-item { flex-direction: column; }
+            .topic-zh { width: auto; margin-bottom: 6px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>❤️ Unit 7 Charities · Period 6</h1>
+        <p>Integration (Ⅱ) & Assessment & Further study 写作专项</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 高分词句储备 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 高分词句储备 (话题词汇+佳句仿写)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 话题词汇 -->
+        <div class="word-box">📝 一、话题词汇</div>
+        <div class="topic-item">
+            <span class="topic-zh">1. 医疗的</span>
+            <span class="topic-en">medical</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">2. 组织;机构</span>
+            <span class="topic-en">organization</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">3. 慈善机构</span>
+            <span class="topic-en">charity</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">4. 继续做</span>
+            <span class="topic-en">carry on</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">5. 除……以外（还）</span>
+            <span class="topic-en">in addition to</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">6. 分发</span>
+            <span class="topic-en">hand out</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">7. 建立</span>
+            <span class="topic-en">set up</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">8. 为某人提供某物</span>
+            <span class="topic-en">provide sth for sb / provide sb with sth</span>
+        </div>
+
+        <!-- 佳句仿写 (9-12) -->
+        <div class="word-box" style="margin-top:30px;">📝 二、佳句仿写</div>
+
+        <div class="q-item-inline">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">【教材原句】It's difficult for them to breathe, eat and speak. (It's+adj.+to do sth) → 仿写：把衣裳捐给慈善商店是很善良的。</span>
+        </div>
+        <div class="answer-box">✅ 答案：It's very kind to donate clothes to the charity shop.</div>
+        <div class="analysis-box">📝 解析：It's + adj. + to do sth. 做某事是……的。</div>
+
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【教材原句】Local doctors and nurses are invited on board to learn about eye operations. (一般现在时的被动语态) → 仿写：这个慈善机构的建筑每周都由志愿者打扫。</span>
+        </div>
+        <div class="answer-box">✅ 答案：The/This charity building is cleaned by volunteers every week.</div>
+        <div class="analysis-box">📝 解析：一般现在时被动语态 is cleaned。</div>
+
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">【教材原句】Save the Children is one of these charities. (one of句型) → 仿写：她是我们小组里最积极的志愿者之一。</span>
+        </div>
+        <div class="answer-box">✅ 答案：She is one of the most active volunteers in our group.</div>
+        <div class="analysis-box">📝 解析：one of + 形容词最高级 + 可数名词复数。</div>
+
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">【教材原句】People can help by donating money or working as volunteers. (by doing sth) → 仿写：通过在图书馆给孩子们读故事，我们给他们带来欢乐和知识。</span>
+        </div>
+        <div class="answer-box">✅ 答案：By reading stories to kids in the library, we bring them joy and knowledge.</div>
+        <div class="analysis-box">📝 解析：by doing 通过做某事，置于句首表示方式。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 经典范文模板 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 经典范文模板 (The Importance of Charity)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p><strong>Charity is a truly kind act. It shows our care for others and our wish to help.</strong></p>
+            <p>First, we can give money. Even a little bit helps those in need. Second, we can donate things like old clothes and books. They bring joy to others. Third, we can spend time doing charity, like visiting the elderly.</p>
+            <p>Also, charity makes our community closer. We build stronger bonds by working together.</p>
+            <p>In a word, charity is great. Let's all do it and make the world better!</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>慈善是一种真正善良的行为。它显示了我们对他人的关心和帮助的愿望。</strong><br>
+            首先，我们可以捐钱。即使是一点点也能帮助有需要的人。其次，我们可以捐赠像旧衣服和书籍这样的物品。它们给他人带来快乐。第三，我们可以花时间做慈善，比如拜访老人。<br>
+            另外，慈善让我们的社区更紧密。通过共同努力，我们建立了更牢固的联系。<br>
+            总之，慈善很棒。让我们一起做慈善，让世界更美好！
+        </div>
+        <div class="analysis-box">📝 结构分析：开篇点题 → 用 First, Second, Third 列举慈善行为 → 用 Also 介绍意义 → 末段总结。层次清晰，语言简洁。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 高分范文赏析 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 高分范文赏析 (My Volunteering Experience During Summer Vacation)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 【2025江苏苏州期中】刚刚过去的暑假是参与社会实践、服务社区的良机。你校英语社团举办了“My Volunteering Experience During Summer Vacation”主题分享会，请写一篇短文，分享你在暑假期间一次有意义的志愿者经历（过程、感受与收获）。参考信息略。</div>
+        <div class="passage-box">
+            <p><strong>My Volunteering Experience During Summer Vacation</strong></p>
+            <p>Volunteering is very meaningful and important. It can help others and make us feel happy too.</p>
+            <p>I still remember one of my volunteering experiences during this summer vacation clearly. I went to an old people's home with my friends. We helped clean the rooms and chatted with the elderly. Some of them told us stories about their youth. We also performed songs and dances for them. They were very happy and smiled all the time.</p>
+            <p>From this experience, I learned that a small act of kindness can make a big difference. I felt proud that I could bring joy to others. I will continue to volunteer in the future.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>我的暑假志愿服务经历</strong><br>
+            志愿服务非常有意义且重要。它可以帮助他人，也让我们感到快乐。<br>
+            我仍然清晰地记得今年暑假的一次志愿服务经历。我和朋友们去了一个养老院。我们帮忙打扫房间，与老人们聊天。他们中的一些人给我们讲他们年轻时的故事。我们还为他们表演了歌曲和舞蹈。他们非常开心，一直笑着。<br>
+            从这次经历中，我学到一个小小的善举也能带来很大的影响。我为能给他人带来快乐而感到自豪。将来我会继续做志愿者。
+        </div>
+        <div class="analysis-box">📝 解析：范文包含过程（去养老院、打扫、聊天、表演）、感受（开心、自豪）、收获（小善举大影响）。结构完整，语言自然。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 实战演练 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 实战演练 (Work as a Volunteer 发言稿)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📧 【2025江苏常州期末】为弘扬雷锋精神，你校将开展“学雷锋月”优秀志愿者事迹分享会。假定你是李华，作为优秀志愿者，要为该活动准备一篇发言稿。请以“Work as a Volunteer”为主题，用英文写一篇发言稿。内容包括：(1) the importance of volunteering (2) your experience as a volunteer (3) what you have learnt from it。词数不少于80，开头已给出。</div>
+        <div class="passage-box">
+            <p><strong>Hello, everyone!</strong></p>
+            <p>I am Li Hua. Today my topic is "Work as a Volunteer". I am glad to share my volunteer story with you. Volunteering is really meaningful. It gives me a chance to do something helpful.</p>
+            <p>Last month, my friends and I volunteered at a nursing home. The moment we arrived, we noticed that many elderly people suffered from loneliness. So, we actively chatted with them, always keeping warm eye contact and wearing friendly smiles. Besides chatting, we taught them to do simple exercises and make beautiful paper cuttings. We brought joy and peace to their days and truly raised their spirits.</p>
+            <p>From this experience, I have realized a kind word and a bright smile can easily pass on love and warmth. We can do some voluntary work to help people in need and live a more meaningful life!</p>
+            <p>Thank you!</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>大家好！</strong><br>
+            我是李华。今天我演讲的主题是“成为一名志愿者”。我很高兴与大家分享我的志愿者故事。志愿服务真的很有意义。它给了我一个机会做一些有帮助的事情。<br>
+            上个月，我和朋友们在养老院做志愿者。我们一到那里就注意到许多老人感到孤独。于是，我们积极地与他们聊天，始终保持温暖的眼神接触和友好的微笑。除了聊天，我们还教他们做简单的运动和制作漂亮的剪纸。我们给他们的日子带来了欢乐和平静，真正让他们精神振奋起来。<br>
+            从这次经历中，我意识到一句善意的话和一个灿烂的微笑可以轻易传递爱与温暖。我们可以做一些志愿工作来帮助有需要的人，过更有意义的生活！<br>
+            谢谢！
+        </div>
+        <div class="analysis-box">📝 解析：范文包含三个要点：重要性（有意义、帮助他人）、经历（养老院聊天、做运动、剪纸）、收获（爱与温暖可以传递）。语言生动，情感真挚，符合发言稿要求。</div>
+        <div class="small-note">知识拓展：volunteer to do sth. 志愿做某事。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
