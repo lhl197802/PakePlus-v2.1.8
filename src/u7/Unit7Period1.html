@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 7 Charities · Period 1 Welcome to the unit</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>❤️ Unit 7 Charities · Period 1</h1>
+        <p>Welcome to the unit 基础训练 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础单词填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础单词填空 (5小题·汉译英/首字母)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">【2025江苏无锡期中】The pioneers in the _________ (医疗的) area have left us so much useful knowledge.</span>
+        </div>
+        <div class="answer-box">✅ 答案：medical</div>
+        <div class="analysis-box">📝 解析：“医疗的”形容词 medical，修饰名词 area。</div>
+        <div class="trans-box">🌐 翻译：医疗领域的先驱们给我们留下了这么多有用的知识。</div>
+        <div class="small-note">链接狂K：medical 的详细讲解见狂K重点P37。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">【2025江苏苏州调研】John was about to speak but his mum raised a finger to her ______ (嘴唇).</span>
+        </div>
+        <div class="answer-box">✅ 答案：lips</div>
+        <div class="analysis-box">📝 解析：“嘴唇”可用 lip，此处用复数 lips（因为人通常有上下唇）。</div>
+        <div class="trans-box">🌐 翻译：约翰正要说话，但他妈妈把一根手指举到嘴唇边。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">Queen Elizabeth Ⅱ supported over 600 ___________ (慈善机构) and had a close connection with the public in her 70-year reign.</span>
+        </div>
+        <div class="answer-box">✅ 答案：charities</div>
+        <div class="analysis-box">📝 解析：charity 是可数名词，over 600 后接复数 charities。</div>
+        <div class="trans-box">🌐 翻译：伊丽莎白二世女王支持了600多个慈善机构，并在她70年的统治中与公众保持密切联系。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">【2025江苏徐州期中】Some v___________ often help the old people tidy their flats at weekends.</span>
+        </div>
+        <div class="answer-box">✅ 答案：volunteers</div>
+        <div class="analysis-box">📝 解析：帮助老人打扫的应是志愿者 volunteers。</div>
+        <div class="trans-box">🌐 翻译：一些志愿者经常在周末帮助老人整理公寓。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">Zhang Guimei founded the first f_____ high school for girls in mountain areas.</span>
+        </div>
+        <div class="answer-box">✅ 答案：free</div>
+        <div class="analysis-box">📝 解析：free high school 免费高中，符合张桂梅创办免费女高的背景。</div>
+        <div class="trans-box">🌐 翻译：张桂梅在山区创办了第一所免费的女子高中。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 单项选择 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">【2025江苏南京期末】They ________ a new student club to help international students.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. invited</span>
+            <span class="opt-item">B. invented</span>
+            <span class="opt-item">C. founded</span>
+            <span class="opt-item">D. received</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：founded 成立（组织），符合句意。</div>
+        <div class="trans-box">🌐 翻译：他们成立了一个新的学生俱乐部来帮助国际学生。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">【2025江苏徐州质检】Mike ________ a boy from the fire and we can't praise him too much.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. saved</span>
+            <span class="opt-item">B. pushed</span>
+            <span class="opt-item">C. brought</span>
+            <span class="opt-item">D. asked</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：saved 救出，符合“从火中救出”。</div>
+        <div class="trans-box">🌐 翻译：迈克从火灾中救出了一个男孩，我们怎么称赞他都不为过。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">There are ________ people in this city now, and ________ people in other places want to live here too.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. millions of; two millions</span>
+            <span class="opt-item">B. million of; two millions</span>
+            <span class="opt-item">C. millions of; two million</span>
+            <span class="opt-item">D. million of; two millions of</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：millions of 数百万；two million 两百万，具体数字不加 s。</div>
+        <div class="trans-box">🌐 翻译：现在这个城市有数百万人，其他地方也有200万人想住在这里。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">Our parents provide us ________ almost everything we need. We should care for them when they are old.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. for</span>
+            <span class="opt-item">B. with</span>
+            <span class="opt-item">C. on</span>
+            <span class="opt-item">D. at</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：provide sb. with sth. 固定搭配，提供某人某物。</div>
+        <div class="trans-box">🌐 翻译：我们的父母为我们提供了几乎所有我们需要的东西。当他们老的时候，我们应该照顾他们。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 适当形式填空 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 适当形式填空 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 10 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【2025江苏盐城期中】Our teacher will organize a charity sale for this local ______________ (organize) next month.</span>
+        </div>
+        <div class="answer-box">✅ 答案：organization</div>
+        <div class="analysis-box">📝 解析：this local 后接名词单数，organize 的名词形式 organization。</div>
+        <div class="trans-box">🌐 翻译：我们的老师将于下个月为这家当地的组织组织一场慈善义卖。</div>
+        <div class="small-note">链接狂K：organization 的详细讲解见狂K重点P37。</div>
+
+        <!-- 11 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">We should understand the ____________ (important) of protecting the environment.</span>
+        </div>
+        <div class="answer-box">✅ 答案：importance</div>
+        <div class="analysis-box">📝 解析：the + 名词 + of，importance 重要性。</div>
+        <div class="trans-box">🌐 翻译：我们应该认识到保护环境的重要性。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">【2025江苏连云港调研】The forests can produce oxygen for humans and animals ____________ (breathe).</span>
+        </div>
+        <div class="answer-box">✅ 答案：to breathe</div>
+        <div class="analysis-box">📝 解析：不定式作后置定语，表示“供呼吸的氧气”。</div>
+        <div class="trans-box">🌐 翻译：森林能产生供人类和动物呼吸的氧气。</div>
+
+        <!-- 13 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">13</span>
+            <span class="q-text-inline">【2025江苏南京调研】We should learn to face problems bravely and never give up until they ____________ (solve).</span>
+        </div>
+        <div class="answer-box">✅ 答案：are solved</div>
+        <div class="analysis-box">📝 解析：they 指 problems，与 solve 是被动关系，一般现在时被动语态。</div>
+        <div class="trans-box">🌐 翻译：我们应该学会勇敢地面对问题，在它们被解决之前永远不要放弃。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 按要求完成句子 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 按要求完成句子 (4小题·每空一词)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 14 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">14</span>
+            <span class="q-text-inline">【2025江苏南通期末】We use this machine to cut paper. (改为同义句)</span>
+        </div>
+        <div class="answer-box">✅ 答案：This machine <span class="fill-blank">is</span> <span class="fill-blank">used</span> <span class="fill-blank">to</span> cut paper by us.</div>
+        <div class="analysis-box">📝 解析：主动变被动，be used to do 被用来做。</div>
+        <div class="trans-box">🌐 翻译：我们用这台机器切纸。 → 这台机器被我们用来切纸。</div>
+
+        <!-- 15 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">15</span>
+            <span class="q-text-inline">【2025上海二模】That sign means: Don't smoke inside the library! (保持句意基本不变)</span>
+        </div>
+        <div class="answer-box">✅ 答案：That sign means <span class="fill-blank">smoking</span> isn't <span class="fill-blank">allowed</span> inside the library.</div>
+        <div class="analysis-box">📝 解析：smoking isn't allowed 吸烟不被允许。</div>
+        <div class="trans-box">🌐 翻译：那个标志的意思是：图书馆内禁止吸烟！</div>
+
+        <!-- 16 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">16</span>
+            <span class="q-text-inline">I'm going to watch a movie this weekend. (对画线部分提问)</span>
+        </div>
+        <div class="answer-box">✅ 答案：<span class="fill-blank">What</span> are you going to <span class="fill-blank">do</span> this weekend?</div>
+        <div class="analysis-box">📝 解析：对事件提问用 what，be going to 后用动词原形。</div>
+        <div class="trans-box">🌐 翻译：我这周末打算看电影。 → 你这周末打算做什么？</div>
+
+        <!-- 17 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">17</span>
+            <span class="q-text-inline">Training pets is necessary for good behaviour. (改为同义句)</span>
+        </div>
+        <div class="answer-box">✅ 答案：It is necessary <span class="fill-blank">to</span> <span class="fill-blank">train</span> pets for good behaviour.</div>
+        <div class="analysis-box">📝 解析：It is + adj. + to do 句型。</div>
+        <div class="trans-box">🌐 翻译：训练宠物对于良好行为是必要的。 → 为了良好行为，训练宠物是必要的。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
