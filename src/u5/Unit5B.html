@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 5 Good manners · 外刊时文阅读速递</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🤝 Unit 5 Good manners · 外刊时文阅读速递</h1>
+        <p>Parents  |  词数298 难度★★★</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 外刊时文阅读卡片 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>📖 阅读选择 · 父母如何教孩子日常礼节</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 语篇导读 -->
+        <div class="word-box" style="background: #f2e8d5;">
+            📘 语篇导读：本文主要介绍了父母应该教会孩子们一些日常礼节。建议用时8分钟。
+        </div>
+        
+        <!-- 阅读原文 (英文) -->
+        <div class="passage-box">
+            <h3 style="margin-top:0; color:#6b4f2a;">📜 阅读原文</h3>
+            <p>Children are not born with proper manners. On their journey of growth, parents should guide them correctly to learn what good manners are.</p>
+            <p><strong>Say "Please" and "Thank you"</strong><br>Teach your child that it's polite to say "please" when asking for something. You can exemplify this good behaviour by saying "please" when you make a request to your child. For example, "Please pick up your toys before turning on the TV." Likewise, when receiving something—whether it's a physical thing or an intangible one, like help or praise—your kid should say "thank you". Again, exemplifying these good manners will go a long way. When your child picks up his or her toys or helps with housework, thank him or her for being a big helper.</p>
+            <p><strong>Knock on the Closed Door</strong><br>Doors are for privacy, so if a door is closed, your child should knock before entering. But it's not appropriate to knock and walk right in! Rather, the next step is waiting to see if there's a reply, and then get permission before entering.</p>
+            <p><strong>Ask Permission</strong><br>Teach your child to ask permission when he or she has any doubt about doing something. You may also have your rules about situations where permission is required, like answering the door, downloading an app, or buying something. These manners can save you from many hours of sadness later!</p>
+            <p><strong>Wait Your Turn</strong><br>Learning to take turns in conversation, without interruption, can be difficult for young children. Develop this skill by explaining why taking turns is important. It allows everyone to be heard equally. Also, kids should understand that sometimes it's OK to interrupt adults, like when there's an emergency. Otherwise, they should wait for a stop in the conversation before getting in words.</p>
+        </div>
+        
+        <!-- 全文翻译 (中文) -->
+        <div class="trans-box" style="margin-bottom:20px;">
+            🌐 <strong>全文翻译：</strong><br>
+            孩子并非生来就懂礼貌。在他们的成长过程中，父母应该正确引导他们学习什么是好的礼仪。<br>
+            <strong>说“请”和“谢谢”</strong><br>教你的孩子在请求某物时说“请”。当你向孩子提出请求时，你可以通过说“请”来示范这一良好行为。例如：“请在你打开电视前捡起你的玩具。”同样，当收到某物时——无论是实物还是无形的东西，如帮助或赞美——你的孩子应该说“谢谢”。同样，示范这些良好礼仪会大有帮助。当你的孩子捡起他/她的玩具或帮忙做家务时，感谢他/她是个大帮手。<br>
+            <strong>敲门</strong><br>门是为了隐私，所以如果门关着，你的孩子应该在进入前敲门。但敲门后直接走进去是不合适的！相反，下一步是等待是否有回应，然后在进入前获得许可。<br>
+            <strong>请求允许</strong><br>教你的孩子在不确定做某事时请求允许。你也可以制定一些需要许可的规则，比如开门、下载应用程序或买东西。这些礼仪可以让你以后免于许多小时的悲伤！<br>
+            <strong>等待轮流</strong><br>学会在谈话中轮流发言，不打断别人，对小孩子来说可能很难。通过解释轮流发言的重要性来培养这项技能。它能让每个人平等地被听到。此外，孩子们应该明白，有时打断成年人是可以的，比如紧急情况时。否则，他们应该等到谈话停顿再发言。
+        </div>
+
+        <!-- 题目1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">If your child helps you to clean the rooms, what can you say to him or her?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Please be more careful.</span>
+            <span class="opt-item">B. You can try it again.</span>
+            <span class="opt-item">C. Thank you for your help.</span>
+            <span class="opt-item">D. Let me clean with you.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：第二段最后一句提到孩子帮忙做家务时，要感谢他/她。</div>
+
+        <!-- 题目2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">What is the subtitle for the third paragraph?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Knock on the Closed Door</span>
+            <span class="opt-item">B. Don't Walk Right In</span>
+            <span class="opt-item">C. Wait for the Reply</span>
+            <span class="opt-item">D. Get Permission First</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：第三段主要讲进门前要敲门，标题应为 Knock on the Closed Door。</div>
+
+        <!-- 题目3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">How will you feel if you don't have your rules about getting permission?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Afraid.</span>
+            <span class="opt-item">B. Worried.</span>
+            <span class="opt-item">C. Rude.</span>
+            <span class="opt-item">D. Sad.</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：第四段最后一句说这些礼仪可以让你以后免于悲伤。</div>
+
+        <!-- 题目4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">Why is it difficult for children to wait their turns in conversation?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Because they don't need time to think about any questions.</span>
+            <span class="opt-item">B. Because they don't know whether it is an emergency or not.</span>
+            <span class="opt-item">C. Because they want others to hear what they are saying equally.</span>
+            <span class="opt-item">D. Because they'd like to get in words during the conversation.</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：第五段提到只有紧急情况才能打断，孩子可能分不清是否是紧急情况。</div>
+
+        <!-- 题目5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">What is the writer's purpose of writing this passage?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. To let children learn how to help their parents at home.</span>
+            <span class="opt-item">B. To show students ways to get along well with others.</span>
+            <span class="opt-item">C. To teach students to study hard at all the subjects.</span>
+            <span class="opt-item">D. To let parents teach their children what good manners are.</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：全文主旨是让父母教孩子懂礼貌。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
