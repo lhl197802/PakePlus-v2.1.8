@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 1 Past and present · 单元限时检测</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 40px;
+            padding: 14px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 12px rgba(0,30,45,0.05);
+            border: 1px solid #dde7f0;
+        }
+        .top-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+        }
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f8fbfe;
+        }
+        .title-area h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #0d4c6e, #0b3b55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title-area p {
+            color: #54738f;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .close-btn {
+            background: #ecf3fa;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1d577b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid #bed3e6;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .close-btn:hover {
+            background: #dae6f2;
+            color: #093852;
+            border-color: #7fa9c7;
+            box-shadow: 0 4px 10px rgba(0,60,90,0.1);
+        }
+        .close-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: white;
+            border-radius: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 22px -6px rgba(20, 50, 70, 0.12);
+            overflow: hidden;
+            border: 1px solid #e2eef9;
+            transition: box-shadow 0.2s;
+        }
+        .section-header {
+            background: white;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #10435c;
+            transition: background 0.15s, padding 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .section-header:hover {
+            background: #e9f2fa;
+        }
+        .section-header .toggle-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #2c779b;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+        /* 折叠样式 */
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .section-content {
+            padding: 8px 28px 28px 28px;
+            border-top: 1px solid #d1e2f0;
+            background: #ffffff;
+        }
+
+        /* 题目元素 */
+        .question-item {
+            margin-top: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e0ecf5;
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+        .q-num {
+            display: inline-block;
+            background: #cde1f0;
+            color: #0f4b6b;
+            font-weight: 700;
+            padding: 4px 16px 5px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin-bottom: 12px;
+            border: 1px solid #aac6dd;
+        }
+        .q-text {
+            font-size: 1.04rem;
+            font-weight: 500;
+            color: #113845;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: #f5faff;
+            padding: 16px 22px;
+            border-radius: 24px;
+            border-left: 5px solid #3182a3;
+            box-shadow: inset 0 1px 4px #d7e6f5;
+        }
+        .options {
+            margin: 12px 0 16px 8px;
+            color: #1d506b;
+            background: #f0f6fd;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-weight: 460;
+        }
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 28px;
+            white-space: nowrap;
+        }
+        .answer-box, .analysis-box, .trans-box {
+            margin: 12px 0 8px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+        .answer-box {
+            background: #e2f0fa;
+            color: #004d7c;
+            font-weight: 600;
+            border-left: 6px solid #0073aa;
+        }
+        .analysis-box {
+            background: #fff6e5;
+            color: #624c2a;
+            border-left: 6px solid #efb13b;
+        }
+        .trans-box {
+            background: #e1f1e8;
+            color: #1b6e4a;
+            border-left: 6px solid #2e9e68;
+        }
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+        .small-note {
+            font-size: 0.86rem;
+            color: #6a859e;
+            margin-top: 12px;
+            padding-left: 12px;
+        }
+        .word-box {
+            background: #e7f0fa;
+            padding: 12px 20px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #145a82;
+            border: 1px dashed #7dafd1;
+        }
+        .passage-box {
+            background: #f9f7f0;
+            padding: 20px 24px;
+            border-radius: 28px;
+            margin: 20px 0 10px 0;
+            border-left: 6px solid #8f6d3f;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #2d3b45;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #c4d7e8;
+            margin: 20px 0;
+        }
+        @media (max-width: 600px) {
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 12px 18px; }
+            .title-area h1 { font-size: 1.4rem; }
+            .section-header { font-size: 1.15rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 20px; }
+            .q-text { padding: 12px; font-size: 0.98rem; }
+            .opt-item { display: block; margin: 6px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>📖 Unit 1 Past and present · 单元限时检测</h1>
+        <p>满分50分  |  建议用时40分钟</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- 卡片 Ⅰ 单项选择 -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 单项选择 (共10小题，每小题1分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">【2025江苏宿迁期中】—How long have you lived in Siyang? —________ the end of last year.</div>
+            <div class="options">
+                <span class="opt-item">A. At</span>
+                <span class="opt-item">B. Since</span>
+                <span class="opt-item">C. For</span>
+                <span class="opt-item">D. Before</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：问句用现在完成时提问持续多久，回答“从去年年底”用 since + 时间点。</div>
+            <div class="trans-box">🌐 翻译：——你在泗阳住了多久了？——从去年年底开始。</div>
+        </div>
+        <!-- 2 -->
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">【2025江苏无锡调研】—Do you know that the erhu is one of the most traditional ________ in China? —Of course. Liu Tianhua, the ________ of the erhu, was born and grew up in our hometown Jiangyin.</div>
+            <div class="options">
+                <span class="opt-item">A. instructions; pioneer</span>
+                <span class="opt-item">B. instruments; pioneer</span>
+                <span class="opt-item">C. instructions; invention</span>
+                <span class="opt-item">D. instruments; invention</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：erhu 是乐器 (instrument)，刘天华是二胡先驱 (pioneer)。</div>
+            <div class="trans-box">🌐 翻译：——你知道二胡是中国最传统的乐器之一吗？——当然。刘天华，二胡的先驱，出生并在我们的家乡江阴长大。</div>
+        </div>
+        <!-- 3 -->
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">【2025广东江门期末】The children cleaned their rooms quickly, ________ they wanted to go to the park, ________ it began to rain.</div>
+            <div class="options">
+                <span class="opt-item">A. because; but</span>
+                <span class="opt-item">B. for; and</span>
+                <span class="opt-item">C. but; so</span>
+                <span class="opt-item">D. or; yet</span>
+            </div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：第一空解释原因用 because，第二空转折用 but。</div>
+            <div class="trans-box">🌐 翻译：孩子们很快打扫了房间，因为他们想去公园，但是天开始下雨了。</div>
+        </div>
+        <!-- 4 -->
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">【2025广东广州期末】________, but it was also a lot of fun.</div>
+            <div class="options">
+                <span class="opt-item">A. We liked the fair</span>
+                <span class="opt-item">B. The fair started at eight</span>
+                <span class="opt-item">C. The fair was very crowded</span>
+                <span class="opt-item">D. We held the fair on Monday</span>
+            </div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：but 前后对比，后说“也很有趣”，前应说一个缺点，C项“集市很拥挤”符合。</div>
+            <div class="trans-box">🌐 翻译：集市非常拥挤，但它也很有趣。</div>
+        </div>
+        <!-- 5 -->
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">【2025江苏南通期末】Boris was so hard-working that he came first four times ________ in the Chinese exam.</div>
+            <div class="options">
+                <span class="opt-item">A. in a hurry</span>
+                <span class="opt-item">B. in a row</span>
+                <span class="opt-item">C. in public</span>
+                <span class="opt-item">D. in person</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：in a row 连续地，符合句意“连续四次考第一”。</div>
+            <div class="trans-box">🌐 翻译：鲍里斯非常勤奋，连续四次在语文考试中取得第一名。</div>
+        </div>
+        <!-- 6 -->
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">【2025江苏淮安期中】—Look! The rain ________. We can go on a picnic in the park. —Great! Let’s go.</div>
+            <div class="options">
+                <span class="opt-item">A. is stopping</span>
+                <span class="opt-item">B. stops</span>
+                <span class="opt-item">C. stopped</span>
+                <span class="opt-item">D. has stopped</span>
+            </div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：强调雨已停对现在的影响（可以去野餐），用现在完成时。</div>
+            <div class="trans-box">🌐 翻译：——看！雨已经停了。我们可以去公园野餐了。——太好了！我们走吧。</div>
+        </div>
+        <!-- 7 -->
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">【2025江苏扬州期中】After reading the Harry Potter series, I must say it is one of ________ books I ________.</div>
+            <div class="options">
+                <span class="opt-item">A. the best; have read</span>
+                <span class="opt-item">B. the best; read</span>
+                <span class="opt-item">C. a best; have read</span>
+                <span class="opt-item">D. a best; read</span>
+            </div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：one of + the + 最高级 + 名词复数；第二空用现在完成时表示阅读经历。</div>
+            <div class="trans-box">🌐 翻译：读完《哈利·波特》系列后，我必须说这是我读过的最好的书之一。</div>
+        </div>
+        <!-- 8 -->
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">【2025江苏盐城期中】—I hear that your good friend David ________ in Yangzhou and yesterday he was back again. —Yes, but the life he was used to ________ a lot over the years.</div>
+            <div class="options">
+                <span class="opt-item">A. used to live; changing</span>
+                <span class="opt-item">B. is used to living; changed</span>
+                <span class="opt-item">C. used to live; has changed</span>
+                <span class="opt-item">D. is used to living; change</span>
+            </div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：第一空表示“过去常住”用 used to live；第二空 over the years 用现在完成时 has changed。</div>
+            <div class="trans-box">🌐 翻译：——我听说你的好朋友戴维过去常住在扬州，昨天他又回来了。——是的，但他过去习惯的生活这些年来改变了很多。</div>
+        </div>
+        <!-- 9 -->
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">【2025湖北武汉调研】—Pardon, sir. Do you mind my changing my seat with you? —________. You can take my seat.</div>
+            <div class="options">
+                <span class="opt-item">A. Certainly not</span>
+                <span class="opt-item">B. Yes, go ahead</span>
+                <span class="opt-item">C. No, please don’t</span>
+                <span class="opt-item">D. No problem</span>
+            </div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：根据“You can take my seat.”可知不介意，用 Certainly not。</div>
+            <div class="trans-box">🌐 翻译：——打扰一下，先生。您介意我和您换座位吗？——当然不介意。你可以坐我的座位。</div>
+        </div>
+        <!-- 10 -->
+        <div class="question-item">
+            <span class="q-num">10</span>
+            <div class="q-text">【2025甘肃庆阳期末】—It’s hot. Why don’t we go swimming this afternoon? —________.</div>
+            <div class="options">
+                <span class="opt-item">A. Sure, I am</span>
+                <span class="opt-item">B. Good luck</span>
+                <span class="opt-item">C. Here you are</span>
+                <span class="opt-item">D. Sounds good</span>
+            </div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：对于建议表示赞同，用 Sounds good。</div>
+            <div class="trans-box">🌐 翻译：——天气很热。今天下午我们为什么不去游泳呢？——听起来不错。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 卡片 Ⅱ 完形填空 -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 完形填空 (共15小题，每小题1分，计15分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>A boy guarded the barrels in his father's winery. Every morning, his father gave him a <strong>11</strong> of brushing the barrels and putting them in order, but the wind blew the barrels here and there overnight.</p>
+            <p>The boy was so <strong>12</strong> that he wrote a letter to the wind, “Please don't blow down my barrels.” After seeing that, his father asked the boy with a smile, “Can the wind read your <strong>13</strong>?” The little boy said, “I don't know. I have no <strong>14</strong> but to make this request.”</p>
+            <p>The next morning, when the little boy ran to <strong>15</strong> the barrels, he found that the barrels were blown here and there again. The little boy felt very unhappy and cried. His father came and said <strong>16</strong>, “Son, don't be sad. We may have no way to deal with the <strong>17</strong>, but we may have ways for you, so we can have our own ways to <strong>18</strong> the wind.” Then the little boy <strong>19</strong> his tears and thought over and over. Finally, he thought of an idea. He filled the <strong>20</strong> barrels with water. After that, he went home worriedly.</p>
+            <p>The third morning, the little boy <strong>21</strong> his clothes in a hurry and ran out. He was <strong>22</strong> to find the barrels were placed in good order. The little boy smiled happily and told his father, “It's a very <strong>23</strong> way, that is, to make the barrels heavier.” The little boy's father smiled and <strong>24</strong> his head.</p>
+            <p>We can't change many things in the world, but we can change ourselves. To add the <strong>25</strong> to you is a good way not to be knocked over.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            一个男孩看守着他父亲酒厂里的木桶。每天早上，父亲给他刷木桶并把木桶摆放整齐的任务，但风一夜之间把木桶吹得到处都是。<br>
+            男孩非常生气，他给风写了一封信：“请不要吹倒我的木桶。”父亲看到后，笑着问男孩：“风能读懂你的信吗？”小男孩说：“我不知道。我别无选择，只能提出这个请求。”<br>
+            第二天早上，当小男孩跑去检查木桶时，他发现木桶又被吹得到处都是。小男孩非常难过，哭了起来。父亲走过来，和蔼地说：“孩子，别难过。我们可能无法对付风，但我们可能有办法让你拥有自己的方式来战胜风。”然后小男孩擦干眼泪，反复思考。最后他想到了一个主意。他把空木桶装满水。之后，他忧心忡忡地回家了。<br>
+            第三天早上，小男孩匆忙穿上衣服跑了出去。他兴奋地发现木桶摆放得整整齐齐。小男孩开心地笑着告诉父亲：“这是一个很简单的方法，就是让木桶变重。”小男孩的父亲微笑着点了点头。<br>
+            我们不能改变世界上的许多事情，但我们可以改变自己。给自己增加分量是一个不被击倒的好方法。
+        </div>
+        <div class="word-box" style="margin-top:20px;">🔤 请选择最佳选项 (11-25)</div>
+        <!-- 11 -->
+        <div class="question-item">
+            <span class="q-num">11</span>
+            <div class="q-text">A. promise  B. task  C. warning  D. method</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：父亲给他刷木桶的任务，task 符合。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">12</span>
+            <div class="q-text">A. cheerful  B. shy  C. satisfied  D. angry</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：木桶被风吹倒，男孩生气，angry。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">13</span>
+            <div class="q-text">A. letter  B. notice  C. story  D. poster</div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：前文写了信，父亲问风能否读懂你的信，letter。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">14</span>
+            <div class="q-text">A. time  B. purpose  C. choice  D. doubt</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：have no choice but to do 别无选择。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">15</span>
+            <div class="q-text">A. paint  B. blow  C. check  D. repair</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：跑去检查木桶，check。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">16</span>
+            <div class="q-text">A. strictly  B. kindly  C. wildly  D. nervously</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：父亲安慰男孩，和蔼地说，kindly。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">17</span>
+            <div class="q-text">A. wind  B. brush  C. factory  D. cloud</div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：无法对付风，wind。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">18</span>
+            <div class="q-text">A. invite  B. accept  C. encourage  D. beat</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：战胜风，beat。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">19</span>
+            <div class="q-text">A. believed  B. dried  C. collected  D. tasted</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：擦干眼泪，dried。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">20</span>
+            <div class="q-text">A. empty  B. full  C. useless  D. special</div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：把空桶装满水，empty。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">21</span>
+            <div class="q-text">A. took off  B. put on  C. paid for  D. sold out</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：穿上衣服，put on。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">22</span>
+            <div class="q-text">A. worried  B. interested  C. excited  D. bored</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：发现木桶整齐，兴奋，excited。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">23</span>
+            <div class="q-text">A. simple  B. foolish  C. strange  D. dangerous</div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：方法很简单，simple。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">24</span>
+            <div class="q-text">A. controlled  B. nodded  C. hid  D. covered</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：父亲微笑点头，nodded。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">25</span>
+            <div class="q-text">A. water  B. clothes  C. height  D. weight</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：增加分量即重量，weight。</div>
+        </div>
+        <div class="small-note">语篇导读：本文通过小男孩把木桶装满水来使木桶不被风吹倒的故事，告诉我们：我们不能改变世界上的许多事情，但我们可以改变自己。</div>
+    </div>
+</div>
+
+<!-- 卡片 Ⅲ 阅读选择 -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 阅读选择 (共5小题，每小题2分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>I look at my watch. It’s 1:00 p.m. My train is half an hour late. I left home at 11:00 a.m. I may arrive in Liverpool at about 4:00 p.m. Then I’ll be late for my dance class with my teacher, Mrs Jerome. I ask myself, “Why can’t I drive?” I can get to Liverpool a lot quicker and life can be easier if I drive there. In fact, I asked myself every time I failed my driving test and I have failed it four times now.</p>
+            <p>The first time, I took my test when I was 18. I did OK, but I couldn’t park the car. I tried to park it three times, but I just did it really badly.</p>
+            <p>The second time, I wanted to finish the test so quickly that I drove too fast! I should drive at 60 kilometres an hour, but I drove at 75.</p>
+            <p>The third time, I was coming out of the parking lot and I hit another car. Of course, I failed the test.</p>
+            <p>The fourth time, I was really nervous. I couldn’t sleep during the night before the test and I didn’t feel well in the morning. It took me five minutes just to start the car and the test was really terrible.</p>
+            <p>After that, I decided not to take the test again and to just take the train everywhere.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            我看了一下手表。下午1点。我的火车晚点了半小时。我上午11点离开家。我可能大约下午4点到达利物浦。那样我就赶不上和我的老师杰罗姆夫人的舞蹈课了。我问自己：“为什么我不能开车呢？”如果开车去利物浦，我能快得多，生活也会更容易。事实上，每次我驾照考试失败时我都这样问自己，而我已经失败了四次。<br>
+            第一次，我18岁时参加了考试。我考得还行，但我不会停车。我试了三次停车，但停得很糟糕。<br>
+            第二次，我太想快速完成考试，结果开得太快了！我应该开每小时60公里，但我开到了75。<br>
+            第三次，我从停车场出来时撞上了另一辆车。当然，我没通过。<br>
+            第四次，我非常紧张。考试前一天晚上我睡不着，早上感觉不舒服。我花了五分钟才发动汽车，考试简直糟透了。<br>
+            之后，我决定不再考驾照了，无论去哪儿都坐火车。
+        </div>
+        <!-- 26 -->
+        <div class="question-item">
+            <span class="q-num">26</span>
+            <div class="q-text">The writer’s train should leave at ________.</div>
+            <div class="options">
+                <span class="opt-item">A. 11:00</span>
+                <span class="opt-item">B. 11:30</span>
+                <span class="opt-item">C. 12:30</span>
+                <span class="opt-item">D. 1:00</span>
+            </div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：现在1点，火车晚点半小时，所以应12:30出发。</div>
+        </div>
+        <!-- 27 -->
+        <div class="question-item">
+            <span class="q-num">27</span>
+            <div class="q-text">The writer goes to Liverpool to ________.</div>
+            <div class="options">
+                <span class="opt-item">A. meet a friend</span>
+                <span class="opt-item">B. take a test</span>
+                <span class="opt-item">C. give Mrs Jerome a lesson</span>
+                <span class="opt-item">D. take a class</span>
+            </div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：第一段提到 dance class with my teacher, Mrs Jerome，所以是去上课。</div>
+        </div>
+        <!-- 28 -->
+        <div class="question-item">
+            <span class="q-num">28</span>
+            <div class="q-text">Which of the following is TRUE?</div>
+            <div class="options">
+                <span class="opt-item">A. The writer can arrive Liverpool on time.</span>
+                <span class="opt-item">B. The writer hopes he can pass the driving test.</span>
+                <span class="opt-item">C. The writer drove too slowly in the second test.</span>
+                <span class="opt-item">D. Mrs Jerome teaches the writer how to drive.</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：从“Why can’t I drive?”可知作者希望自己会开车，即希望考试通过。A错在火车晚点不能准时；C错在第二次开太快；D错在杰罗姆夫人是舞蹈老师。</div>
+            <div class="small-note">知识拓展：修饰比较级的词汇还有 much、still、even、a little、a bit等。</div>
+        </div>
+        <!-- 29 -->
+        <div class="question-item">
+            <span class="q-num">29</span>
+            <div class="q-text">If we put the passage into three parts, which of the following is the best? (①=Para.1 ②=Para.2 ③=Para.3 ④=Para.4 ⑤=Para.5 ⑥=Para.6)</div>
+            <div class="options">
+                <span class="opt-item">A. ①②③；④；⑤⑥</span>
+                <span class="opt-item">B. ①②；③④；⑤⑥</span>
+                <span class="opt-item">C. ①；②③④⑤；⑥</span>
+                <span class="opt-item">D. ①②；③；④⑤⑥</span>
+            </div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：第一段引入话题，第2-5段描述四次失败，第六段总结决定。所以C正确。</div>
+        </div>
+        <!-- 30 -->
+        <div class="question-item">
+            <span class="q-num">30</span>
+            <div class="q-text">Why does the writer share his experiences of taking driving tests?</div>
+            <div class="options">
+                <span class="opt-item">A. To tell us how important it is to be able to drive.</span>
+                <span class="opt-item">B. To show us how lucky it is to pass a driving test.</span>
+                <span class="opt-item">C. To tell us how to pass a driving test successfully.</span>
+                <span class="opt-item">D. To tell us why he goes everywhere by train.</span>
+            </div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：文章最后说明他决定坐火车，所以分享考试经历是为了解释为什么坐火车。</div>
+        </div>
+        <div class="small-note">语篇导读：文章主要介绍了作者因为四次驾照考试都未成功，所以决定不再考驾照，因此只能坐火车出行。</div>
+    </div>
+</div>
+
+<!-- 卡片 Ⅳ 书面表达 -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 书面表达 (15分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="q-text">31. 某英文报举办了以“家乡的变化”为主题的征文活动。请根据下表提示，以“The Changes in My Hometown”为题，用英语写一篇100词左右的短文。注意：(1)要点齐全，语言通顺，可适当发挥；(2)条理清楚，书写规范；(3)文中不能出现真实姓名和学校名称。</div>
+        <div class="passage-box">
+            <p><strong>The Changes in My Hometown</strong></p>
+            <p>In the past, people in my hometown lived a poor life. The houses were old and small. Pollution was very serious, and there was rubbish everywhere. The traffic was not convenient and roads were narrow, so few visitors came here.</p>
+            <p>Now great changes have taken place in my hometown. The houses are large and bright. Many people have their own cars. The roads are wide and clean. The rivers have become much clearer and the sky has been bluer. Every year, thousands of people come to visit my hometown.</p>
+            <p>I think we should take an active part in protecting the environment. I hope my hometown will become more and more beautiful in the future. There will be more tourists coming to my hometown.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>参考范文翻译：</strong><br>
+            <strong>我家乡的变化</strong><br>
+            过去，我家乡的人们过着贫穷的生活。房子又旧又小。污染很严重，到处是垃圾。交通不便，道路狭窄，所以很少有游客来这里。<br>
+            现在，我的家乡发生了巨大的变化。房子又大又明亮。许多人拥有自己的汽车。道路宽阔干净。河流变得更清澈，天空更蓝。每年都有成千上万的人来我的家乡旅游。<br>
+            我认为我们应该积极参与保护环境。我希望我的家乡将来会变得越来越美丽。将会有更多的游客来到我的家乡。
+        </div>
+        <div class="analysis-box">
+            📝 解析：范文采用对比结构（过去vs现在），最后表达观点和希望。使用了 In the past, Now, I think 等连接词，覆盖了住房、环境、交通、旅游等方面。符合题目要求。
+        </div>
+        <div class="small-note">链接狂K：wide 的详细讲解见狂K重点P4。</div>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<div class="bottom-bar">
+    <span style="color:#3f627c; font-size:0.95rem;">📌 点击上方标题展开/折叠 · 单元限时检测 全解全析</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
