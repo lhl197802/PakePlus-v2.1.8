@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 2 Amazing China · Period 1 Welcome to the unit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 40px;
+            padding: 14px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 12px rgba(0,30,45,0.05);
+            border: 1px solid #dde7f0;
+        }
+        .top-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+        }
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f8fbfe;
+        }
+        .title-area h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #0d4c6e, #0b3b55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title-area p {
+            color: #54738f;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .close-btn {
+            background: #ecf3fa;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1d577b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid #bed3e6;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .close-btn:hover {
+            background: #dae6f2;
+            color: #093852;
+            border-color: #7fa9c7;
+            box-shadow: 0 4px 10px rgba(0,60,90,0.1);
+        }
+        .close-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: white;
+            border-radius: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 22px -6px rgba(20, 50, 70, 0.12);
+            overflow: hidden;
+            border: 1px solid #e2eef9;
+            transition: box-shadow 0.2s;
+        }
+        .section-header {
+            background: white;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #10435c;
+            transition: background 0.15s, padding 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .section-header:hover {
+            background: #e9f2fa;
+        }
+        .section-header .toggle-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #2c779b;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+        /* 折叠样式 */
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .section-content {
+            padding: 8px 28px 28px 28px;
+            border-top: 1px solid #d1e2f0;
+            background: #ffffff;
+        }
+
+        /* 题目元素 */
+        .question-item {
+            margin-top: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e0ecf5;
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+        .q-num {
+            display: inline-block;
+            background: #cde1f0;
+            color: #0f4b6b;
+            font-weight: 700;
+            padding: 4px 16px 5px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin-bottom: 12px;
+            border: 1px solid #aac6dd;
+        }
+        .q-text {
+            font-size: 1.04rem;
+            font-weight: 500;
+            color: #113845;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: #f5faff;
+            padding: 16px 22px;
+            border-radius: 24px;
+            border-left: 5px solid #3182a3;
+            box-shadow: inset 0 1px 4px #d7e6f5;
+        }
+        .options {
+            margin: 12px 0 16px 8px;
+            color: #1d506b;
+            background: #f0f6fd;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-weight: 460;
+        }
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 28px;
+            white-space: nowrap;
+        }
+        .answer-box, .analysis-box, .trans-box {
+            margin: 12px 0 8px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+        .answer-box {
+            background: #e2f0fa;
+            color: #004d7c;
+            font-weight: 600;
+            border-left: 6px solid #0073aa;
+        }
+        .analysis-box {
+            background: #fff6e5;
+            color: #624c2a;
+            border-left: 6px solid #efb13b;
+        }
+        .trans-box {
+            background: #e1f1e8;
+            color: #1b6e4a;
+            border-left: 6px solid #2e9e68;
+        }
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+        .small-note {
+            font-size: 0.86rem;
+            color: #6a859e;
+            margin-top: 12px;
+            padding-left: 12px;
+        }
+        .word-box {
+            background: #e7f0fa;
+            padding: 12px 20px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #145a82;
+            border: 1px dashed #7dafd1;
+        }
+        .passage-box {
+            background: #f9f7f0;
+            padding: 20px 24px;
+            border-radius: 28px;
+            margin: 20px 0 10px 0;
+            border-left: 6px solid #8f6d3f;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #2d3b45;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #c4d7e8;
+            margin: 20px 0;
+        }
+        @media (max-width: 600px) {
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 12px 18px; }
+            .title-area h1 { font-size: 1.4rem; }
+            .section-header { font-size: 1.15rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 20px; }
+            .q-text { padding: 12px; font-size: 0.98rem; }
+            .opt-item { display: block; margin: 6px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1> Unit 2 Amazing China · Period 1</h1>
+        <p>Welcome to the unit 基础训练 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础单词填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础单词填空 (5小题·汉译英/首字母)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">【2025江苏南京期末·改编】The Ferris wheel (摩天轮) is my favourite _______ (供乘骑的游乐设施).</div>
+            <div class="answer-box">✅ 答案：rides</div>
+            <div class="analysis-box">📝 详细解析：“供乘骑的游乐设施”通常用 ride，此处作可数名词，且前面没有冠词，应用复数 rides 泛指一类设施。</div>
+            <div class="trans-box">🌐 中文翻译：摩天轮是我最喜欢的游乐设施。</div>
+        </div>
+        <!-- 2 -->
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">When the children were climbing the mountains, a snake suddenly appeared and ________ (使害怕) them.</div>
+            <div class="answer-box">✅ 答案：scared</div>
+            <div class="analysis-box">📝 详细解析：and 连接并列谓语，时态应与 appeared 一致，用一般过去时。scare 的过去式为 scared。</div>
+            <div class="trans-box">🌐 中文翻译：当孩子们爬山时，一条蛇突然出现，吓到了他们。</div>
+        </div>
+        <!-- 3 -->
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">【2025江苏常州调研】We had an unusual trip to the mountains, seeing _________ (令人惊叹的) views we’d never seen before.</div>
+            <div class="answer-box">✅ 答案：amazing</div>
+            <div class="analysis-box">📝 详细解析：“令人惊叹的”修饰名词 views，用形容词 amazing。</div>
+            <div class="trans-box">🌐 中文翻译：我们进行了一次不寻常的山间旅行，看到了以前从未见过的令人惊叹的景色。</div>
+        </div>
+        <!-- 4 -->
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">The artist expresses his love for nature through beautiful p__________________ of mountains and rivers.</div>
+            <div class="answer-box">✅ 答案：paintings/pictures/photos</div>
+            <div class="analysis-box">📝 详细解析：根据首字母 p 和语境“通过美丽的山水____”，可填 paintings (画作)、pictures (图画/照片) 或 photos (照片)，均符合。此处为复数形式。</div>
+            <div class="trans-box">🌐 中文翻译：这位艺术家通过美丽的山水画（或图片）表达他对自然的热爱。</div>
+        </div>
+        <!-- 5 -->
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">【2025江苏无锡二模】Jenny always smiles whenever she sees a c_____ puppy.</div>
+            <div class="answer-box">✅ 答案：cute</div>
+            <div class="analysis-box">📝 详细解析：修饰 puppy 用形容词，首字母 c，结合语境“看到小狗就微笑”，应为 cute (可爱的)。</div>
+            <div class="trans-box">🌐 中文翻译：每当珍妮看到可爱的小狗，她总是微笑。</div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 单项选择 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (3小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">【2025陕西西安期末】—What about shopping in the shopping mall next to our school? It’s the most popular shopping mall recently. —I think it’s too crowded. I prefer ________ rather than ________.</div>
+            <div class="options">
+                <span class="opt-item">A. to go out; stay at home</span>
+                <span class="opt-item">B. going out; stay at home</span>
+                <span class="opt-item">C. to stay at home; go out</span>
+                <span class="opt-item">D. staying at home; go out</span>
+            </div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：prefer to do rather than do 是固定句型，意为“宁愿做……而不愿做……”。根据“it’s too crowded”可知说话人宁愿待在家也不愿出去，故选 C。</div>
+            <div class="trans-box">🌐 翻译：——在我们学校旁边的购物中心购物怎么样？它是最近最受欢迎的购物中心。——我觉得那儿太拥挤了。我宁愿待在家里也不愿出去。</div>
+        </div>
+        <!-- 7 -->
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">【2025江苏徐州质检】The pretty girl looks ________. She always has a smile on her face.</div>
+            <div class="options">
+                <span class="opt-item">A. sadly</span>
+                <span class="opt-item">B. friendly</span>
+                <span class="opt-item">C. likely</span>
+                <span class="opt-item">D. carefully</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：looks 是系动词，后接形容词作表语。friendly 是形容词，意为“友好的”。sadly/carefully 是副词，likely 虽可作形容词但意为“可能的”，不符合语境。</div>
+            <div class="trans-box">🌐 翻译：这个漂亮的女孩看起来很友好。她脸上总是带着微笑。</div>
+        </div>
+        <!-- 8 -->
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">【2025上海静安区调研】In recent years, there ________ an increase in the number of traffic accidents.</div>
+            <div class="options">
+                <span class="opt-item">A. have been</span>
+                <span class="opt-item">B. has been</span>
+                <span class="opt-item">C. had been</span>
+                <span class="opt-item">D. are</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：时间状语 In recent years 提示用现在完成时，there be 句型中，主语 an increase 为单数，故用 has been。</div>
+            <div class="trans-box">🌐 翻译：近年来，交通事故的数量有所增长。</div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 适当形式填空 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 适当形式填空 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 9 -->
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">【2025山东菏泽期末】David knows much about the city because he __________ (be) there many times.</div>
+            <div class="answer-box">✅ 答案：has been</div>
+            <div class="analysis-box">📝 解析：many times 提示用现在完成时，强调经历。主语 he 第三人称单数，助动词用 has，been there 表示去过。</div>
+            <div class="trans-box">🌐 翻译：戴维对这座城市了解很多，因为他去过那里很多次。</div>
+        </div>
+        <!-- 10 -->
+        <div class="question-item">
+            <span class="q-num">10</span>
+            <div class="q-text">【2025上海青浦区一模】I looked out of the window and saw some ___________ (colour) flowers in the garden.</div>
+            <div class="answer-box">✅ 答案：colourful</div>
+            <div class="analysis-box">📝 解析：修饰名词 flowers 用形容词 colourful，意为“色彩鲜艳的”。</div>
+            <div class="trans-box">🌐 翻译：我向窗外望去，看到花园里有一些五颜六色的花。</div>
+        </div>
+        <!-- 11 -->
+        <div class="question-item">
+            <span class="q-num">11</span>
+            <div class="q-text">【2025江苏扬州调研】Shanghai Disney Resort is one of the famous _____________ (attraction) that children want to visit.</div>
+            <div class="answer-box">✅ 答案：attractions</div>
+            <div class="analysis-box">📝 解析：one of the + 可数名词复数，表示“……之一”，attraction 的复数形式 attractions 意为“景点”。</div>
+            <div class="trans-box">🌐 翻译：上海迪士尼度假区是孩子们想去的著名景点之一。</div>
+        </div>
+        <!-- 12 -->
+        <div class="question-item">
+            <span class="q-num">12</span>
+            <div class="q-text">【2025江苏扬州质检】He said he ___________ (prefer) milk chocolate to dark chocolate in the past.</div>
+            <div class="answer-box">✅ 答案：preferred</div>
+            <div class="analysis-box">📝 解析：in the past 提示用一般过去时，prefer 的过去式为 preferred。</div>
+            <div class="trans-box">🌐 翻译：他说过去他更喜欢牛奶巧克力而不是黑巧克力。</div>
+            <div class="small-note">链接狂K：prefer 的详细讲解见狂K重点P8。</div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 按要求完成句子 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 按要求完成句子 (3小题·每空一词)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 13 -->
+        <div class="question-item">
+            <span class="q-num">13</span>
+            <div class="q-text">【2025江苏南通期中】The film stars have gone to the next restaurant for lunch. (对画线部分提问，画线部分 to the next restaurant)</div>
+            <div class="answer-box">✅ 答案：<span class="fill-blank">Where</span> <span class="fill-blank">have</span> the film stars gone for lunch?</div>
+            <div class="analysis-box">📝 解析：对地点提问用 where，原句是现在完成时，疑问句将 have 提前。</div>
+            <div class="trans-box">🌐 翻译：电影明星们去隔壁的餐厅吃午饭了。——电影明星们去哪里吃午饭了？</div>
+        </div>
+        <!-- 14 -->
+        <div class="question-item">
+            <span class="q-num">14</span>
+            <div class="q-text">—Have you ever been to the swimming pool? (作否定回答)</div>
+            <div class="answer-box">✅ 答案：<span class="fill-blank">No</span>, <span class="fill-blank">I/we</span> <span class="fill-blank">haven’t</span>.</div>
+            <div class="analysis-box">📝 解析：现在完成时的一般疑问句否定回答用 No, 主语 + haven’t/hasn’t。主语 you 可对应 I 或 we，用 haven’t。</div>
+            <div class="trans-box">🌐 翻译：——你去过游泳池吗？——不，我没去过。</div>
+        </div>
+        <!-- 15 -->
+        <div class="question-item">
+            <span class="q-num">15</span>
+            <div class="q-text">【2025江苏南通调研】We can’t sneeze (打喷嚏) and keep our eyes open at the same time. (改为同义句)</div>
+            <div class="answer-box">✅ 答案：We often sneeze <span class="fill-blank">with</span> our eyes <span class="fill-blank">closed</span> at the same time.</div>
+            <div class="analysis-box">📝 解析：原句意为“我们不能同时打喷嚏和睁着眼”，同义句可表达为“我们通常闭着眼睛打喷嚏”。with + 名词 + 形容词/介词短语 作伴随状语，closed 是形容词表示“闭着的”。</div>
+            <div class="trans-box">🌐 翻译：我们常常闭着眼睛打喷嚏。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<div class="bottom-bar">
+    <span style="color:#3f627c; font-size:0.95rem;">📌 点击上方标题展开/折叠 · 所有题目均附详细解析与翻译</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
