@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 8 A green world · Period 1 Welcome to the unit</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🌱 Unit 8 A green world · Period 1</h1>
+        <p>Welcome to the unit 基础训练 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础单词填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础单词填空 (5小题·汉译英/首字母)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">【2025江苏南京期中】Dr James often explains the __________ (化学的) questions to us patiently.</span>
+        </div>
+        <div class="answer-box">✅ 答案：chemical</div>
+        <div class="analysis-box">📝 解析：“化学的”形容词 chemical，修饰名词 questions。</div>
+        <div class="trans-box">🌐 翻译：詹姆斯博士经常耐心地向我们解释化学问题。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">【2025江苏苏州调研】The world-famous engineer is busy designing a new type of ______________ (环保的) bicycle.</span>
+        </div>
+        <div class="answer-box">✅ 答案：eco-friendly</div>
+        <div class="analysis-box">📝 解析：“环保的”可用 eco-friendly。</div>
+        <div class="trans-box">🌐 翻译：这位世界著名的工程师正忙着设计一种新型环保自行车。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">The plane will have larger wings and burn less ______ (燃料).</span>
+        </div>
+        <div class="answer-box">✅ 答案：fuel</div>
+        <div class="analysis-box">📝 解析：fuel 燃料，不可数名词。</div>
+        <div class="trans-box">🌐 翻译：这种飞机将有更大的机翼，燃烧更少的燃料。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">【2025四川内江二模】It is believed that we'll plant more trees to stop the s__________ from losing.</span>
+        </div>
+        <div class="answer-box">✅ 答案：soil(s)</div>
+        <div class="analysis-box">📝 解析：soil 土壤，防止水土流失。</div>
+        <div class="trans-box">🌐 翻译：人们相信我们会种更多的树来防止水土流失。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">To avoid hitting the t______, he ran into the wall and his arm was badly hurt.</span>
+        </div>
+        <div class="answer-box">✅ 答案：truck</div>
+        <div class="analysis-box">📝 解析：truck 卡车，为了避免撞上卡车而撞到墙。</div>
+        <div class="trans-box">🌐 翻译：为了避免撞上卡车，他撞到了墙上，胳膊受了重伤。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 单项选择 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">—Drunk driving is one of the most common ________ of traffic accidents. —Safety should always come first.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. causes</span>
+            <span class="opt-item">B. ways</span>
+            <span class="opt-item">C. excuses</span>
+            <span class="opt-item">D. lies</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：cause 原因，酒驾是事故最常见的原因之一。</div>
+        <div class="trans-box">🌐 翻译：——酒驾是交通事故最常见的原因之一。——安全应永远是第一位的。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">【2025江苏常州期中】—Could you help me ________ some water into the glass? —Of course.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. make</span>
+            <span class="opt-item">B. pour</span>
+            <span class="opt-item">C. give</span>
+            <span class="opt-item">D. push</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：pour...into... 把……倒进……。</div>
+        <div class="trans-box">🌐 翻译：——你能帮我往玻璃杯里倒些水吗？——当然可以。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">—How ________ it is here! What's wrong? —The boy is making so much ________. He is playing with a new toy.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. noise; noise</span>
+            <span class="opt-item">B. noisy; noise</span>
+            <span class="opt-item">C. noisy; noisy</span>
+            <span class="opt-item">D. noise; noisy</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：How + 形容词引导感叹句；make noise 制造噪声。</div>
+        <div class="trans-box">🌐 翻译：——这里多么吵闹啊！怎么了？——这个男孩制造了这么多噪声。他正在玩一个新玩具。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">—It is good for us to do sports. —________. I go swimming every day.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. I agree</span>
+            <span class="opt-item">B. I disagree</span>
+            <span class="opt-item">C. I hope not</span>
+            <span class="opt-item">D. I don't think so</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：根据后文“我每天游泳”可知同意对方观点。</div>
+        <div class="trans-box">🌐 翻译：——做运动对我们有好处。——我同意。我每天都去游泳。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 适当形式填空 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 适当形式填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 10 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【2025江苏连云港期中】Scientists are finding ways to stop light ___________ (pollute) and make our lives better.</span>
+        </div>
+        <div class="answer-box">✅ 答案：pollution</div>
+        <div class="analysis-box">📝 解析：light pollution 光污染，名词形式。</div>
+        <div class="trans-box">🌐 翻译：科学家们正在寻找方法来阻止光污染并使我们的生活更美好。</div>
+        <div class="small-note">链接狂K：pollute 的详细讲解见狂K重点P45。</div>
+
+        <!-- 11 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">【2025江苏无锡三模】It's reported that the up-to-date _________ (produce) is at the design stage.</span>
+        </div>
+        <div class="answer-box">✅ 答案：product</div>
+        <div class="analysis-box">📝 解析：product 产品，名词作主语。</div>
+        <div class="trans-box">🌐 翻译：据报道，最新的产品处于设计阶段。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">I think it is a good idea __________ (enjoy) Beijing opera at one of the local theatres.</span>
+        </div>
+        <div class="answer-box">✅ 答案：to enjoy</div>
+        <div class="analysis-box">📝 解析：it 是形式主语，不定式 to enjoy 是真正主语。</div>
+        <div class="trans-box">🌐 翻译：我认为在当地的一家剧院欣赏京剧是个好主意。</div>
+
+        <!-- 13 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">13</span>
+            <span class="q-text-inline">Lisa hopes her new classmates _____________ (become) good friends with her.</span>
+        </div>
+        <div class="answer-box">✅ 答案：will become</div>
+        <div class="analysis-box">📝 解析：hope 后接从句，表示将来用 will become。</div>
+        <div class="trans-box">🌐 翻译：莉萨希望她的新同学会和她成为好朋友。</div>
+
+        <!-- 14 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">14</span>
+            <span class="q-text-inline">_________ (clean) and untidy places can not only make you angry but also make you ill.</span>
+        </div>
+        <div class="answer-box">✅ 答案：Unclean</div>
+        <div class="analysis-box">📝 解析：与 untidy 并列，用 unclean 表示“不干净的”，句首大写。</div>
+        <div class="trans-box">🌐 翻译：不干净和不整洁的地方不仅会让你生气，还会让你生病。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 按要求完成句子 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 按要求完成句子 (4小题·每空一词)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 15 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">15</span>
+            <span class="q-text-inline">I think teenagers should have some part-time jobs. (改为否定句)</span>
+        </div>
+        <div class="answer-box">✅ 答案：I <span class="fill-blank">don't</span> think teenagers should have <span class="fill-blank">any</span> part-time jobs.</div>
+        <div class="analysis-box">📝 解析：否定前移，some 改为 any。</div>
+        <div class="trans-box">🌐 翻译：我认为青少年应该有兼职工作。 → 我认为青少年不应该有兼职工作。</div>
+
+        <!-- 16 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">16</span>
+            <span class="q-text-inline">I can finish the work on time. He'll help me. (用if合并为一句)</span>
+        </div>
+        <div class="answer-box">✅ 答案：<span class="fill-blank">If</span> he <span class="fill-blank">helps</span> <span class="fill-blank">me</span>, I <span class="fill-blank">can</span> finish the work on time.</div>
+        <div class="analysis-box">📝 解析：if 条件句，主句用 can，从句用一般现在时表将来。</div>
+        <div class="trans-box">🌐 翻译：我能按时完成工作。他会帮我。 → 如果他帮我，我就能按时完成工作。</div>
+
+        <!-- 17 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">17</span>
+            <span class="q-text-inline">【2025江苏徐州调研】What about your school? (改为同义句)</span>
+        </div>
+        <div class="answer-box">✅ 答案：<span class="fill-blank">How</span> <span class="fill-blank">about</span> your school?</div>
+        <div class="analysis-box">📝 解析：What about... = How about... 询问情况。</div>
+        <div class="trans-box">🌐 翻译：你的学校怎么样？</div>
+
+        <!-- 18 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">18</span>
+            <span class="q-text-inline">You can tell your classmates your interesting stories after class. (改为同义句)</span>
+        </div>
+        <div class="answer-box">✅ 答案：You can <span class="fill-blank">share</span> your interesting stories <span class="fill-blank">with</span> your classmates after class. / You can <span class="fill-blank">tell</span> your interesting stories <span class="fill-blank">to</span> your classmates after class.</div>
+        <div class="analysis-box">📝 解析：tell sth. to sb. = share sth. with sb. 与某人分享某事。</div>
+        <div class="trans-box">🌐 翻译：你可以在课后把你的有趣故事告诉你的同学们。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
