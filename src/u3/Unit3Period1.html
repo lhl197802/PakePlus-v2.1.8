@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 3 The world at one click · Period 1 Welcome to the unit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 40px;
+            padding: 14px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 12px rgba(0,30,45,0.05);
+            border: 1px solid #dde7f0;
+        }
+        .top-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+        }
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f8fbfe;
+        }
+        .title-area h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #0d4c6e, #0b3b55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title-area p {
+            color: #54738f;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .back-btn {
+            background: #ecf3fa;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1d577b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid #bed3e6;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .back-btn:hover {
+            background: #dae6f2;
+            color: #093852;
+            border-color: #7fa9c7;
+            box-shadow: 0 4px 10px rgba(0,60,90,0.1);
+        }
+        .back-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: white;
+            border-radius: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 22px -6px rgba(20, 50, 70, 0.12);
+            overflow: hidden;
+            border: 1px solid #e2eef9;
+            transition: box-shadow 0.2s;
+        }
+        .section-header {
+            background: white;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #10435c;
+            transition: background 0.15s, padding 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .section-header:hover {
+            background: #e9f2fa;
+        }
+        .section-header .toggle-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #2c779b;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+        /* 折叠样式 */
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .section-content {
+            padding: 8px 28px 28px 28px;
+            border-top: 1px solid #d1e2f0;
+            background: #ffffff;
+        }
+
+        /* 题目元素 */
+        .question-item {
+            margin-top: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e0ecf5;
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+        .q-num {
+            display: inline-block;
+            background: #cde1f0;
+            color: #0f4b6b;
+            font-weight: 700;
+            padding: 4px 16px 5px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin-bottom: 12px;
+            border: 1px solid #aac6dd;
+        }
+        .q-text {
+            font-size: 1.04rem;
+            font-weight: 500;
+            color: #113845;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: #f5faff;
+            padding: 16px 22px;
+            border-radius: 24px;
+            border-left: 5px solid #3182a3;
+            box-shadow: inset 0 1px 4px #d7e6f5;
+        }
+        .options {
+            margin: 12px 0 16px 8px;
+            color: #1d506b;
+            background: #f0f6fd;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-weight: 460;
+        }
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 28px;
+            white-space: nowrap;
+        }
+        .answer-box, .analysis-box, .trans-box {
+            margin: 12px 0 8px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+        .answer-box {
+            background: #e2f0fa;
+            color: #004d7c;
+            font-weight: 600;
+            border-left: 6px solid #0073aa;
+        }
+        .analysis-box {
+            background: #fff6e5;
+            color: #624c2a;
+            border-left: 6px solid #efb13b;
+        }
+        .trans-box {
+            background: #e1f1e8;
+            color: #1b6e4a;
+            border-left: 6px solid #2e9e68;
+        }
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+        .small-note {
+            font-size: 0.86rem;
+            color: #6a859e;
+            margin-top: 12px;
+            padding-left: 12px;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #c4d7e8;
+            margin: 20px 0;
+        }
+        .sentence-answer {
+            background: #d7e9ff;
+            padding: 4px 16px;
+            border-radius: 40px;
+            display: inline-block;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 12px 18px; }
+            .title-area h1 { font-size: 1.4rem; }
+            .section-header { font-size: 1.15rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 20px; }
+            .q-text { padding: 12px; font-size: 0.98rem; }
+            .opt-item { display: block; margin: 6px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉：包含标题和返回按钮 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🌐 Unit 3 The world at one click</h1>
+        <p>Period 1 Welcome to the unit · 基础训练全解</p>
+    </div>
+    <button class="back-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- 大题Ⅰ 基础单词填空 -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础单词填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">After you finish writing your email, _______ (点击) on “Send”.</div>
+            <div class="answer-box">✅ 答案：click</div>
+            <div class="analysis-box">📝 详细解析：“点击”在计算机操作中常用 click，此处是祈使句，用动词原形。</div>
+            <div class="trans-box">🌐 中文翻译：写完邮件后，点击“发送”。</div>
+        </div>
+        <!-- 2 -->
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">He taught himself how to play the guitar by watching ________ (在线的) videos.</div>
+            <div class="answer-box">✅ 答案：online</div>
+            <div class="analysis-box">📝 详细解析：“在线的”用 online，形容词修饰名词 videos。</div>
+            <div class="trans-box">🌐 中文翻译：他通过观看在线视频自学了弹吉他。</div>
+        </div>
+        <!-- 3 -->
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">The ________ (导游) lead many visitors to the Shanghai Museum every day.</div>
+            <div class="answer-box">✅ 答案：guides</div>
+            <div class="analysis-box">📝 详细解析：导游 guide，谓语 lead 为原形，主语应用复数 guides。</div>
+            <div class="trans-box">🌐 中文翻译：导游每天带领许多游客参观上海博物馆。</div>
+        </div>
+        <!-- 4 -->
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">We v________ many interesting places during our summer vacation.</div>
+            <div class="answer-box">✅ 答案：visited</div>
+            <div class="analysis-box">📝 详细解析：根据句意“我们在暑假参观了有趣的地方”，动词用 visit，根据语境为过去时 visited。</div>
+            <div class="trans-box">🌐 中文翻译：暑假期间我们参观了许多有趣的地方。</div>
+        </div>
+        <!-- 5 -->
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">【2025云南昭通模拟·节选】With the development of AI, our lives are becoming more c________________________.</div>
+            <div class="answer-box">✅ 答案：convenient / colourful / colorful</div>
+            <div class="analysis-box">📝 详细解析：根据语境，生活变得更方便（convenient）或更多彩（colourful）均可。becoming more 后接形容词原形。</div>
+            <div class="trans-box">🌐 中文翻译：随着人工智能的发展，我们的生活变得越来越方便/丰富多彩。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 大题Ⅱ 单项选择 -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">【2025上海虹口区质检】Mr Wang wants to know ________ about the clubs.</div>
+            <div class="options">
+                <span class="opt-item">A. an information</span>
+                <span class="opt-item">B. many informations</span>
+                <span class="opt-item">C. a lot of informations</span>
+                <span class="opt-item">D. more information</span>
+            </div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：information 是不可数名词，无复数形式，不能用不定冠词 an。more information 表示“更多信息”。</div>
+            <div class="trans-box">🌐 翻译：王先生想了解关于这些俱乐部的更多信息。</div>
+        </div>
+        <!-- 7 -->
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">【2025江苏无锡期中】—Could I ________ the magazine from you? —Sure. You can ________ it for one week.</div>
+            <div class="options">
+                <span class="opt-item">A. borrow; lend</span>
+                <span class="opt-item">B. lend; borrow</span>
+                <span class="opt-item">C. keep; lend</span>
+                <span class="opt-item">D. borrow; keep</span>
+            </div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：第一空 borrow from 向某人借；第二空后有 for one week 时间段，用延续性动词 keep，borrow/lend 为瞬间动词。</div>
+            <div class="trans-box">🌐 翻译：——我能从你这儿借这本杂志吗？——当然可以。你可以借一周。</div>
+        </div>
+        <!-- 8 -->
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">In the nature, male birds are usually ________ than female ones.</div>
+            <div class="options">
+                <span class="opt-item">A. colourful</span>
+                <span class="opt-item">B. much colourful</span>
+                <span class="opt-item">C. much more colourful</span>
+                <span class="opt-item">D. most colourful</span>
+            </div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：than 提示用比较级，colourful 是多音节词，比较级为 more colourful，much 修饰比较级加强语气。</div>
+            <div class="trans-box">🌐 翻译：在自然界中，雄鸟通常比雌鸟色彩鲜艳得多。</div>
+        </div>
+        <!-- 9 -->
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">You can have a better understanding of Chinese culture by ________ Chinese history.</div>
+            <div class="options">
+                <span class="opt-item">A. learning about</span>
+                <span class="opt-item">B. thinking about</span>
+                <span class="opt-item">C. caring about</span>
+                <span class="opt-item">D. talking about</span>
+            </div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：learn about 了解，符合句意“通过了解中国历史”。</div>
+            <div class="trans-box">🌐 翻译：通过了解中国历史，你可以更好地理解中国文化。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 大题Ⅲ 适当形式填空 -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 适当形式填空 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 10 -->
+        <div class="question-item">
+            <span class="q-num">10</span>
+            <div class="q-text">【2025江苏盐城质检】The news is not _____________ (interest) at all. I don’t want to watch it anymore.</div>
+            <div class="answer-box">✅ 答案：interesting</div>
+            <div class="analysis-box">📝 解析：is 后接形容词作表语，修饰物用 interesting，表示“有趣的”。</div>
+            <div class="trans-box">🌐 中文翻译：这新闻一点也不有趣。我再也不想看它了。</div>
+        </div>
+        <!-- 11 -->
+        <div class="question-item">
+            <span class="q-num">11</span>
+            <div class="q-text">It’s an ______________ (convenient) day to visit them. We’d better put the visit off.</div>
+            <div class="answer-box">✅ 答案：inconvenient</div>
+            <div class="analysis-box">📝 解析：根据后句“推迟拜访”可知今天不方便，用 convenient 的反义词 inconvenient。</div>
+            <div class="trans-box">🌐 中文翻译：今天去拜访他们不方便。我们最好把拜访推迟。</div>
+        </div>
+        <!-- 12 -->
+        <div class="question-item">
+            <span class="q-num">12</span>
+            <div class="q-text">【2025四川凉山州中考·改编】It’s great to have many friends, but it’s more important ________ (see) clearly who is truly helping you.</div>
+            <div class="answer-box">✅ 答案：to see</div>
+            <div class="analysis-box">📝 解析：It is + adj. + to do sth. 固定句型，不定式作真正主语。</div>
+            <div class="trans-box">🌐 中文翻译：拥有众多朋友固然很好，但更重要的是要清楚地辨别出谁才是真正帮助你的那个人。</div>
+        </div>
+        <!-- 13 -->
+        <div class="question-item">
+            <span class="q-num">13</span>
+            <div class="q-text">【2025江苏南通调研】There are some children _________ (play) on the playground now.</div>
+            <div class="answer-box">✅ 答案：playing</div>
+            <div class="analysis-box">📝 解析：There be sb. doing sth. 有某人正在做某事。</div>
+            <div class="trans-box">🌐 中文翻译：现在操场上有一些孩子正在玩。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 大题Ⅳ 按要求完成句子 -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 按要求完成句子 (3小题·每空一词)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 14 -->
+        <div class="question-item">
+            <span class="q-num">14</span>
+            <div class="q-text">The girl can spell her first name. (改为否定句)</div>
+            <div class="answer-box">✅ 答案：The girl <span class="fill-blank">can't / cannot</span> <span class="fill-blank">spell</span> her first name.</div>
+            <div class="analysis-box">📝 解析：情态动词 can 的否定形式为 cannot / can't，后接动词原形。</div>
+            <div class="trans-box">🌐 翻译：原句：这个女孩会拼写她的名字。 否定句：这个女孩不会拼写她的名字。</div>
+        </div>
+        <!-- 15 -->
+        <div class="question-item">
+            <span class="q-num">15</span>
+            <div class="q-text">【2025安徽黄山质检】Study hard, or you won’t pass the exam. (改为同义句)</div>
+            <div class="answer-box">✅ 答案：<span class="fill-blank">If</span> you study hard, <span class="fill-blank">you</span> <span class="fill-blank">will</span> pass the exam. / <span class="fill-blank">Unless</span> you study hard, <span class="fill-blank">you</span> <span class="fill-blank">won't</span> pass the exam.</div>
+            <div class="analysis-box">📝 解析：“祈使句+or+句子”可转换为 if 引导的条件状语从句（肯定）或 unless 引导的条件状语从句（否定）。</div>
+            <div class="trans-box">🌐 翻译：原句：努力学习，否则你考试会不及格。 同义句：如果你努力学习，你就会通过考试。/ 除非你努力学习，否则你考试会不及格。</div>
+        </div>
+        <!-- 16 -->
+        <div class="question-item">
+            <span class="q-num">16</span>
+            <div class="q-text">【2025江苏南京期中·节选】He lent an English dictionary to me this morning. (改为同义句)</div>
+            <div class="answer-box">✅ 答案：I <span class="fill-blank">borrowed</span> an English dictionary <span class="fill-blank">from</span> him this morning.</div>
+            <div class="analysis-box">📝 解析：lend sth. to sb. = borrow sth. from sb. 向某人借某物。时态保持一致用一般过去时。</div>
+            <div class="trans-box">🌐 翻译：原句：他今天早上借给我一本英语词典。 同义句：我今天早上向他借了一本英语词典。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 页脚：返回上一页按钮 + 提示 -->
+<div class="bottom-bar">
+    <span style="color:#3f627c; font-size:0.95rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <button class="back-btn" id="backPageBottom">返回导航页</button>
+</div>
+
+<script>
+    // 折叠/展开功能
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) {
+            card.classList.toggle('collapsed');
+        }
+    }
+
+    // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
