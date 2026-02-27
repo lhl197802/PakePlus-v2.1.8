@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 4 A good read · 单元限时检测</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>📚 Unit 4 A good read · 单元限时检测</h1>
+        <p>满分 58分  |  建议用时 40分钟</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 单项选择 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 单项选择 (共10小题，每小题1分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">【2025江苏镇江期末】Before buying the new book, Mary read its ________ online to know if it's worth reading.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. review</span>
+            <span class="opt-item">B. message</span>
+            <span class="opt-item">C. information</span>
+            <span class="opt-item">D. notice</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：根据“to know if it's worth reading”可知是读网上的评论，review。</div>
+        <div class="trans-box">🌐 翻译：在买新书之前，玛丽在网上读了评论，想知道它是否值得读。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">【2025江苏徐州期末】—Why do you like autumn best? —Because I enjoy the cool weather, ________ when the leaves turn golden.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. hardly</span>
+            <span class="opt-item">B. especially</span>
+            <span class="opt-item">C. heavily</span>
+            <span class="opt-item">D. freely</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：especially 尤其，强调树叶变黄的时候。</div>
+        <div class="trans-box">🌐 翻译：——你为什么最喜欢秋天？——因为我喜欢凉爽的天气，尤其是树叶变黄的时候。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">—Why are you so busy with your homework? —My teacher asks me to ________ before three o'clock.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. take off</span>
+            <span class="opt-item">B. put up</span>
+            <span class="opt-item">C. hand in</span>
+            <span class="opt-item">D. hand out</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：hand in 上交（作业）。</div>
+        <div class="trans-box">🌐 翻译：——你为什么这么忙于家庭作业？——我的老师要求我在3点前上交。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">—Judy, do you know ________? —By speaking more and reading a lot.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. where to learn English</span>
+            <span class="opt-item">B. who to ask for help with English</span>
+            <span class="opt-item">C. when to learn English</span>
+            <span class="opt-item">D. how to improve English</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：答语“通过多说多读”是方式，所以问“如何提高英语”。</div>
+        <div class="trans-box">🌐 翻译：——朱迪，你知道如何提高英语吗？——通过多说多读。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">【2024江苏南通期末】After working for a whole day, the farmer threw himself ________ the big tree and fell asleep quickly.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. along</span>
+            <span class="opt-item">B. above</span>
+            <span class="opt-item">C. around</span>
+            <span class="opt-item">D. against</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：against 倚靠着，throw oneself against 扑靠在……上。</div>
+        <div class="trans-box">🌐 翻译：工作了一整天后，农夫靠在大树上很快就睡着了。</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">It's raining too hard outside. We won't leave ________ the rain stops.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. if</span>
+            <span class="opt-item">B. after</span>
+            <span class="opt-item">C. when</span>
+            <span class="opt-item">D. until</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：not...until 直到……才……。</div>
+        <div class="trans-box">🌐 翻译：外面雨下得太大了。我们直到雨停了才会离开。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">—The radio said it might rain this afternoon. —How come? Look at the ________ sky.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. dark</span>
+            <span class="opt-item">B. clear</span>
+            <span class="opt-item">C. cloudy</span>
+            <span class="opt-item">D. grey</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：根据“How come?”可知说话者认为不会下雨，所以天空应是晴朗的，clear。</div>
+        <div class="trans-box">🌐 翻译：——收音机说今天下午可能会下雨。——怎么会？看看这晴朗的天空。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">【2025江苏扬州期末】I often get lots of ________ from my teacher. She often ________ me to study hard.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. advices; advises</span>
+            <span class="opt-item">B. advice; advises</span>
+            <span class="opt-item">C. advise; advices</span>
+            <span class="opt-item">D. advise; advice</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：advice 不可数名词，lots of advice；advises 动词三单形式。</div>
+        <div class="trans-box">🌐 翻译：我经常从老师那里得到很多建议。她经常建议我努力学习。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">【2025江苏宿迁期末】I think English is hard for me. ________, I don't know the grammar.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. By hand</span>
+            <span class="opt-item">B. First of all</span>
+            <span class="opt-item">C. Not at all</span>
+            <span class="opt-item">D. On the other hand</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：First of all 首先，列举原因。</div>
+        <div class="trans-box">🌐 翻译：我认为英语对我来说很难。首先，我不懂语法。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【2025上海模拟预测】Despite the challenges we faced, our group continued ________ hard and finally achieved our goal.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. working</span>
+            <span class="opt-item">B. to working</span>
+            <span class="opt-item">C. work</span>
+            <span class="opt-item">D. works</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：continue doing sth. 继续做某事。</div>
+        <div class="trans-box">🌐 翻译：尽管面临着挑战，我们的团队继续努力，最终实现了我们的目标。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 完形填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 完形填空 (共15小题，每小题1分，计15分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文为《格列佛游记》的节选，讲述了格列佛在小人国以及离开小人国的经历。</div>
+        <div class="passage-box">
+            <p>Late one night, Gulliver received a warning that some nobles wanted him killed. Even the emperor of Lilliput wanted to give him less food to save <strong>11.</strong>. It was true Gulliver was very expensive.</p>
+            <p>Quickly, he wrote a letter to the emperor, "I'm <strong>12.</strong> to visit Blefuscu, as I promised."</p>
+            <p>Then he hurried down to the sea <strong>13.</strong> Lilliput and Blefuscu.</p>
+            <p>The king of Blefuscu himself came out to meet him.</p>
+            <p>"Welcome!" cried the king. "Stay as <strong>14.</strong> as you like."</p>
+            <p>Walking on the beach a week later, Gulliver saw out at sea a small boat—but a full-size one. It was <strong>15.</strong> upside down in the water.</p>
+            <p>Gulliver rushed to the king. He begged, "Can you help me rescue the boat? This could be my chance to go home."</p>
+            <p>"Of course," said the king. "Take some ships to help you."</p>
+            <p>Gulliver swam out to the boat, holding ropes from each of the <strong>16.</strong>.</p>
+            <p>With the ships pulling and Gulliver <strong>17.</strong>, the boat was brought safely to shore.</p>
+            <p>Gulliver and the king's men set about fixing the boat for his long journey home. Soon, the boat was finished.</p>
+            <p>"I'd like to leave now," Gulliver told the king. "But no one at home will <strong>18.</strong> my story. Could I take some of your people with me?"</p>
+            <p>"I can't possibly <strong>19.</strong> that," said the king. "But you may take some <strong>20.</strong> and a sheep."</p>
+            <p>He also gave Gulliver fifty bags of gold coins. "I don't want you to go," he said. "But I understand <strong>21.</strong> you have to."</p>
+            <p>"Thank you," said Gulliver. "I'll never <strong>22.</strong> you all."</p>
+            <p>After only a few days at sea in his boat, Gulliver saw a ship. He shouted and waved wildly.</p>
+            <p>He was <strong>23.</strong>! One sailor found him. The ship sailed over and <strong>24.</strong> Gulliver. "Where have you come from?" asked the captain. "A place called Lilliput," said Gulliver and he showed the captain the <strong>25.</strong> from the emperor.</p>
+            <p>The captain was so surprised. For a few gold coins and a couple of cows, he agreed to take Gulliver all the way home. — Adapted from Gulliver's Travels</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            一天深夜，格列佛收到警告，一些贵族想要杀死他。甚至小人国的国王也想少给他食物来省钱。格列佛确实开销很大。<br>
+            他迅速给国王写了一封信：“我要离开去布莱夫斯库，如我所承诺的。”然后他匆忙赶到位于小人国和布莱夫斯库之间的海域。<br>
+            布莱夫斯库国王亲自出来迎接他。“欢迎！”国王喊道。“你想待多久就待多久。”<br>
+            一周后，格列佛在海滩上散步时，看到海面上有一条小船——但尺寸是正常大小。它倒扣着漂浮在水上。<br>
+            格列佛冲到国王面前恳求：“你能帮我救那条船吗？这可能是我回家的机会。”“当然，”国王说。“带些船去帮你。”<br>
+            格列佛游向小船，手里握着每条船上的绳子。在船的拉力和格列佛推的力量下，小船被安全地带到岸边。<br>
+            格列佛和国王的手下开始修理小船，为他的长途回家之旅做准备。很快，船就修好了。<br>
+            “我现在想离开了，”格列佛告诉国王。“但家里没人会相信我的故事。我能带一些你的人和我一起走吗？”“我不能允许那样，”国王说。“但你可以带一些牛和一只羊。”他还给了格列佛五十袋金币。“我不想让你走，”他说。“但我理解你为什么必须走。”“谢谢，”格列佛说。“我永远不会忘记你们所有人。”<br>
+            坐船出海仅几天后，格列佛看到一艘船。他大声呼喊，拼命挥手。他走运了！一个水手发现了他。船驶过来接上了格列佛。“你从哪儿来？”船长问。“一个叫小人国的地方，”格列佛说着给船长看了国王给他的礼物。<br>
+            船长非常惊讶。用几枚金币和几头牛，他同意把格列佛一路送回家。——改编自《格列佛游记》
+        </div>
+
+        <!-- 11-25 选项 -->
+        <div class="q-item-inline"><span class="q-num-inline">11</span><span class="q-text-inline">A. life  B. time  C. money  D. energy</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：save money 省钱，根据 expensive 可知。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">12</span><span class="q-text-inline">A. against  B. beyond  C. off  D. through</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：be off to 离开去某地。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">A. between  B. among  C. upon  D. during</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：between...and... 在两者之间。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">A. long  B. far  C. often  D. soon</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：as long as you like 想待多久就多久。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">A. taking  B. falling  C. swimming  D. floating</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：floating 漂浮。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">A. bikes  B. ships  C. men  D. sails</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：each of the ships 每条船。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">A. filling  B. shaking  C. pushing  D. carrying</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：Gulliver pushing 格列佛在推。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">A. make  B. expect  C. suppose  D. believe</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：believe my story 相信我的故事。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">A. require  B. refuse  C. avoid  D. allow</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：allow that 允许那样做。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">A. food  B. people  C. coins  D. cows</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：下文提到 a couple of cows。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">A. when  B. how  C. why  D. whether</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：understand why 理解为什么。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">A. forget  B. regret  C. force  D. obey</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：never forget you all 永远不会忘记你们。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">A. in danger  B. in luck  C. in fear  D. in peace</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：in luck 幸运，被船发现。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">24</span><span class="q-text-inline">A. picked up  B. gave up  C. set up  D. dressed up</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：picked up 接上（他）。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">25</span><span class="q-text-inline">A. awards  B. presents  C. victims  D. ropes</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：presents 礼物，指国王给的奶牛和金币。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 阅读选择 (共4小题，每小题2分，计8分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文介绍了中国古代神话典籍《山海经》。</div>
+        <div class="passage-box">
+            <p>In the South China Sea, there is a group of Jiaoren, or Chinese mermaids, whose tears can turn into pearls after they fall. To the north of the Kunlun Mountains, there is a monster called Xiangliu, which has nine heads with the body of a snake. These magic creatures are from the ancient mythical book Shan Hai Jing.</p>
+            <p>Shan Hai Jing, also known as The Classic of Mountains and Seas, is said to be at least 2,200 years old. It is about culture and geography of China before the Qin Dynasty. It has 31,000 words, more or less. The whole collection includes eighteen parts, talking about more than 550 mountains and 300 seas. It also tells many interesting stories and creatures.</p>
+            <p>A famous story in the book is about Zhu Rong, the god of fire. He was seen as having a beast-like body and a human face, riding around the sky on two loongs. When he had a big fight with Gong Gong, the god of water, Zhu Rong won. But after the fight, the human world became dark. Then he brought fire from heaven to the world and taught humans how to use it.</p>
+            <p>It is an important ancient book in the pre-Qin period of China and thought as one of the treasures of Chinese culture.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            在南海，有一群鲛人，或者说中国美人鱼，她们的眼泪落下后会变成珍珠。在昆仑山以北，有一种叫相柳的怪物，它有九个头和蛇的身体。这些神奇的生物来自古代神话书《山海经》。<br>
+            《山海经》据说至少有2200年历史。它讲述了秦朝以前中国的文化和地理。它大约有31,000字。全书包括十八卷，讲述了550多座山和300多片海。它还讲述了许多有趣的故事和生物。<br>
+            书中一个著名的故事是关于火神祝融的。他被描绘成兽身人脸，骑着两条龙在天上飞行。当他和水神共工大战时，祝融赢了。但战后，人间变得黑暗。于是他把火从天上带到人间，并教人类如何使用火。<br>
+            它是中国先秦时期重要的古籍，被认为是中国文化的瑰宝之一。
+        </div>
+
+        <!-- 26 -->
+        <div class="q-item-inline"><span class="q-num-inline">26</span><span class="q-text-inline">How does the writer start the passage?</span></div>
+        <div class="options">
+            <span class="opt-item">A. By telling a story.</span>
+            <span class="opt-item">B. By giving two examples.</span>
+            <span class="opt-item">C. By raising a question.</span>
+            <span class="opt-item">D. By comparing two facts.</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：第一段列举了鲛人和相柳两个例子。</div>
+
+        <!-- 27 -->
+        <div class="q-item-inline"><span class="q-num-inline">27</span><span class="q-text-inline">What is Paragraph 2 mainly about?</span></div>
+        <div class="options">
+            <span class="opt-item">A. The introduction to Shan Hai Jing.</span>
+            <span class="opt-item">B. The importance of Shan Hai Jing.</span>
+            <span class="opt-item">C. Why Shan Hai Jing is popular.</span>
+            <span class="opt-item">D. How Shan Hai Jing was written.</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：第二段介绍《山海经》的基本信息。</div>
+
+        <!-- 28 -->
+        <div class="q-item-inline"><span class="q-num-inline">28</span><span class="q-text-inline">What does the word "it" in Paragraph 3 refer to?</span></div>
+        <div class="options">
+            <span class="opt-item">A. The book.</span>
+            <span class="opt-item">B. The body.</span>
+            <span class="opt-item">C. The fire.</span>
+            <span class="opt-item">D. The water.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：it 指代上文的 fire。</div>
+
+        <!-- 29 -->
+        <div class="q-item-inline"><span class="q-num-inline">29</span><span class="q-text-inline">What does the writer think of the book?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Famous.</span>
+            <span class="opt-item">B. Popular.</span>
+            <span class="opt-item">C. Different.</span>
+            <span class="opt-item">D. Valuable.</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：最后一段说它“是中国文化的瑰宝”，可见作者认为它很珍贵 valuable。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 阅读表达 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 阅读表达 (共5小题，每小题2分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了《灵力》的故事梗概。</div>
+        <div class="passage-box">
+            <p>If you could have one type of magical power, what would you wish for? In the book Savvy, the Beaumont family all get supernatural powers when they turn 13 years old. When I finished reading it, my heart was warmed by this coming of age story.</p>
+            <p>Mibs Beaumont is the main character of the book. Her grandpa can move mountains, one of her brothers can cause hurricane, and another brother creates electricity. She can't wait to turn 13 because she wants to see what power she'll get.</p>
+            <p>But just before her big birthday, her father gets hurt in a terrible accident and cannot wake up. Suddenly, Mibs' hope of having X-ray vision is gone. All she wants is magic to save her dad.</p>
+            <p>With her brothers and some friends, she decides to see her father in the hospital. They secretly get on a bus. Along the way, they make some friends. More importantly, the Beaumonts learn to control their magic and use it to help others.</p>
+            <p>As Mibs' mum says, "Everyone has a magic, not just the Beaumonts." Some people can run really fast. Some are good at persuading people. But when your magic starts to work, only you can decide how to use it. Just like Fish Beaumont, who finds it hard to control his storm power at first. We must learn how to make good use of our magic because it may hurt others.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            如果你可以拥有一种魔力，你希望是什么？在《灵力》这本书中，博蒙特家族的所有成员都在13岁时获得超自然能力。读完这本书，我的心被这个成长故事温暖了。<br>
+            米布斯·博蒙特是书中的主角。她的祖父可以移山，她的一个兄弟可以引发飓风，另一个兄弟可以制造电力。她等不及要过13岁生日，因为她想看看自己会得到什么能力。<br>
+            但就在她的大日子之前，她的父亲在一次可怕的事故中受伤，无法醒来。突然间，米布斯拥有透视眼的希望破灭了。她只想拥有能救爸爸的魔法。<br>
+            她和她的兄弟以及一些朋友决定去医院看望父亲。他们偷偷上了一辆公共汽车。一路上，他们交了一些朋友。更重要的是，博蒙特一家学会了控制自己的魔法，并用它来帮助别人。<br>
+            正如米布斯的妈妈所说：“每个人都有魔力，不仅仅是博蒙特一家。”有些人能跑得很快，有些人擅长劝说别人。但当你的魔力开始运作时，只有你能决定如何使用它。就像费什·博蒙特，一开始发现很难控制他的风暴力量。我们必须学会如何善用我们的魔力，因为它可能会伤害别人。
+        </div>
+
+        <!-- 30-34 -->
+        <div class="q-item-inline"><span class="q-num-inline">30</span><span class="q-text-inline">When do the Beaumont family get supernatural powers?</span></div>
+        <div class="answer-box">✅ 答案：When they turn 13 years old.</div>
+        <div class="analysis-box">📝 解析：第一段明确提到。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">31</span><span class="q-text-inline">Who can move mountains in the Beaumont family?</span></div>
+        <div class="answer-box">✅ 答案：Mibs' grandpa.</div>
+        <div class="analysis-box">📝 解析：第二段 Her grandpa can move mountains。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">32</span><span class="q-text-inline">What does Mibs Beaumont want to have after her father gets hurt?</span></div>
+        <div class="answer-box">✅ 答案：Magic to save her dad.</div>
+        <div class="analysis-box">📝 解析：第三段 All she wants is magic to save her dad。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">33</span><span class="q-text-inline">Does Mibs Beaumont go to see her father on her own?</span></div>
+        <div class="answer-box">✅ 答案：No, she doesn't.</div>
+        <div class="analysis-box">📝 解析：第四段 with her brothers and some friends。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">34</span><span class="q-text-inline">Why must everyone make good use of their magic?</span></div>
+        <div class="answer-box">✅ 答案：Because it may hurt others.</div>
+        <div class="analysis-box">📝 解析：最后一段 because it may hurt others。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 书面表达 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 书面表达 (15分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📝 35. 【2024江苏常州期末】每年的4月23日是“世界读书日”，其设立目的是推动更多的人去阅读与写作。但是在我们身边，有许多同学不重视课外阅读。请根据提示写一篇短文，用英语对这一现象进行分析，并提出建议。词数80左右，开头已给出。</div>
+        <div class="passage-box">
+            <p><strong>World Book and Copyright Day is coming. However, it's a pity that only a few students do some reading after class. Here is the reason.</strong></p>
+            <p>Nowadays, our students don't have a good habit of reading. They would rather spend too much time on TV, on the mobile phone or on the computer. In fact, reading makes a full man. It can not only increase our knowledge and improve our abilities, but also open up a whole new world for us.</p>
+            <p>To solve this problem, I think we should spend more time on reading. Moreover, we can join Reading Clubs and share books with each other.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>世界读书日即将来临。然而，遗憾的是只有少数学生在课后进行阅读。原因如下。</strong><br>
+            如今，我们的学生没有良好的阅读习惯。他们宁愿花太多时间看电视、玩手机或玩电脑。事实上，阅读使人充实。它不仅能够增长我们的知识，提高我们的能力，还能为我们打开一个全新的世界。<br>
+            为了解决这个问题，我认为我们应该花更多时间阅读。而且，我们可以加入读书俱乐部，互相分享书籍。
+        </div>
+        <div class="analysis-box">📝 范文分析：首段点出现象，第二段分析原因和阅读的重要性，第三段提出建议。结构清晰，语言简洁，符合要求。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
