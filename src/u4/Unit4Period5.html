@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 4 A good read · Period 5 Integration (Ⅰ)</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>📚 Unit 4 A good read · Period 5</h1>
+        <p>Integration (Ⅰ) 综合训练 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础适当形式填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础适当形式填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">All the _________ (read) of this school newspaper can join the writing competition.</span>
+        </div>
+        <div class="answer-box">✅ 答案：readers</div>
+        <div class="analysis-box">📝 解析：All 后接可数名词复数，read 的“读者”为 reader，复数为 readers。</div>
+        <div class="trans-box">🌐 翻译：这份校报的所有读者都可以参加写作比赛。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">【2025江苏常州期末】The _______ (sale) in this store have increased by 20% since last month.</span>
+        </div>
+        <div class="answer-box">✅ 答案：sales</div>
+        <div class="analysis-box">📝 解析：谓语 have increased 是复数，主语用复数名词 sales（销售额）。</div>
+        <div class="trans-box">🌐 翻译：这家店的销售额自上个月以来增长了20%。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">My parents and I reached an ___________ (agree): I can watch TV after finishing my homework.</span>
+        </div>
+        <div class="answer-box">✅ 答案：agreement</div>
+        <div class="analysis-box">📝 解析：不定冠词 an 后接可数名词单数，agree 的名词为 agreement。</div>
+        <div class="trans-box">🌐 翻译：我和父母达成了协议：我可以在完成作业后看电视。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">【2025江苏镇江期末·节选】This bookstore has many interesting books, ____________ (especial) the storybooks for children.</span>
+        </div>
+        <div class="answer-box">✅ 答案：especially</div>
+        <div class="analysis-box">📝 解析：修饰整个名词短语，用副词 especially。</div>
+        <div class="trans-box">🌐 翻译：这家书店有许多有趣的书，尤其是给孩子的故事书。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">Last week, my teacher ___________ (describe) her favourite trip to us in class.</span>
+        </div>
+        <div class="answer-box">✅ 答案：described</div>
+        <div class="analysis-box">📝 解析：Last week 用一般过去时，describe 的过去式为 described。</div>
+        <div class="trans-box">🌐 翻译：上周，我的老师在课堂上向我们描述了她最喜欢的旅行。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 单项选择 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">England itself is part of ________ island. It has ________ population of about 60 million and covers ________ area of about 130,000 square kilometres.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. an; the; a</span>
+            <span class="opt-item">B. an; a; an</span>
+            <span class="opt-item">C. the; a; an</span>
+            <span class="opt-item">D. a; the; an</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：第一空泛指“一个岛屿”，island 元音开头用 an；a population of 固定短语；cover an area of 固定短语。</div>
+        <div class="trans-box">🌐 翻译：英格兰本身是一个岛屿的一部分。它约有6000万人口，占地面积约13万平方公里。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">The little boy was so ________ that he drew pictures on the white wall, making his mother a little angry.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. naughty</span>
+            <span class="opt-item">B. cute</span>
+            <span class="opt-item">C. shy</span>
+            <span class="opt-item">D. quiet</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：在墙上画画让妈妈生气，说明淘气，naughty。</div>
+        <div class="trans-box">🌐 翻译：这个小男孩太淘气了，在白墙上画画，让他妈妈有点生气。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">【2025江苏镇江质检】Our Maths teacher said we must finish the exercise ________ 30 minutes, or we won't have time to check the answers.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. within</span>
+            <span class="opt-item">B. after</span>
+            <span class="opt-item">C. before</span>
+            <span class="opt-item">D. beyond</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：在30分钟内完成，用 within。</div>
+        <div class="trans-box">🌐 翻译：我们的数学老师说我们必须30分钟内完成练习，否则没时间检查答案。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">【2025江苏无锡期末】________ Xijin Ferry is often crowded, it is still a great place worth visiting in Zhenjiang.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Since</span>
+            <span class="opt-item">B. Though</span>
+            <span class="opt-item">C. If</span>
+            <span class="opt-item">D. When</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：前后句为让步关系，用 Though 尽管。</div>
+        <div class="trans-box">🌐 翻译：尽管西津渡常常很拥挤，但它仍是镇江一个值得游览的好地方。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">You can only choose one of them ________. If you want more, come here tomorrow.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. from time to time</span>
+            <span class="opt-item">B. at a time</span>
+            <span class="opt-item">C. at times</span>
+            <span class="opt-item">D. some time</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：at a time 一次，符合句意。</div>
+        <div class="trans-box">🌐 翻译：你一次只能选择它们中的一个。如果你想要更多，明天再来。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 11 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">我最喜欢的漫画书是由市中心的一家出版社出版的。</span>
+        </div>
+        <div class="answer-box">✅ 答案：My favourite comic book was published by a publishing house in the centre of the city.</div>
+        <div class="analysis-box">📝 解析：publishing house 出版社。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">【2025江苏南京期末·改编】因为发音不好，他在讲英语时总是有困难。</span>
+        </div>
+        <div class="answer-box">✅ 答案：He always has difficulty/trouble/problems (in) speaking English because of his poor pronunciation.</div>
+        <div class="analysis-box">📝 解析：have difficulty (in) doing 做某事有困难。</div>
+
+        <!-- 13 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">13</span>
+            <span class="q-text-inline">【2025江苏徐州期末·节选】在我看来，周末和家人一起做饭是最幸福的事之一。</span>
+        </div>
+        <div class="answer-box">✅ 答案：In my opinion, cooking with family at weekends is one of the happiest things.</div>
+        <div class="analysis-box">📝 解析：In my opinion 在我看来；one of + 最高级 + 可数名词复数。</div>
+
+        <!-- 14 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">14</span>
+            <span class="q-text-inline">尽管天气很冷，她也不愿意待在家里，因为她想去公园散步。</span>
+        </div>
+        <div class="answer-box">✅ 答案：Although it is very cold, she is unwilling to stay at home because she wants to take a walk in the park.</div>
+        <div class="analysis-box">📝 解析：be unwilling to do 不愿意做。</div>
+
+        <!-- 15 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">15</span>
+            <span class="q-text-inline">那个经典童话故事自出版以来，已经卖出了数百万册。</span>
+        </div>
+        <div class="answer-box">✅ 答案：Since its publication, that classic fairy tale has sold millions of copies.</div>
+        <div class="analysis-box">📝 解析：millions of 数百万；copy 册。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 阅读还原 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 阅读还原 (5小题·《小王子》简介)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了《小王子》一书。</div>
+        <div class="passage-box">
+            <p>For over 80 years, The Little Prince, with its themes of love and friendship, has been one of the most popular books in the world. <strong>1.</strong> _____ Let's learn something about the book together.</p>
+            <p><strong>Who wrote it?</strong><br>Antoine de Saint-Exupéry wrote the book. He was born in 1900 in France. In 1912, he took his first trip in an airplane. <strong>2.</strong> _____ Finally, he made his dream come true. However, in 1935, after nearly 20 hours in the air, he crashed near the Nile Delta. After four days, he was saved. Later, he began to write a memoir out of this experience.</p>
+            <p><strong>3.</strong> _____ The Little Prince was published in 1943. It tells the story of a pilot who lands his plane in the desert and meets a young person from outer space. The pilot calls him "the little prince". The prince shares his own stories. Many of the things in this book have symbolic meanings. <strong>4.</strong> _____</p>
+            <p><strong>Why is the book so popular?</strong><br>The Little Prince includes many meaningful themes, such as taking care of the planet and building relationships with others. <strong>5.</strong> _____ It has been over 80 years since Saint-Exupéry introduced his prince to readers, but the magic of The Little Prince still lives on.</p>
+        </div>
+        <div class="word-box">🔤 选项：<br>A. This makes it very popular.<br>B. (未使用)<br>C. What is the story mainly about?<br>D. Then, he decided to become a pilot one day.<br>E. (未使用)<br>F. For example, the rose stands for beauty and love.<br>G. It is also one of the most widely translated books in the world.</div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            80多年来，《小王子》以其爱和友谊的主题一直是世界上最受欢迎的书之一。它也是世界上被翻译得最广泛的书之一。让我们一起了解一下这本书。<br>
+            <strong>谁写的？</strong><br>安托万·德·圣埃克苏佩里写了这本书。他1900年生于法国。1912年，他第一次乘坐飞机旅行。然后，他决定有朝一日成为一名飞行员。最终，他实现了梦想。然而，1935年，在飞行近20小时后，他在尼罗河三角洲附近坠机。四天后，他得救了。后来，他开始根据这次经历写一本回忆录。<br>
+            <strong>这个故事主要关于什么？</strong><br>《小王子》于1943年出版。它讲述了一个飞行员将飞机降落在沙漠中，遇到一个来自外太空的小人的故事。飞行员称他为“小王子”。王子分享了自己的故事。书中的许多事物都有象征意义。例如，玫瑰代表美丽和爱。<br>
+            <strong>为什么这本书如此受欢迎？</strong><br>《小王子》包含许多有意义的主题，如爱护地球和与他人建立关系。这使得它非常受欢迎。圣埃克苏佩里把他的小王子介绍给读者已有80多年，但《小王子》的魅力依然存在。
+        </div>
+
+        <!-- 1-5 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：G</div>
+        <div class="analysis-box">📝 解析：前文说它是最受欢迎的书之一，G项“它也是世界上被翻译得最广泛的书之一”承接上文。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：前文提到第一次乘飞机，后文说实现梦想，中间应是他决定成为飞行员。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：后文介绍故事内容，此句应是“这个故事主要关于什么？”</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：F</div>
+        <div class="analysis-box">📝 解析：前文说事物有象征意义，F项举例说明玫瑰的象征意义。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">5</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：前文列举了有意义的主题，A项“这使得它非常受欢迎”总结原因。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 阅读表达 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 阅读表达 (5小题·《绿山墙的安妮》)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要讲述了安妮努力学习，最后通过女王学院的考试的故事。</div>
+        <div class="passage-box">
+            <p>One day, Anne's stepmother Marilla told Anne that Miss Stacy, a new teacher, came to Green Gables.</p>
+            <p>"Anne, Miss Stacy says you are doing well in school. If you can study better, you will pass the exam for Queen's College. Then, after a year at the college, you can become a teacher!" said Marilla. Anne was very happy. "Oh, I'd love to be a teacher!" Then in the afternoons, Anne and some of her friends studied late at school for the exam and Miss Stacy helped them.</p>
+            <p>Time passed quickly. On a warm summer day in early June, Anne took the exam. Three weeks later, Diana, one of Anne's friends, ran into the kitchen at Green Gables, waving a newspaper. "Look, Anne!" she shouted. "You came first!" Anne took the newspaper and saw her name at the top of two hundred students. For the first time in her life, she was too excited to say a word.</p>
+            <p>The evening before Anne left for college, her stepmother cried. "I was just thinking of the time when you were a little girl," said Marilla. "And, now you are going away…"</p>
+            <p>Anne held Marilla's hands and said, "Marilla, nothing will change. I may be bigger and older, but I'll always be your little Anne." (Adapted from Anne of Green Gables)</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            一天，安妮的继母玛丽拉告诉安妮，一位新老师斯泰西小姐来到了绿山墙。<br>
+            “安妮，斯泰西小姐说你在学校表现不错。如果你能学得更好，你就能通过女王学院的考试。然后在学院学习一年后，你就能成为一名教师！”玛丽拉说。安妮非常高兴。“哦，我很想成为一名老师！”然后每天下午，安妮和一些朋友为了考试在学校学习到很晚，斯泰西小姐帮助他们。<br>
+            时间过得很快。六月初一个温暖的夏日，安妮参加了考试。三周后，安妮的朋友戴安娜挥舞着一张报纸跑进绿山墙的厨房。“看，安妮！”她喊道。“你是第一名！”安妮接过报纸，看到自己的名字在两百名学生中排在榜首。她有生以来第一次激动得说不出话来。<br>
+            安妮去上大学的前一天晚上，她的继母哭了。“我刚才在想你还是个小姑娘的时候，”玛丽拉说。“现在你要走了……”<br>
+            安妮握着玛丽拉的手说：“玛丽拉，什么都不会改变。我可能长大了，但我会永远是你那个小安妮。”（改编自《绿山墙的安妮》）
+        </div>
+
+        <!-- 6 -->
+        <div class="q-item-inline"><span class="q-num-inline">6</span><span class="q-text-inline">Who was Miss Stacy?</span></div>
+        <div class="answer-box">✅ 答案：She was a new teacher.</div>
+        <div class="analysis-box">📝 解析：第一段明确说 a new teacher, came to Green Gables。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline"><span class="q-num-inline">7</span><span class="q-text-inline">What did Miss Stacy think of Anne?</span></div>
+        <div class="answer-box">✅ 答案：She thought Anne was doing well in school.</div>
+        <div class="analysis-box">📝 解析：第二段 Miss Stacy says you are doing well in school.</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline"><span class="q-num-inline">8</span><span class="q-text-inline">Why did Anne study late at school in the afternoons?</span></div>
+        <div class="answer-box">✅ 答案：For the exam.</div>
+        <div class="analysis-box">📝 解析：第二段 studied late at school for the exam。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline"><span class="q-num-inline">9</span><span class="q-text-inline">How did Anne feel when she saw her name at the top?</span></div>
+        <div class="answer-box">✅ 答案：She felt very excited. / She was too excited to say a word.</div>
+        <div class="analysis-box">📝 解析：第三段 she was too excited to say a word。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline"><span class="q-num-inline">10</span><span class="q-text-inline">Who touches your heart in the story? Why? (开放性试题)</span></div>
+        <div class="answer-box">✅ 答案示例：Anne, because she studied hard for her dream.</div>
+        <div class="analysis-box">📝 解析：开放性试题，言之有理即可。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
