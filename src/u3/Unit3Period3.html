@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 3 The world at one click · Period 3 Reading (Ⅱ)</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🌐 Unit 3 The world at one click · Period 3</h1>
+        <p>Reading (Ⅱ) 基础+能力 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础适当形式填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础适当形式填空 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">【2025江苏常州调研】We should pay attention to __________ (culture) differences when we travel to other places.</span>
+        </div>
+        <div class="answer-box">✅ 答案：cultural</div>
+        <div class="analysis-box">📝 解析：修饰名词differences用形容词，culture的形容词形式cultural。</div>
+        <div class="trans-box">🌐 翻译：当我们去其他地方旅游时，我们应该注意文化差异。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">【2025江苏南通期中】The volunteers' help made us feel _______ (true) warm during the cold winter.</span>
+        </div>
+        <div class="answer-box">✅ 答案：truly</div>
+        <div class="analysis-box">📝 解析：修饰形容词warm用副词，true的副词形式truly（去e加ly）。</div>
+        <div class="trans-box">🌐 翻译：志愿者们的帮助让我们在寒冷的冬天感到非常温暖。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">Remember __________ (smile) at people around you every day because smiles can help you a lot.</span>
+        </div>
+        <div class="answer-box">✅ 答案：to smile</div>
+        <div class="analysis-box">📝 解析：remember to do sth. 记得去做某事（未做）。</div>
+        <div class="trans-box">🌐 翻译：记得每天对你周围的人微笑，因为微笑能帮你很多。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">【2025江苏南京质检】More and more people in Nanjing prefer ________ (take) the underground to driving to work.</span>
+        </div>
+        <div class="answer-box">✅ 答案：taking</div>
+        <div class="analysis-box">📝 解析：prefer doing sth. to doing sth. 比起做某事更喜欢做某事。</div>
+        <div class="trans-box">🌐 翻译：在南京，越来越多的人更喜欢乘地铁而不是开车去上班。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 方框选词填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 方框选词填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">🔤 方框内单词：guard, coast, count down, nightlife, take in (需适当形式变化)</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">The two ________ at the gate checked everyone's ID cards carefully before letting them in.</span>
+        </div>
+        <div class="answer-box">✅ 答案：guards</div>
+        <div class="analysis-box">📝 解析：two后接可数名词复数，guard的复数形式guards。</div>
+        <div class="trans-box">🌐 翻译：门口的两位保安在让人们进入之前仔细检查了每个人的身份证。</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">【2025江苏盐城期中·节选】We walked slowly along the _______, enjoying the cool wind from the sea.</span>
+        </div>
+        <div class="answer-box">✅ 答案：coast</div>
+        <div class="analysis-box">📝 解析：根据“cool wind from the sea”可知是海岸，coast。</div>
+        <div class="trans-box">🌐 翻译：我们沿着海岸慢慢散步，享受着来自海上的凉风。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">My little sister always _____________ the hours until her birthday party—she's so excited.</span>
+        </div>
+        <div class="answer-box">✅ 答案：counts down</div>
+        <div class="analysis-box">📝 解析：count down 倒计时，主语三单，用counts down。</div>
+        <div class="trans-box">🌐 翻译：我妹妹总是一小时一小时地倒计时，直到她的生日派对——她太兴奋了。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">【2025江苏徐州期末·节选】If you like busy and fun evenings, you'll love the lively ___________ of this beach city.</span>
+        </div>
+        <div class="answer-box">✅ 答案：nightlife</div>
+        <div class="analysis-box">📝 解析：lively形容词后接名词，nightlife 夜生活。</div>
+        <div class="trans-box">🌐 翻译：如果你喜欢忙碌有趣的夜晚，你会爱上这个海滨城市充满活力的夜生活。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">The small plants by the window are ___________ sunlight and water to grow well.</span>
+        </div>
+        <div class="answer-box">✅ 答案：taking in</div>
+        <div class="analysis-box">📝 解析：take in 吸收，are 后接现在分词构成现在进行时。</div>
+        <div class="trans-box">🌐 翻译：窗边的小植物正在吸收阳光和水分以便茁壮成长。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 10 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">请给我一片面包。我想搭配牛奶吃。(a slice of)</span>
+        </div>
+        <div class="answer-box">✅ 答案：Please give me a slice of bread. I want to eat it with milk.</div>
+        <div class="analysis-box">📝 解析：a slice of 一片……；with milk 搭配牛奶。</div>
+
+        <!-- 11 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">桌子上有两个苹果。一个是红色的，另一个是绿色的。(one… the other)</span>
+        </div>
+        <div class="answer-box">✅ 答案：There are two apples on the table. One is red, and the other is green.</div>
+        <div class="analysis-box">📝 解析：one... the other... 一个……另一个……。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">【2025江苏连云港质检】无论他来不来，我们的会议都会按时开始。(whether… or not)</span>
+        </div>
+        <div class="answer-box">✅ 答案：Whether he comes or not, our meeting will start on time.</div>
+        <div class="analysis-box">📝 解析：whether... or not 无论是否。</div>
+
+        <!-- 13 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">13</span>
+            <span class="q-text-inline">毫无疑问，努力学习是提高成绩的好方法。(there is no doubt that…)</span>
+        </div>
+        <div class="answer-box">✅ 答案：There is no doubt that studying hard is a good way to improve grades.</div>
+        <div class="analysis-box">📝 解析：There is no doubt that... 毫无疑问……。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 短文填空 (首字母) ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (10小题·首字母)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>Seventeen-year-old Tom Davidson hasn't left his home since he was 15. He was walking to <strong>14. c______</strong> a bus when he was hit on the head by a sign that <strong>15. f______</strong> down from a building two years ago. He spent more than two months in hospital and doctors told him he was <strong>16. l______</strong> to be alive. This left Tom with agoraphobia: the idea of being outdoors makes him feel <strong>17. n________</strong>.</p>
+            <p>Tom loves travelling, though. Before the accident, he'd get full of <strong>18. e___________</strong> when talking about family trips. Now the idea of driving in a car to French or taking a plane to <strong>19. I______</strong> terrifies him.</p>
+            <p>However, there is a way that Tom can still visit the world <strong>20. w________</strong> leaving his home：online maps. Tom has visited every <strong>21. c_______</strong> of every country in the world where online maps have taken photos. Using street view, he has walked down the streets of the world's most famous cities.</p>
+            <p>Tom's virtual travel is more than just a <strong>22. h______</strong>—it has become an art project. He has taken more than 5,000 screenshots of places he has visited. Tom hopes that his online journeys will help him <strong>23. o_________</strong> his agoraphobia. And his dream, if he can, is to work in the travel industry, for example, as a flight attendant or a tour guide.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            17岁的汤姆·戴维森从15岁起就没有离开过家。两年前，他在赶公交车的路上被一栋大楼掉下的标志牌砸中头部。他在医院住了两个多月，医生告诉他，他能活下来很幸运。这让他患上了广场恐惧症：户外的想法让他感到紧张不安。<br>
+            不过汤姆热爱旅行。事故前，谈论家庭旅行时他总是充满兴奋。现在，开车去法国或乘飞机去意大利的想法让他恐惧。<br>
+            然而，有一种方法可以让汤姆不离开家就能环游世界：在线地图。汤姆已经去过在线地图拍过照片的世界上每个国家的每个角落。通过街景，他走过了世界最著名城市的街道。<br>
+            汤姆的虚拟旅行不仅仅是一个爱好——它已经成了一个艺术项目。他拍摄了5000多张他去过的地方的屏幕截图。汤姆希望他的在线旅程能帮助他克服广场恐惧症。如果可以的话，他的梦想是在旅游业工作，比如做空乘或导游。
+        </div>
+
+        <!-- 14-23 -->
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">catch</span></div>
+        <div class="answer-box">✅ 答案：catch</div>
+        <div class="analysis-box">📝 解析：catch a bus 赶公共汽车。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">fell</span></div>
+        <div class="answer-box">✅ 答案：fell</div>
+        <div class="analysis-box">📝 解析：fell down 掉下来，由two years ago可知用过去式。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">lucky</span></div>
+        <div class="answer-box">✅ 答案：lucky</div>
+        <div class="analysis-box">📝 解析：was lucky to be alive 活下来很幸运。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">nervous</span></div>
+        <div class="answer-box">✅ 答案：nervous</div>
+        <div class="analysis-box">📝 解析：feel nervous 感到紧张。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">excitement</span></div>
+        <div class="answer-box">✅ 答案：excitement</div>
+        <div class="analysis-box">📝 解析：full of excitement 充满兴奋。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">Italy</span></div>
+        <div class="answer-box">✅ 答案：Italy</div>
+        <div class="analysis-box">📝 解析：意大利，首字母大写。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">without</span></div>
+        <div class="answer-box">✅ 答案：without</div>
+        <div class="analysis-box">📝 解析：without leaving home 不离开家。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">corner</span></div>
+        <div class="answer-box">✅ 答案：corner</div>
+        <div class="analysis-box">📝 解析：every corner 每个角落。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">hobby</span></div>
+        <div class="answer-box">✅ 答案：hobby</div>
+        <div class="analysis-box">📝 解析：a hobby 一个爱好。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">overcome</span></div>
+        <div class="answer-box">✅ 答案：overcome</div>
+        <div class="analysis-box">📝 解析：help him overcome 帮助他克服。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 完形填空 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 完形填空 (15小题·莱洛书店)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了葡萄牙波尔图的莱洛书店。</div>
+        <div class="passage-box">
+            <p>Do you know Porto or Oporto? It is the second largest city in Portugal. Every day, a large number of people visit the city's most popular place: Livraria Lello. You may think it is the <strong>1.</strong> of a museum. In fact, it's not a museum, but a bookstore. It is <strong>2.</strong> known in English as the Lello Bookstore.</p>
+            <p>Livraria Lello <strong>3.</strong> its doors in 1906. It doesn't only owe the success to <strong>4.</strong> books, but also to J.K. Rowling. People said J.K. Rowling wrote the first Harry Potter book in the store. She liked to visit the bookstore <strong>5.</strong> she lived in Porto.</p>
+            <p>A few years ago, Livraria Lello was <strong>6.</strong> to go to. However, the bookstore went through a hard time. It <strong>7.</strong> went bankrupt. At that time, someone advised that <strong>8.</strong> should buy tickets to get in. And if they bought some books in the bookstore, they would <strong>9.</strong> tickets.</p>
+            <p>This turned out to be a <strong>10.</strong> idea. The number of visitors <strong>11.</strong> to 1.2 million in 2017 and it sold more than 280,000 books. In 2015, it only sold about 50,000 books!</p>
+            <p>Every year, over a million people visit Livraria Lello. It's <strong>12.</strong> a must-see place while you're in Porto. So, if you visit Porto next time, don't <strong>13.</strong> Livraria Lello. I believe it will make your trip more <strong>14.</strong>. Besides, it will be an unforgettable <strong>15.</strong> for you in your life.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            你知道波尔图吗？它是葡萄牙第二大城市。每天都有大量的人参观该市最受欢迎的地方：莱洛书店。你可能认为它是博物馆的名字。事实上，它不是博物馆，而是一家书店。它在英语中通常被称为莱洛书店。<br>
+            莱洛书店于1906年开业。它的成功不仅归功于它的书籍，也归功于J.K.罗琳。据说J.K.罗琳在这家店里写了第一本《哈利·波特》。她住在波尔图时喜欢去这家书店。<br>
+            几年前，莱洛书店可以免费进入。然而，书店经历了一段困难时期。它几乎破产了。那时有人建议参观者应该买票进入。如果他们在书店买书，就可以免票。<br>
+            结果证明这是个好主意。2017年参观人数上升到120万，卖出了超过28万本书。而2015年只卖了约5万本！<br>
+            每年有超过一百万人参观莱洛书店。当你来波尔图的时候，它真的是一个必须参观的地方。所以，下次去波尔图时，不要错过莱洛书店。我相信它会让你的旅途更愉快。而且，它会是你生活中一个难忘的经历。
+        </div>
+
+        <!-- 1-15 选项 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">A. owner  B. name  C. manager  D. address</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：根据语境，认为它是博物馆的名字。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">A. surely  B. totally  C. commonly  D. quietly</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：commonly known 通常被称为。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">A. opened  B. closed  C. built  D. repaired</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：opened its doors 开业。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">A. his  B. its  C. hers  D. theirs</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：its 指代书店的。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">5</span><span class="q-text-inline">A. if  B. when  C. before  D. so</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：when 当……的时候。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">6</span><span class="q-text-inline">A. free  B. hard  C. special  D. normal</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：was free to go to 免费进入。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">7</span><span class="q-text-inline">A. never  B. soon  C. almost  D. already</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：almost went bankrupt 几乎破产。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">8</span><span class="q-text-inline">A. workers  B. visitors  C. bankers  D. writers</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：visitors 游客。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">9</span><span class="q-text-inline">A. save  B. need  C. sell  D. print</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：save tickets 免票（节省票钱）。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">10</span><span class="q-text-inline">A. funny  B. clear  C. terrible  D. wonderful</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：wonderful idea 好主意。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">11</span><span class="q-text-inline">A. cut down  B. went up  C. ran out  D. went down</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：went up to 上升到。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">12</span><span class="q-text-inline">A. just  B. really  C. hardly  D. only</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：really a must-see 真的是必看之地。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">A. miss  B. hide  C. consider  D. imagine</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：don't miss 不要错过。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">A. simple  B. boring  C. enjoyable  D. helpful</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：make your trip more enjoyable 使旅途更愉快。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">A. prize  B. tradition  C. relationship  D. experience</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：unforgettable experience 难忘的经历。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅵ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section6">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅵ 阅读选择 (3小题·2025热门目的地)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文介绍了2025年四个热门旅游目的地的相关信息。</div>
+        <div class="passage-box">
+            <p><strong>Top Travel Destinations 2025</strong></p>
+            <p><strong>Penang, Malaysia</strong> — Penang is one of the only 13 states that make up Malaysia in Southeast Asia. Its food culture is like nothing you've ever experienced. If you're a food lover, this is the place to go. The central location of Penang makes it a hub for food from many different places including India, Thailand, Indonesia, and Vietnam. Best Time to Visit: November to January</p>
+            <p><strong>Bali, Indonesia</strong> — Bali has always been a top travel destination thanks to its beauty, but even so, there are still hidden places away from the main tourist attractions that offer peace and quietness. One such place is the island of Nusa Lembongan. One tourist attraction here is the underwater Big Buddha which has been placed by locals as a business attraction. It also makes for good diving and underwater photography, and is one of the best vacation attractions for couples. Best Time to Visit: May to September</p>
+            <p><strong>Auckland, New Zealand</strong> — Auckland is a coastal city known for its breathtaking views, beautiful beaches and islands. The nearby Mount Eden is a volcanic mountain you can hike and explore. With its many hiking paths, views, beaches, and cultural sites, Auckland has enough activities to keep you busy. Best Time to Visit: March to May, September to November</p>
+            <p><strong>Banff, Canada</strong> — Located in the northern part of the Rocky Mountains in Alberta, Banff is a small town of Canada. Most people outside of Canada have probably never even heard of it, but that's what makes it so different from other attractions. Visitors can ski on Mount Norquay or ride the Banff Gondola up Sulphur Mountain to swim in the Banff Upper Hot Springs and enjoy great views of the countryside. Best Time to Visit: June to August, December to March</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            <strong>2025热门旅游目的地</strong><br>
+            <strong>马来西亚槟城</strong> — 槟城是构成东南亚马来西亚的13个州之一。它的饮食文化是你从未体验过的。如果你是美食爱好者，这里就是你要去的地方。槟城的中心位置使其成为来自印度、泰国、印度尼西亚和越南等地美食的枢纽。最佳游览时间：11月至1月<br>
+            <strong>印度尼西亚巴厘岛</strong> — 巴厘岛因其美丽一直是热门旅游目的地，但即便如此，仍有远离主要旅游景点的隐秘之处，提供和平与宁静。努沙伦邦岸岛就是这样一个地方。这里的一个旅游景点是当地人作为商业景点放置的水下大佛。这里也很适合潜水和水下摄影，是情侣度假的最佳景点之一。最佳游览时间：5月至9月<br>
+            <strong>新西兰奥克兰</strong> — 奥克兰是一个沿海城市，以其令人惊叹的景色、美丽的海滩和岛屿而闻名。附近的伊甸山是一座火山，你可以徒步探索。凭借其众多的徒步路线、景色、海滩和文化遗址，奥克兰有足够的活动让你忙碌。最佳游览时间：3月至5月、9月至11月<br>
+            <strong>加拿大班夫</strong> — 班夫位于艾伯塔省落基山脉北部，是加拿大的一个小镇。加拿大以外的人可能大多数从未听说过它，但这正是它与其他景点不同的地方。游客可以在诺奎山滑雪，或乘坐班夫缆车上硫磺山，在班夫上温泉游泳，欣赏乡村美景。最佳游览时间：6月至8月、12月至3月
+        </div>
+
+        <!-- 16 -->
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">Where should you go if you are interested in diving?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Nusa Lembongan.</span>
+            <span class="opt-item">B. Penang, Malaysia.</span>
+            <span class="opt-item">C. The Banff Gondola.</span>
+            <span class="opt-item">D. The Banff Upper Hot Springs.</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：细节题。巴厘岛部分提到Nusa Lembongan适合潜水和水下摄影。</div>
+
+        <!-- 17 -->
+        <div class="q-item-inline" style="margin-top:30px;"><span class="q-num-inline">17</span><span class="q-text-inline">If you want to explore a volcanic mountain, which month is the best choice?</span></div>
+        <div class="options">
+            <span class="opt-item">A. January.</span>
+            <span class="opt-item">B. August.</span>
+            <span class="opt-item">C. October.</span>
+            <span class="opt-item">D. December.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：奥克兰的伊甸山是火山，最佳游览时间为3-5月和9-11月，10月在此范围内。</div>
+
+        <!-- 18 -->
+        <div class="q-item-inline" style="margin-top:30px;"><span class="q-num-inline">18</span><span class="q-text-inline">What makes Banff special compared to the other three travel destinations?</span></div>
+        <div class="options">
+            <span class="opt-item">A. It's famous for its tasty food.</span>
+            <span class="opt-item">B. It doesn't have any mountains.</span>
+            <span class="opt-item">C. It offers great views of beaches.</span>
+            <span class="opt-item">D. It's not well-known to foreigners.</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：原文说“加拿大以外的人可能大多数从未听说过它”，即不为外国人所熟知。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅶ 阅读还原 ========= -->
+<div class="section-card collapsed" id="section7">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅶ 阅读还原 (5小题·格陵兰岛)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了格陵兰岛这个相对安静且独特的旅游目的地。</div>
+        <div class="passage-box">
+            <p>You like to travel on holidays. But in popular places of interest, there are always millions of noisy tourists. It makes you refuse to go out again. <strong>19.</strong> _____ Greenland is one such place! It only receives about 100,000 tourists a year!</p>
+            <p><strong>20.</strong> _____ The island is almost four times larger than France. And it has the second largest ice sheet in the world, after Antarctica.</p>
+            <p><strong>21.</strong> _____ Dog sledding is an important part of Greenlandic culture. <strong>22.</strong> _____ Try it and you can experience the local people's special way of getting around.</p>
+            <p>Greenland is one of the best places to see the northern lights. You can see them on clear nights from September to April. <strong>23.</strong> _____ From May to July, the sun never goes down. It's a good idea to spend your holiday in Greenland because it's never crowded—there are only about 56,000 people there.</p>
+        </div>
+        <div class="word-box">🔤 选项：<br>A. Greenland is the world's largest island.<br>B. (未使用)<br>C. It is also a great place to go dog sledding.<br>D. This is also a great way to learn about the locals.<br>E. In this case, you can try going to some quieter places.<br>F. However, in summer, you won't see the northern lights.</div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            你喜欢在假期旅行。但在热门景点，总是有数百万嘈杂的游客。这让你不想再出门了。在这种情况下，你可以尝试去一些更安静的地方。格陵兰岛就是这样一个地方！它每年只接待约10万名游客！<br>
+            格陵兰岛是世界上最大的岛屿。这个岛几乎是法国的四倍大。它拥有仅次于南极洲的世界第二大冰盖。<br>
+            这里也是玩狗拉雪橇的好地方。狗拉雪橇是格陵兰文化的重要组成部分。这也是了解当地人的好方法。试试看，你就能体验到当地人特殊的出行方式。<br>
+            格陵兰岛是观赏北极光的最佳地点之一。从9月到4月，你可以在晴朗的夜晚看到它们。然而在夏季，你看不到北极光。从5月到7月，太阳永不落下。在格陵兰岛度假是个好主意，因为这里从不拥挤——那里只有大约5.6万人。
+        </div>
+
+        <!-- 19 -->
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：E</div>
+        <div class="analysis-box">📝 解析：前文说热门景点人多，不想出门，E项“在这种情况下，你可以尝试去一些更安静的地方”符合逻辑。</div>
+
+        <!-- 20 -->
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：后文介绍岛屿面积，A项“格陵兰岛是世界上最大的岛屿”引出下文。</div>
+
+        <!-- 21 -->
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：后文提到狗拉雪橇，C项“这里也是玩狗拉雪橇的好地方”总起。</div>
+
+        <!-- 22 -->
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：前句说狗拉雪橇是文化重要部分，D项“这也是了解当地人的好方法”承接。</div>
+
+        <!-- 23 -->
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：F</div>
+        <div class="analysis-box">📝 解析：前文说9-4月可看极光，后文说5-7月太阳不落，F项“然而在夏季，你看不到北极光”承上启下。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
