@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 8 A green world · Period 4 Grammar</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🌱 Unit 8 A green world · Period 4</h1>
+        <p>Grammar 语法专练 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 单项选择 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 单项选择 (共5小题，每小题1分，计5分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">【2025江苏无锡调研】—Do you know if the sports meeting ________ on time? —Hard to say. If it ________ tomorrow, we'll have to put it off.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. is held; will rain</span>
+            <span class="opt-item">B. will be held; will rain</span>
+            <span class="opt-item">C. is held; rains</span>
+            <span class="opt-item">D. will be held; rains</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：第一空if引导宾语从句，表示将来用一般将来时的被动语态；第二空if引导条件状语从句，主句将来时，从句用一般现在时。</div>
+        <div class="trans-box">🌐 翻译：——你知道运动会是否会准时举行吗？——很难说。如果明天下雨，我们将不得不推迟它。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">Lei Feng has died, but his spirits should ________ by us.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. learn</span>
+            <span class="opt-item">B. be learnt</span>
+            <span class="opt-item">C. learns</span>
+            <span class="opt-item">D. be learning</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：spirits 与 learn 是被动关系，情态动词 should 后接 be learnt。</div>
+        <div class="trans-box">🌐 翻译：雷锋已经去世，但他的精神应当被我们学习。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">More than 30 works of art ________ to the public in the museum next year.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. were shown</span>
+            <span class="opt-item">B. will show</span>
+            <span class="opt-item">C. was shown</span>
+            <span class="opt-item">D. will be shown</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：next year 用一般将来时，works 与 show 被动，用 will be shown。</div>
+        <div class="trans-box">🌐 翻译：明年将有30多件艺术品在博物馆向公众展出。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">【2025江苏宿迁期末】It is said that more railways ________ to improve the traffic situation in the future.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. built</span>
+            <span class="opt-item">B. will be built</span>
+            <span class="opt-item">C. are building</span>
+            <span class="opt-item">D. have been built</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：in the future 将来时，railways 与 build 被动，用 will be built。</div>
+        <div class="trans-box">🌐 翻译：据说，未来将修建更多的铁路来改善交通状况。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">【2025江苏盐城期中】Solve the first problem and the rest ________ tomorrow.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. are going to be discussed</span>
+            <span class="opt-item">B. is going to be discussed</span>
+            <span class="opt-item">C. will discuss</span>
+            <span class="opt-item">D. is discussing</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：the rest (指剩余问题) 是复数，与 discuss 被动，用 are going to be discussed。</div>
+        <div class="trans-box">🌐 翻译：解决第一个问题，其余的明天再讨论。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 适当形式填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 适当形式填空 (共5小题，每小题1分，计5分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">【2025江苏南京期末】The sea will _____________ (pollute) if people keep throwing waste into it.</span>
+        </div>
+        <div class="answer-box">✅ 答案：be polluted</div>
+        <div class="analysis-box">📝 解析：将来时被动语态 will be polluted。</div>
+        <div class="trans-box">🌐 翻译：如果人们不停地往海里扔垃圾，海洋就会被污染。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">【2025江苏宿迁期末】Because of the outbreak of the virus, the international trade is deeply __________ (affect).</span>
+        </div>
+        <div class="answer-box">✅ 答案：affected</div>
+        <div class="analysis-box">📝 解析：is affected 被影响，一般现在时被动语态。</div>
+        <div class="trans-box">🌐 翻译：由于病毒的爆发，国际贸易受到了严重影响。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">—How many groups will the students ____________ (divide) into by the teacher in tomorrow's competition? —Maybe five.</span>
+        </div>
+        <div class="answer-box">✅ 答案：be divided</div>
+        <div class="analysis-box">📝 解析：将来时被动语态 will be divided into。</div>
+        <div class="trans-box">🌐 翻译：——在明天的比赛中，学生们将被老师分成几个小组？——可能是五个组。</div>
+        <div class="small-note">链接狂K：被动语态（二）的详细讲解见狂K重点P46。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">Now it's four o'clock. My father ________________________________ (finish) his work at a quarter to five.</span>
+        </div>
+        <div class="answer-box">✅ 答案：is going to finish / will finish</div>
+        <div class="analysis-box">📝 解析：将来时，可用 is going to finish 或 will finish。</div>
+        <div class="trans-box">🌐 翻译：现在是四点钟了。我父亲会在四点四十五分时完成他的工作。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【2025江苏无锡质检】There _________________ (be) a few football matches on the internet tomorrow evening, aren't there?</span>
+        </div>
+        <div class="answer-box">✅ 答案：are going to be</div>
+        <div class="analysis-box">📝 解析：there be 将来时，a few 后接复数，且反意疑问句用 aren't there，故用 are going to be。</div>
+        <div class="trans-box">🌐 翻译：明天晚上网上会有几场足球赛，不是吗？</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 语法填空 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 语法填空 (共10小题，每小题1分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了泰国为保护被旅游活动破坏的珊瑚礁，打算关闭一些著名海滩。</div>
+        <div class="passage-box">
+            <p>As you know, coral is not a plant, but an animal. However, coral reefs around the world are <strong>1.</strong> danger.</p>
+            <p>Thailand will close some of <strong>2.</strong> (it) beaches to protect the coral from business activities for tourists. The beach here is so famous that <strong>3.</strong> (million) of tourists put it on their wish lists. Many visitors visit here a day. They arrive by boat. This does much harm to the coral reefs. Most of the coral has died. The beach will <strong>4.</strong> (close) in a few months to let the coral come back to life.</p>
+            <p>Experts said <strong>5.</strong> many Thailand's coral reefs have been killed so far. Too many tourists cause a lot of <strong>6.</strong> (pollute) to beaches. An expert said the biggest problems <strong>7.</strong> (be) hotels by the beaches, boats and plastic waste in the sea. He believed the <strong>8.</strong> (good) choice was to close the beaches forever. He said, "I hope the government can take steps <strong>9.</strong> (protect) the coral reefs. At <strong>10.</strong> same time, I also hope all of us should try our best to protect the environment around us."</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            如你所知，珊瑚不是植物，而是动物。然而，全球的珊瑚礁正处于危险之中。<br>
+            泰国将关闭部分海滩，以保护珊瑚免受游客商业活动的影响。这里的海滩知名度高，数百万游客都将其列入愿望清单。每天有许多游客乘船到访。这对珊瑚礁造成了很大伤害。大部分珊瑚已经死亡。几个月后该海滩将被关闭，让珊瑚得以恢复生机。<br>
+            专家表示，到目前为止，泰国的许多珊瑚礁已遭到破坏。过多的游客给海滩带来了大量污染。一位专家称，最大的问题是海滩边的酒店、船只以及海洋中的塑料垃圾。他认为最好的选择是永久关闭这些海滩。他说：“我希望政府能采取措施保护珊瑚礁。同时，我也希望我们所有人应尽全力保护我们身边的环境。”
+        </div>
+
+        <!-- 1 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">in</span></div>
+        <div class="answer-box">✅ 答案：in</div>
+        <div class="analysis-box">📝 解析：in danger 处于危险中。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">its</span></div>
+        <div class="answer-box">✅ 答案：its</div>
+        <div class="analysis-box">📝 解析：形容词性物主代词 its 修饰 beaches。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">millions</span></div>
+        <div class="answer-box">✅ 答案：millions</div>
+        <div class="analysis-box">📝 解析：millions of 数百万的。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">be closed</span></div>
+        <div class="answer-box">✅ 答案：be closed</div>
+        <div class="analysis-box">📝 解析：will be closed 将被关闭，被动语态。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline"><span class="q-num-inline">5</span><span class="q-text-inline">that</span></div>
+        <div class="answer-box">✅ 答案：that</div>
+        <div class="analysis-box">📝 解析：引导宾语从句，无实义。</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline"><span class="q-num-inline">6</span><span class="q-text-inline">pollution</span></div>
+        <div class="answer-box">✅ 答案：pollution</div>
+        <div class="analysis-box">📝 解析：a lot of 后接名词，pollution 污染。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline"><span class="q-num-inline">7</span><span class="q-text-inline">were</span></div>
+        <div class="answer-box">✅ 答案：were</div>
+        <div class="analysis-box">📝 解析：said 主句过去时，从句也用过去时，主语 problems 复数，用 were。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline"><span class="q-num-inline">8</span><span class="q-text-inline">best</span></div>
+        <div class="answer-box">✅ 答案：best</div>
+        <div class="analysis-box">📝 解析：the best choice 最好的选择。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline"><span class="q-num-inline">9</span><span class="q-text-inline">to protect</span></div>
+        <div class="answer-box">✅ 答案：to protect</div>
+        <div class="analysis-box">📝 解析：take steps to do 采取措施做某事。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline"><span class="q-num-inline">10</span><span class="q-text-inline">the</span></div>
+        <div class="answer-box">✅ 答案：the</div>
+        <div class="analysis-box">📝 解析：at the same time 同时。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
