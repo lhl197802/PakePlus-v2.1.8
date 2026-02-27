@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 2 Amazing China · Period 3 Reading (Ⅱ)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 40px;
+            padding: 14px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 12px rgba(0,30,45,0.05);
+            border: 1px solid #dde7f0;
+        }
+        .top-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+        }
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f8fbfe;
+        }
+        .title-area h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #0d4c6e, #0b3b55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title-area p {
+            color: #54738f;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .close-btn {
+            background: #ecf3fa;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1d577b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid #bed3e6;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .close-btn:hover {
+            background: #dae6f2;
+            color: #093852;
+            border-color: #7fa9c7;
+            box-shadow: 0 4px 10px rgba(0,60,90,0.1);
+        }
+        .close-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: white;
+            border-radius: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 22px -6px rgba(20, 50, 70, 0.12);
+            overflow: hidden;
+            border: 1px solid #e2eef9;
+            transition: box-shadow 0.2s;
+        }
+        .section-header {
+            background: white;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #10435c;
+            transition: background 0.15s, padding 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .section-header:hover {
+            background: #e9f2fa;
+        }
+        .section-header .toggle-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #2c779b;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+        /* 折叠样式 */
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .section-content {
+            padding: 8px 28px 28px 28px;
+            border-top: 1px solid #d1e2f0;
+            background: #ffffff;
+        }
+
+        /* 题目元素 */
+        .question-item {
+            margin-top: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e0ecf5;
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+        .q-num {
+            display: inline-block;
+            background: #cde1f0;
+            color: #0f4b6b;
+            font-weight: 700;
+            padding: 4px 16px 5px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin-bottom: 12px;
+            border: 1px solid #aac6dd;
+        }
+        .q-text {
+            font-size: 1.04rem;
+            font-weight: 500;
+            color: #113845;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: #f5faff;
+            padding: 16px 22px;
+            border-radius: 24px;
+            border-left: 5px solid #3182a3;
+            box-shadow: inset 0 1px 4px #d7e6f5;
+        }
+        .options {
+            margin: 12px 0 16px 8px;
+            color: #1d506b;
+            background: #f0f6fd;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-weight: 460;
+        }
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 28px;
+            white-space: nowrap;
+        }
+        .answer-box, .analysis-box, .trans-box {
+            margin: 12px 0 8px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+        .answer-box {
+            background: #e2f0fa;
+            color: #004d7c;
+            font-weight: 600;
+            border-left: 6px solid #0073aa;
+        }
+        .analysis-box {
+            background: #fff6e5;
+            color: #624c2a;
+            border-left: 6px solid #efb13b;
+        }
+        .trans-box {
+            background: #e1f1e8;
+            color: #1b6e4a;
+            border-left: 6px solid #2e9e68;
+        }
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+        .small-note {
+            font-size: 0.86rem;
+            color: #6a859e;
+            margin-top: 12px;
+            padding-left: 12px;
+        }
+        .word-box {
+            background: #e7f0fa;
+            padding: 12px 20px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #145a82;
+            border: 1px dashed #7dafd1;
+        }
+        .passage-box {
+            background: #f9f7f0;
+            padding: 20px 24px;
+            border-radius: 28px;
+            margin: 20px 0 10px 0;
+            border-left: 6px solid #8f6d3f;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #2d3b45;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #c4d7e8;
+            margin: 20px 0;
+        }
+        @media (max-width: 600px) {
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 12px 18px; }
+            .title-area h1 { font-size: 1.4rem; }
+            .section-header { font-size: 1.15rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 20px; }
+            .q-text { padding: 12px; font-size: 0.98rem; }
+            .opt-item { display: block; margin: 6px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🇨🇳 Unit 2 Amazing China · Period 3</h1>
+        <p>Reading (Ⅱ) 基础+能力 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础适当形式填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础适当形式填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">【2025江苏无锡模拟】Many students prefer doing their homework to _________ (rest) between lessons.</div>
+            <div class="answer-box">✅ 答案：resting</div>
+            <div class="analysis-box">📝 解析：prefer doing sth to doing sth 固定搭配，to 是介词，后接动名词。故填 resting。</div>
+            <div class="trans-box">🌐 翻译：比起休息，许多学生更喜欢在课间做他们的家庭作业。</div>
+        </div>
+        <!-- 2 -->
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">As a book ______ (love), Helen volunteers her time to read books to children at school.</div>
+            <div class="answer-box">✅ 答案：lover</div>
+            <div class="analysis-box">📝 解析：不定冠词 a 后接可数名词单数，love 的名词形式 lover 表示“爱好者”。</div>
+            <div class="trans-box">🌐 翻译：作为一个读书爱好者，海伦自愿贡献她的时间在学校给孩子们读书。</div>
+        </div>
+        <!-- 3 -->
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">【2025江苏扬州期末】Although he is not a handsome man, many people find him ____________ (attract).</div>
+            <div class="answer-box">✅ 答案：attractive</div>
+            <div class="analysis-box">📝 解析：find + 宾语 + 形容词作宾补，attract 的形容词形式 attractive 意为“有吸引力的”。</div>
+            <div class="trans-box">🌐 翻译：尽管他不是一个英俊的人，但许多人发现他很有吸引力。</div>
+        </div>
+        <!-- 4 -->
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">Monkeys live in tall trees, camels live in the hot deserts and bats live in _______ (cave).</div>
+            <div class="answer-box">✅ 答案：caves</div>
+            <div class="analysis-box">📝 解析：cave 是可数名词，此处表示泛指，用复数 caves。</div>
+            <div class="trans-box">🌐 翻译：猴子生活在高的树上，骆驼生活在炎热的沙漠里，而蝙蝠生活在洞穴中。</div>
+        </div>
+        <!-- 5 -->
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">【2025江苏泰州调研】If you want to know more about the ancient city, the best way ____________ (explore) it is on foot or by bike.</div>
+            <div class="answer-box">✅ 答案：to explore</div>
+            <div class="analysis-box">📝 解析：the best way to do sth 做某事的最好方式，不定式作定语。</div>
+            <div class="trans-box">🌐 翻译：如果你想更多地了解这座古城，最好的探索方式是步行或骑自行车。</div>
+            <div class="small-note">链接狂K：explore 的详细讲解见狂K重点P8。</div>
+        </div>
+    </div>
+    <!--div class="section-header" onclick="toggleSection(this)">
+        <span>折叠或展开本题</span>
+        <span class="toggle-icon">▼</span>
+    </div-->
+</div>
+
+<!-- ========== 卡片Ⅱ 方框选词填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 方框选词填空 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">🔤 方框内单词：learn, admire, centre, dynasty (需适当形式变化)</div>
+        <!-- 6 -->
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">【2025河南郑州质检】We can’t bring phones to school because we should focus on __________.</div>
+            <div class="answer-box">✅ 答案：learning</div>
+            <div class="analysis-box">📝 解析：focus on 后接动名词，learn 的动名词 learning 意为“学习”。</div>
+            <div class="trans-box">🌐 翻译：我们不能把手机带到学校，因为我们应该专注于学习。</div>
+        </div>
+        <!-- 7 -->
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">【2025重庆渝中区期末】Chinese people ______________ the moon on the Mid-Autumn Festival for centuries.</div>
+            <div class="answer-box">✅ 答案：have admired</div>
+            <div class="analysis-box">📝 解析：for centuries 用现在完成时，主语复数，填 have admired。</div>
+            <div class="trans-box">🌐 翻译：几个世纪以来，中国人在中秋节赏月。</div>
+            <div class="small-note">链接狂K：admire 的详细讲解见狂K重点P9。</div>
+        </div>
+        <!-- 8 -->
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">【2025江苏南京期末】The _________ part of the city is always lively, with people shopping, eating, and meeting friends.</div>
+            <div class="answer-box">✅ 答案：central</div>
+            <div class="analysis-box">📝 解析：名词 centre 的形容词形式 central 意为“中心的”，作定语修饰 part。</div>
+            <div class="trans-box">🌐 翻译：城市的中心总是很热闹，人们购物、吃饭和会见朋友。</div>
+        </div>
+        <!-- 9 -->
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">From then on, Beijing had been the capital of the Jin, Yuan, Ming and Qing ___________ until 1911.</div>
+            <div class="answer-box">✅ 答案：dynasties</div>
+            <div class="analysis-box">📝 解析：dynasty 为可数名词，前面列举多个朝代，故用复数 dynasties。</div>
+            <div class="trans-box">🌐 翻译：从那时起，北京一直是金、元、明、清朝的首都，直到1911年。</div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 10 -->
+        <div class="question-item">
+            <span class="q-num">10</span>
+            <div class="q-text">【2025广西桂林调研】桂林以其自然风光闻名世界。(be well-known for)</div>
+            <div class="answer-box">✅ 答案：Guilin is well-known for its natural views/scenery around the world.</div>
+            <div class="analysis-box">📝 解析：be well-known for 因……闻名。</div>
+            <div class="trans-box">🌐 翻译：桂林以其自然风光闻名世界。</div>
+        </div>
+        <!-- 11 -->
+        <div class="question-item">
+            <span class="q-num">11</span>
+            <div class="q-text">【2025陕西渭南质检】中华优秀传统文化值得广泛分享。(be worth doing)</div>
+            <div class="answer-box">✅ 答案：The excellent traditional Chinese culture is worth sharing widely.</div>
+            <div class="analysis-box">📝 解析：be worth doing 值得做。</div>
+            <div class="trans-box">🌐 翻译：中华优秀传统文化值得广泛分享。</div>
+        </div>
+        <!-- 12 -->
+        <div class="question-item">
+            <span class="q-num">12</span>
+            <div class="q-text">【2025陕西咸阳期末】我为我的父母感到骄傲，因为他们诚实又善良。(be proud of)</div>
+            <div class="answer-box">✅ 答案：I’m proud of my parents because they’re honest and kind.</div>
+            <div class="analysis-box">📝 解析：be proud of 为……感到骄傲。</div>
+            <div class="trans-box">🌐 翻译：我为我的父母感到骄傲，因为他们诚实又善良。</div>
+        </div>
+        <!-- 13 -->
+        <div class="question-item">
+            <span class="q-num">13</span>
+            <div class="q-text">通过你的努力，你一定会实现你的梦想。(be sure to)</div>
+            <div class="answer-box">✅ 答案：You’re sure to make your dream come true through your hard work.</div>
+            <div class="analysis-box">📝 解析：be sure to do 一定会做某事；make one's dream come true 实现梦想。</div>
+            <div class="trans-box">🌐 翻译：通过你的努力，你一定会实现你的梦想。</div>
+        </div>
+        <!-- 14 -->
+        <div class="question-item">
+            <span class="q-num">14</span>
+            <div class="q-text">【2025陕西安康期末】平遥是一座拥有2,700多年历史的古城。(with a history of)</div>
+            <div class="answer-box">✅ 答案：Pingyao is an old city with a history of over 2,700 years.</div>
+            <div class="analysis-box">📝 解析：with a history of 拥有……历史。</div>
+            <div class="trans-box">🌐 翻译：平遥是一座拥有2,700多年历史的古城。</div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 短文填空 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (10小题·首字母)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>Mount Wuyi, in the south-eastern part of China, has an area of about 1,000 square <strong>15. k______________________</strong>. It has the largest nature reserve in Fujian Province.</p>
+            <p>Mount Wuyi is deeply shaped by the fault zones. The Tongmuguan Fault Zone is the centre of the faults. So it is in a special <strong>16. s______</strong> of “V”.</p>
+            <p>The tectonic movements of millions of years ago gifted Mount Wuyi a wonderful Danxia landform, which is <strong>17. d__________</strong> from the Danxia landform in North-west China. Many of the rock’s surfaces are <strong>18. c________</strong> with different plants.</p>
+            <p>Mount Wuyi is <strong>19. f_______</strong> for the Goddess Peak. The red rocks fall down under its big weight, <strong>20. s___</strong> the Goddess Peak is left and it becomes one of the most <strong>21. a___________________</strong> sights after the collapse.</p>
+            <p>There are many cracks in the karst rocks of Mount Wuyi. After <strong>22. m_________</strong> of years of scouring and cutting by water, many streams <strong>23. f_____</strong> around the mountain.</p>
+            <p>Sitting on bamboo rafts and following the stream, tourists can enjoy the beauty of Mount Wuyi <strong>24. a______</strong> the way.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            武夷山位于中国东南部，面积约1000平方千米。它是福建省最大的自然保护区。<br>
+            武夷山深受断裂带影响。桐木关断裂带是断裂的中心。因此它呈特殊的“V”形。<br>
+            数百万年前的地壳运动赋予武夷山绝妙的丹霞地貌，它与中国西北的丹霞地貌不同。许多岩石表面覆盖着不同的植物。<br>
+            武夷山以玉女峰闻名。红色的岩石在其巨大的重量下崩塌，所以玉女峰留存下来，在崩塌后它成了最惊人的景观之一。<br>
+            武夷山的喀斯特岩石中有许多裂缝。经过数百万年的水流的冲刷和切割，许多溪流在山间形成。<br>
+            坐在竹筏上，沿着溪流，游客可以一路上欣赏武夷山的美。
+        </div>
+        <div class="question-item">
+            <span class="q-num">15</span>
+            <div class="q-text">________</div>
+            <div class="answer-box">✅ 答案：kilometres/kilometers</div>
+            <div class="analysis-box">📝 解析：面积单位，kilometre/kilometer 复数形式。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">16</span>
+            <div class="q-text">________</div>
+            <div class="answer-box">✅ 答案：shape</div>
+            <div class="analysis-box">📝 解析：in a special shape 呈特殊形状。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">17</span>
+            <div class="q-text">________</div>
+            <div class="answer-box">✅ 答案：different</div>
+            <div class="analysis-box">📝 解析：be different from 与……不同。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">18</span>
+            <div class="q-text">________</div>
+            <div class="answer-box">✅ 答案：covered</div>
+            <div class="analysis-box">📝 解析：are covered with 被……覆盖。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">19</span>
+            <div class="q-text">________</div>
+            <div class="answer-box">✅ 答案：famous</div>
+            <div class="analysis-box">📝 解析：be famous for 以……闻名。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">20</span>
+            <div class="q-text">________</div>
+            <div class="answer-box">✅ 答案：so</div>
+            <div class="analysis-box">📝 解析：前后因果关系，so 所以。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">21</span>
+            <div class="q-text">________</div>
+            <div class="answer-box">✅ 答案：amazing/attractive</div>
+            <div class="analysis-box">📝 解析：amazing 惊人的；attractive 迷人的。均可。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">22</span>
+            <div class="q-text">________</div>
+            <div class="answer-box">✅ 答案：millions</div>
+            <div class="analysis-box">📝 解析：millions of 数百万的。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">23</span>
+            <div class="q-text">________</div>
+            <div class="answer-box">✅ 答案：form</div>
+            <div class="analysis-box">📝 解析：form 形成，主语 streams 复数，用原形。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">24</span>
+            <div class="q-text">________</div>
+            <div class="answer-box">✅ 答案：along</div>
+            <div class="analysis-box">📝 解析：along the way 一路上。</div>
+        </div>
+        <div class="small-note">语篇导读：本文介绍了武夷山的地理特征、地质构造、地貌特点及其著名的自然景观等。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 完形填空 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 完形填空 (15小题·国际学生黄山行)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>In March this year, 27 international students went on a three-day trip to Huangshan, Anhui. These students came from different <strong>1.____</strong> , such as France and the US.</p>
+            <p>On the first day, the group went to Hongcun. The <strong>2.____</strong> village is famous as the “village in a Chinese painting”. That’s because its <strong>3.____</strong> is amazing. The fantastic old buildings with white walls are like <strong>4.____</strong> from the past. The students learnt about the history of Anhui there. They found an ancestral hall in the village. People built it a very long time ago. It showed how <strong>5.____</strong> family was to Chinese people. They also went to an ancient school, and they found people there <strong>6.____</strong> cared about studying in the past.</p>
+            <p>The next day, the students <strong>7.____</strong> an ink factory. There they learnt <strong>8.____</strong> people made ink and inkstones. The workers explained the ways carefully. The students were <strong>9.____</strong> that Chinese culture and art were so interesting. In the afternoon, they <strong>10.____</strong> in an old town. There, they listened to stories about ancient people being loyal and showing respect.</p>
+            <p>On the <strong>11.____</strong> day, they went to Huangshan University. They learnt about Chinese tea culture. They watched someone make tea and even tried it themselves. <strong>12.____</strong> was very peaceful. After that, they learnt to cook a famous fish dish. The fish <strong>13.____</strong> a little strange, but it tasted great.</p>
+            <p>The trip came to an end <strong>14.____</strong> it got dark. It was a full and meaningful <strong>15.____</strong> . It helped the students learn about Chinese history, culture and life.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            今年3月，27名国际学生去安徽黄山进行了为期三天的旅行。这些学生来自不同的国家，如法国和美国。<br>
+            第一天，团队去了宏村。这个古村以“中国画里的村庄”而闻名。那是因为它的风景令人惊叹。那些有着白色墙壁的绝妙古建筑就像来自过去的宝藏。学生们在那里了解了安徽的历史。他们在村里发现了一个宗祠。人们很久以前建造了它。它展示了家庭对中国人来说是多么重要。他们还去了一所古老的学校，发现那里的人在过去真的很关心学习。<br>
+            第二天，学生们参观了一家墨厂。在那里他们了解了人们如何制造墨和砚台。工人们仔细地讲解了方法。学生们对中国的文化和艺术如此有趣感到惊讶。下午，他们在一个古镇集合。在那里，他们听了一些关于古代人忠诚和尊敬的故事。<br>
+            最后一天，他们去了黄山学院。他们了解了中国茶文化。他们看着别人泡茶，甚至亲自品尝。喝茶非常令人平静。之后，他们学习烹饪一道著名的鱼菜。鱼闻起来有点奇怪，但尝起来很棒。<br>
+            天黑时，旅行结束了。这是一次充实而有意义的旅行。它帮助学生们了解了中国的历史、文化和生活。
+        </div>
+
+        <!-- 选项列表 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">A. towns  B. countries  C. schools  D. clubs</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：由France and the US可知是不同的国家。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">A. modern  B. rich  C. ancient  D. dark</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：由后文 old buildings 可知是 ancient。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">A. landscape  B. language  C. food  D. air</div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：风景 amazing，指 landscape。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">A. meals  B. treasures  C. festivals  D. markets</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：古建筑像来自过去的宝藏，treasures。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">A. tiring  B. fun  C. useful  D. important</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：宗祠说明家庭对中国人很重要，important。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">A. really  B. suddenly  C. finally  D. hardly</div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：really cared about 真的很关心。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">A. cleaned  B. visited  C. built  D. kicked</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：参观工厂，visited。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">A. why  B. where  C. when  D. how</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：学习如何制造，how。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">A. afraid  B. sad  C. amazed  D. bored</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：对……感到惊讶，amazed。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">10</span>
+            <div class="q-text">A. worked out  B. held on  C. got together  D. stood up</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：集合，聚在一起，got together。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">11</span>
+            <div class="q-text">A. first  B. school  C. big  D. last</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：前文 first day, next day, 最后一天 last day。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">12</span>
+            <div class="q-text">A. It  B. He  C. She  D. I</div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：指代喝茶这件事，用 It。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">13</span>
+            <div class="q-text">A. felt  B. stayed  C. smelled  D. grew</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：鱼闻起来 strange，smelled。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">14</span>
+            <div class="q-text">A. if  B. so  C. but  D. as</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：随着天黑，as 引导时间状语。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">15</span>
+            <div class="q-text">A. show  B. journey  C. match  D. exhibition</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：有意义的旅程，journey。</div>
+        </div>
+        <div class="small-note">语篇导读：本文讲述了27名国际学生到安徽黄山进行为期三天的旅行的故事。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅵ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section6">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅵ 阅读选择 (4小题·少年骑行)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>①Three 13-year-old boys from Shanghai surprised many people in China this summer vacation. They rode their bicycles from Shanghai to Hangzhou. And their parents weren’t with them on the trip!</p>
+            <p>②Starting from Shanghai on 8 July at 5:00 a.m., the boys got to Hangzhou on the evening of 10 July, going over about 200 kilometres on their bicycles.</p>
+            <p>③On the trip, they used an app to find their way. There were three ways to Hangzhou, and they chose the middle one. And they took a short break in Jiaxing and then went on their trip. In the end, they spent three days finishing the trip.</p>
+            <p>④For the boys, the trip was really tiring and difficult, but they learnt a lot on the way. They saw different kinds of buildings and ate different special foods along the way. They also met some problems, but they worked them out together. One boy took a lot of photos to help remember those wonderful times. One of them says, “ ▲ ”</p>
+            <p>⑤Many parents think the boys’ trip is wonderful, but they don’t let their own kids do so. “They’re too young and may meet someone bad. And their parents are too irresponsible.” But the boys’ parents think the trip is good and helpful for their children. They contact the boys every day. The boys also have enough money with them.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            ①今年暑假，三个来自上海的13岁男孩让很多中国人感到惊讶。他们骑自行车从上海到杭州。而且他们的父母没有和他们一起去！<br>
+            ②他们于7月8日早上5点从上海出发，7月10日晚上到达杭州，骑行了约200公里。<br>
+            ③在路上，他们用一个应用程序导航。有三条路去杭州，他们选择了中间那条。他们在嘉兴短暂休息，然后继续旅程。最终，他们花了三天时间完成了旅程。<br>
+            ④对男孩们来说，这次旅行真的很累很艰难，但他们一路上学到了很多。他们看到了不同种类的建筑，品尝了沿途的特色美食。他们也遇到了一些问题，但他们一起解决了。一个男孩拍了很多照片来记住那些美好时光。其中一人说：“▲”<br>
+            ⑤许多家长认为男孩们的旅行很棒，但他们不让自己的孩子这样做。“他们太小了，可能会遇到坏人。而且他们的父母太不负责任了。”但男孩们的父母认为这次旅行对他们的孩子有益且有帮助。他们每天和男孩们联系。男孩们也带了足够的钱。
+        </div>
+        <!-- 16 -->
+        <div class="question-item">
+            <span class="q-num">16</span>
+            <div class="q-text">Which way do the boys choose? (三条路线图：中间一条，选项为图片描述)</div>
+            <div class="options">
+                <span class="opt-item">A. 最左边路线</span>
+                <span class="opt-item">B. 中间路线</span>
+                <span class="opt-item">C. 最右边路线</span>
+                <span class="opt-item">D. 没有选择</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：第三段明确说 they chose the middle one。</div>
+        </div>
+        <!-- 17 -->
+        <div class="question-item">
+            <span class="q-num">17</span>
+            <div class="q-text">Which of the following can be put in “▲” in Paragraph 4?</div>
+            <div class="options">
+                <span class="opt-item">A. Our parents can’t contact us.</span>
+                <span class="opt-item">B. We don’t prepare well for our trip.</span>
+                <span class="opt-item">C. Our parents don’t want us to go next time.</span>
+                <span class="opt-item">D. Going with the wind, I feel like a bird.</span>
+            </div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：积极感受，D项“随风而行，我感觉像一只鸟”符合语境。</div>
+        </div>
+        <!-- 18 -->
+        <div class="question-item">
+            <span class="q-num">18</span>
+            <div class="q-text">What does the underlined word “irresponsible” mean in Paragraph 5?</div>
+            <div class="options">
+                <span class="opt-item">A. Not showing much care.</span>
+                <span class="opt-item">B. Not having much money.</span>
+                <span class="opt-item">C. Not busy.</span>
+                <span class="opt-item">D. Not free.</span>
+            </div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：很多家长认为让孩子独自骑行是不负责任，即不够关心孩子安全。</div>
+        </div>
+        <!-- 19 -->
+        <div class="question-item">
+            <span class="q-num">19</span>
+            <div class="q-text">Which of the following shows the structure of the passage? (①/②③/④/⑤)</div>
+            <div class="options">
+                <span class="opt-item">A. ①/②③④/⑤</span>
+                <span class="opt-item">B. ①/②/③④/⑤</span>
+                <span class="opt-item">C. ①/②③/④/⑤</span>
+                <span class="opt-item">D. ①/②③/④⑤</span>
+            </div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：①引入；②③旅程描述；④收获；⑤家长看法。C符合。</div>
+        </div>
+        <div class="small-note">语篇导读：本文主要讲述了三个13岁男孩暑期从上海骑行到杭州的旅程。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅶ 阅读还原 ========= -->
+<div class="section-card collapsed" id="section7">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅶ 阅读还原 (5小题·高校旅游)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>Where did you go this summer vacation? <strong>20.____</strong> But there is always one thing in common—many Chinese students went to famous universities like Tsinghua University, Peking University and Fudan University with their parents. People call it “university tourism”.</p>
+            <p><strong>21.____</strong> Tsinghua University, of course. It has around 6,000 visitors a day. Tsinghua University opens at 8:00 a.m. But many visitors went there at 3 a.m. to 4 a.m. <strong>22.____</strong> Even if the visitors come at 6 a.m., they might be too late and they have to go into it in the afternoon. What did they do when they went into the university? <strong>23.____</strong> And they even sat on chairs and enjoyed themselves quietly.</p>
+            <p>Why is the “university tourism” so popular with people? <strong>24.____</strong> On the other hand, many parents hope their children will go to a top university in the future.</p>
+        </div>
+        <div class="word-box" style="background:#e9eef5;">
+            🔤 选项：<br>
+            A. A.Did you visit Tsinghua University?(未使用)<br>
+            B. Which university is the most popular with visitors?<br>
+            C. Different people go to different places.<br>
+            D. Thousands of visitors enter Tsinghua University every day.<br>
+            E. On the one hand, the long history and rich culture of these famous universities attract people.<br>
+            F. They always visit the library and take many photos in front of the teaching buildings.
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            你暑假去了哪里？不同的人去不同的地方。但总有一个共同点——许多中国学生和父母一起去了著名大学，如清华大学、北京大学和复旦大学。人们称之为“高校旅游”。<br>
+            哪所大学最受游客欢迎？当然是清华大学。它每天大约有6000名游客。清华大学早上8点开门。但很多游客凌晨3点到4点就去了。每天有数千名游客进入清华大学。即使游客早上6点来，也可能太晚，只能下午进去。他们进大学后做什么？他们总是参观图书馆，在教学楼前拍很多照片。他们甚至坐在椅子上静静地享受。<br>
+            为什么“高校旅游”如此受欢迎？一方面，这些著名大学的悠久历史和丰富文化吸引了人们。另一方面，许多家长希望他们的孩子将来能上顶尖大学。
+        </div>
+        <div class="question-item">
+            <span class="q-num">20</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：前文问去了哪里，后文说但有一个共同点，中间应填“不同的人去不同的地方”，C符合。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">21</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：后文回答“Tsinghua University”，故问哪所大学最受欢迎，B正确。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">22</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：前文说游客凌晨排队，后文说即使6点来也可能太晚，此处应填入解释为什么人多的句子，D项“每天有数千游客进入清华”符合。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">23</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：F</div>
+            <div class="analysis-box">📝 解析：前文问进大学后做什么，F项描述他们参观图书馆、拍照，符合。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">24</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：E</div>
+            <div class="analysis-box">📝 解析：后文有“On the other hand”，前文应有“On the one hand”，E项符合。</div>
+        </div>
+        <div class="small-note">语篇导读：本文介绍了“高校旅游”现象及其受欢迎的原因。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#3f627c; font-size:0.95rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
