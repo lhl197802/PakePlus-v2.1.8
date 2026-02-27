@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 4 A good read · Period 4 Grammar</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>📚 Unit 4 A good read · Period 4</h1>
+        <p>Grammar 语法专练 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 单项选择 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 单项选择 (共5小题，每小题1分，计5分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">【2024江苏淮安期末】We should learn some basic life skills since we ________ depend on ourselves some day.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. can</span>
+            <span class="opt-item">B. can't</span>
+            <span class="opt-item">C. must</span>
+            <span class="opt-item">D. mustn't</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：根据语境，我们必须依靠自己，用 must 表示“必须”。</div>
+        <div class="trans-box">🌐 翻译：我们应该学习一些基本的生活技能，因为总有一天我们必须依靠自己。</div>
+        <div class="small-note">链接狂K：must 和 have to 的用法的详细讲解见狂K重点P25。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">【2024江苏盐城质检】The Maths problem is too difficult. The students don't know ________ it.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. how to solve</span>
+            <span class="opt-item">B. what to solve</span>
+            <span class="opt-item">C. when to solve</span>
+            <span class="opt-item">D. why to solve</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：how to solve it 表示“如何解决它”，符合句意。</div>
+        <div class="trans-box">🌐 翻译：这道数学题太难了。学生们不知道如何解它。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">【2024江苏宿迁期末】—Miss Li, I don't want to say sorry to Daniel. —I'm afraid you ________. After all, you broke his glasses.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. may</span>
+            <span class="opt-item">B. have to</span>
+            <span class="opt-item">C. mustn't</span>
+            <span class="opt-item">D. needn't</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：根据“毕竟你打破了他的眼镜”，可知对方“不得不”道歉，用 have to。</div>
+        <div class="trans-box">🌐 翻译：——李老师，我不想向丹尼尔道歉。——恐怕你必须道歉。毕竟，你打破了他的眼镜。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">【2025江苏常州期末】Her nervous smile ________ her true feelings when she said she wasn't worried about the exam.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. gave up</span>
+            <span class="opt-item">B. gave away</span>
+            <span class="opt-item">C. gave in</span>
+            <span class="opt-item">D. gave back</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：give away 意为“暴露，泄露”，符合语境。</div>
+        <div class="trans-box">🌐 翻译：当她说她不担心考试时，不自然的笑容暴露了她的真实情绪。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">【2024江苏连云港质检】—I am worried about my study, but I don't know ________ about my problems. —Come on！You can talk to me. We are good friends.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. what to talk</span>
+            <span class="opt-item">B. what to talk about</span>
+            <span class="opt-item">C. who to talk to</span>
+            <span class="opt-item">D. who to talk</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：根据答语“你可以和我谈”可知，对方不知道“和谁谈”，用 who to talk to。</div>
+        <div class="trans-box">🌐 翻译：——我担心我的学习，但我不知道和谁谈我的问题。——加油！你可以和我谈。我们是好朋友。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 适当形式填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 适当形式填空 (共5小题，每小题1分，计5分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">Suzy didn't know when ________ (take) a boat trip on the lake.</span>
+        </div>
+        <div class="answer-box">✅ 答案：to take</div>
+        <div class="analysis-box">📝 解析：“疑问词+不定式”作宾语，when to take 什么时候乘船。</div>
+        <div class="trans-box">🌐 翻译：苏茜不知道什么时候去湖上乘船旅行。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">【2024江苏南通期末】We learnt how ________ (work) as a team by completing the task.</span>
+        </div>
+        <div class="answer-box">✅ 答案：to work</div>
+        <div class="analysis-box">📝 解析：how to work 如何工作。</div>
+        <div class="trans-box">🌐 翻译：通过完成这个任务，我们学会了如何作为一个团队工作。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">—________ you ________ (hand) in your homework yet? —Yes, I gave it to the monitor a moment ago.</span>
+        </div>
+        <div class="answer-box">✅ 答案：Have; handed</div>
+        <div class="analysis-box">📝 解析：yet 提示用现在完成时，主语 you，助动词 Have，hand 的过去分词 handed。</div>
+        <div class="trans-box">🌐 翻译：——你已经交作业了吗？——是的，我刚才把它给了班长。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">【2024江苏泰兴期末】You must ________ (go) to the doctor because your temperature is higher than usual.</span>
+        </div>
+        <div class="answer-box">✅ 答案：go</div>
+        <div class="analysis-box">📝 解析：情态动词 must 后接动词原形。</div>
+        <div class="trans-box">🌐 翻译：你必须去看医生，因为你的体温比平常高。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">I have read some ________ (review) about the film and I know many people love it.</span>
+        </div>
+        <div class="answer-box">✅ 答案：reviews/review</div>
+        <div class="analysis-box">📝 解析：review 既可数又不可数，some 后可用复数或单数。</div>
+        <div class="trans-box">🌐 翻译：我读了一些关于这部电影的评论，我知道很多人喜欢它。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 语法填空 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 语法填空 (共10小题，每小题1分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了阅读英文报纸是提高学生语言能力的好方法。</div>
+        <div class="passage-box">
+            <p>Reading an English newspaper is a good way to improve a student's language <strong>1. ability/abilities</strong>, as there are many useful words in an English newspaper. It may help students increase their vocabulary as well as improve their reading skills. They can get new <strong>2. knowledge</strong> from newspapers. But what is the proper way to read an English newspaper? Do students <strong>3. have</strong> to look over all the contents of the newspaper?</p>
+            <p>The <strong>4. first</strong> step is to choose a right newspaper with good language. Then turn to the front page and read the headlines to know what has <strong>5. happened</strong>. As the most important things are put on the front page, it's easy to find out what you're interested in and then turn to the page to read it. There is no need to look <strong>6. through</strong> all the articles.</p>
+            <p>Secondly, read newspapers every day. Remember words according to the context, in which these words may appear again. You will remember them <strong>7. easily</strong>. Don't look up every <strong>8. unknown</strong> word in your dictionary. You can try to <strong>9. guess</strong> the meaning by reading sentences. If your guess is wrong, never mind. Keep reading, <strong>10. and</strong> you will become familiar with the words after reading them several times in different texts.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            阅读英文报纸是提高学生语言能力的好方法，因为英文报纸中有许多有用的单词。它可以帮助学生增加词汇量并提高阅读技能。他们可以从报纸上获取新知识。但是阅读英文报纸的正确方法是什么？学生必须浏览报纸的所有内容吗？<br>
+            第一步是选择一份语言良好的合适报纸。然后翻到头版，阅读标题来了解发生了什么。由于最重要的事情都放在头版，很容易找出你感兴趣的内容，然后翻到那一页去阅读。没有必要浏览所有的文章。<br>
+            其次，每天读报纸。根据上下文记忆单词，这些单词可能会再次出现。你会很容易记住它们。不要在词典里查每一个不认识的单词。你可以尽量通过读句子猜测意思。如果你的猜测错了，没关系。继续阅读，然后在不同的文章里把它们读几遍后，你就会熟悉这些词了。
+        </div>
+
+        <!-- 1-10 解析 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">ability/abilities</span></div>
+        <div class="answer-box">✅ 答案：ability/abilities</div>
+        <div class="analysis-box">📝 解析：ability 意为“能力”，可数或不可数，此处用单数或复数均可。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">knowledge</span></div>
+        <div class="answer-box">✅ 答案：knowledge</div>
+        <div class="analysis-box">📝 解析：knowledge 为不可数名词，意为“知识”。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">have</span></div>
+        <div class="answer-box">✅ 答案：have</div>
+        <div class="analysis-box">📝 解析：Do 开头的一般疑问句，后接动词原形，have to 必须。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">first</span></div>
+        <div class="answer-box">✅ 答案：first</div>
+        <div class="analysis-box">📝 解析：定冠词 the 后接序数词 first，表示“第一步”。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">5</span><span class="q-text-inline">happened</span></div>
+        <div class="answer-box">✅ 答案：happened</div>
+        <div class="analysis-box">📝 解析：has 后接过去分词构成现在完成时，happen 的过去分词为 happened。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">6</span><span class="q-text-inline">through</span></div>
+        <div class="answer-box">✅ 答案：through</div>
+        <div class="analysis-box">📝 解析：look through 浏览，固定短语。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">7</span><span class="q-text-inline">easily</span></div>
+        <div class="answer-box">✅ 答案：easily</div>
+        <div class="analysis-box">📝 解析：修饰动词 remember 用副词 easily。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">8</span><span class="q-text-inline">unknown</span></div>
+        <div class="answer-box">✅ 答案：unknown</div>
+        <div class="analysis-box">📝 解析：形容词 unknown 修饰名词 word，意为“不认识的”。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">9</span><span class="q-text-inline">guess</span></div>
+        <div class="answer-box">✅ 答案：guess</div>
+        <div class="analysis-box">📝 解析：try to do sth. 尽力做某事，填动词原形 guess。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">10</span><span class="q-text-inline">and</span></div>
+        <div class="answer-box">✅ 答案：and</div>
+        <div class="analysis-box">📝 解析：“祈使句 + and + 陈述句”固定结构，表示顺承关系。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
