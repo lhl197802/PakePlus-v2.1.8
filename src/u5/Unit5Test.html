@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 5 Good manners · 单元限时检测</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🤝 Unit 5 Good manners · 单元限时检测</h1>
+        <p>满分 58分  |  建议用时 40分钟</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 单项选择 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 单项选择 (共10小题，每小题1分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">Eating up the food on the plate is one of the ________ in Jack's family.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. rules</span>
+            <span class="opt-item">B. plans</span>
+            <span class="opt-item">C. hobbies</span>
+            <span class="opt-item">D. advice</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：rules 规则，符合句意“是杰克家的规则之一”。</div>
+        <div class="trans-box">🌐 翻译：吃完盘子中的食物是杰克家的规则之一。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">—What are you doing? —We are having a ________ about when to have a party.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. decision</span>
+            <span class="opt-item">B. test</span>
+            <span class="opt-item">C. discussion</span>
+            <span class="opt-item">D. trip</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：have a discussion 进行讨论。</div>
+        <div class="trans-box">🌐 翻译：——你们在干什么？——我们在就什么时候举办聚会进行讨论。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">【2025江苏无锡期末】—Could you stop singing? I'm busy preparing for the project. —Sorry, I didn't ________ it.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. accept</span>
+            <span class="opt-item">B. avoid</span>
+            <span class="opt-item">C. realize</span>
+            <span class="opt-item">D. remember</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：realize 意识到，符合语境“我没意识到”。</div>
+        <div class="trans-box">🌐 翻译：——你能别唱了吗？我正忙着为这个项目做准备。——对不起，我没意识到。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">Many wild animals are in danger! The situation won't change ________ humans stop hurting them.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. unless</span>
+            <span class="opt-item">B. though</span>
+            <span class="opt-item">C. so</span>
+            <span class="opt-item">D. if</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：unless 除非，引导条件状语从句。</div>
+        <div class="trans-box">🌐 翻译：许多野生动物正处于危险中！除非人类停止伤害它们，否则这种情况不会改变。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">—Can you tell me when the Boeing 737 MAX planes will be allowed to fly again, sir? —I'm afraid it's still ________ to talk about that. We'll see.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. late enough</span>
+            <span class="opt-item">B. early enough</span>
+            <span class="opt-item">C. too late</span>
+            <span class="opt-item">D. too early</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：too early to talk 谈论还为时过早。</div>
+        <div class="trans-box">🌐 翻译：——先生，你能告诉我波音737MAX飞机什么时候将被允许再次起飞吗？——恐怕谈论那个还为时过早。看看再说吧。</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">I couldn't walk very fast because a lot of people were ________.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. in my way</span>
+            <span class="opt-item">B. in this way</span>
+            <span class="opt-item">C. in some way</span>
+            <span class="opt-item">D. on my way</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：in one's way 挡路。</div>
+        <div class="trans-box">🌐 翻译：我走不快，因为很多人挡了我的路。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">【2025江苏无锡期末】What does the sign on the right mean?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Wet floor!</span>
+            <span class="opt-item">B. Sit down!</span>
+            <span class="opt-item">C. Wash hands!</span>
+            <span class="opt-item">D. Voice down!</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：图片中一个人滑倒，提示小心地滑。</div>
+        <div class="trans-box">🌐 翻译：右边的标志是什么意思？A. 小心地滑！B. 坐下！C. 洗手！D. 小声点！</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">【2025江苏连云港期中】My father ________ drive to his workplace, but now he has ________ riding a bike there to keep fit.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. used to; used to</span>
+            <span class="opt-item">B. got used to; used to</span>
+            <span class="opt-item">C. used to; got used to</span>
+            <span class="opt-item">D. used to; get used to</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：used to do 过去常常；has got used to doing 已经习惯于做。</div>
+        <div class="trans-box">🌐 翻译：我父亲过去常常开车去上班，但现在他已经习惯了骑自行车去那里以保持健康。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">We don't have ________ to buy this sweater, although the sweater is ________.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. enough money; good enough</span>
+            <span class="opt-item">B. money enough; enough good</span>
+            <span class="opt-item">C. money enough; well enough</span>
+            <span class="opt-item">D. enough money; enough well</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：enough 修饰名词放在前面，修饰形容词放在后面。</div>
+        <div class="trans-box">🌐 翻译：我们没有足够的钱买这件毛衣，尽管这件毛衣足够好。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【2024江苏扬州一模】—I still have made little progress in Physics. —Don't lose heart. As we all know, “________”.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Actions speak louder than words</span>
+            <span class="opt-item">B. Rome is not built in one day</span>
+            <span class="opt-item">C. The early bird catches the worm</span>
+            <span class="opt-item">D. A miss is as good as a mile</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：罗马不是一天建成的，鼓励不要灰心。</div>
+        <div class="trans-box">🌐 翻译：——我在物理上仍然没有什么进步。——不要灰心。我们都知道，“罗马不是一天建成的”。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 完形填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 完形填空 (共15小题，每小题1分，计15分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要讲述了不同国家的不同风俗习惯。</div>
+        <div class="passage-box">
+            <p>We should behave differently in different parts of the world. That means we have to follow certain customs in a new place. Let's see some of <strong>11.</strong> .</p>
+            <p><strong>Pointing with lips in Nicaragua</strong><br>In Nicaragua, it is common to point with the lips <strong>12.</strong> fingers. People in Nicaragua can move their lips forward or from side to side to show <strong>13.</strong> they would like to point out. The lip <strong>14.</strong> is usually used in conversations to show something that's happening nearby.</p>
+            <p><strong>Tipping in the USA</strong><br>Unlike many other countries where people don't tip at all or only tip in small amounts after eating at a restaurant, tipping in the USA is <strong>15.</strong>. In fact, <strong>16.</strong> are expected to leave 10—20 per cent of the bill in tips. There is no doubt that tipping culture encourages waiters and waitresses to <strong>17.</strong> better service.</p>
+            <p><strong>Slurping in Japan</strong><br>In most table manners, noisy eating is considered <strong>18.</strong>. In Japan, <strong>19.</strong>, slurping while people are eating has a completely different meaning. Making slurping sounds when you are eating noodles in Japan is a way of showing you are <strong>20.</strong> enjoying them. Some scientists even think slurping actually makes the noodles <strong>21.</strong> even better.</p>
+            <p><strong>Using the left hand for things</strong><br>In some countries, using the left hand for eating or other activities is <strong>22.</strong> liked by most people. More often, people in these countries use the <strong>23.</strong> hand for cleaning themselves after using the toilet. Much of the Middle East, Sri Lanka, India and parts of Africa belong to such <strong>24.</strong>. To be safe, it's best to use your right hand <strong>25.</strong> greeting people, holding things, and eating in these places.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            在世界不同地方，我们的行为应该有所不同。这意味着我们在一个新地方必须遵循某些习俗。让我们看看其中的一些。<br>
+            <strong>尼加拉瓜的用嘴唇指物</strong><br>在尼加拉瓜，人们通常用嘴唇而不是手指来指东西。尼加拉瓜人可以向前或左右移动他们的嘴唇来表示他们想要指出什么。嘴唇的指向通常在谈话中用来表示附近正在发生的事情。<br>
+            <strong>美国的小费</strong><br>与许多其他国家的人们在餐厅用餐后根本不给小费或只给少量小费不同，在美国给小费是很常见的。事实上，顾客被期待留下账单的10%到20%当小费。毫无疑问，给小费的文化鼓励服务员提供更好的服务。<br>
+            <strong>日本的出声吃喝</strong><br>在大多数餐桌礼仪中，吃饭时发出吵闹声被认为是不礼貌的。然而，在日本，人们吃东西时发出声音有着完全不同的含义。在日本吃面条时发出啧啧的声音是一种表示你真的很喜欢吃它们的方式。一些科学家甚至认为，吃的时候发出声音会让面条的味道更好。<br>
+            <strong>用左手做事</strong><br>在一些国家，大多数人不大喜欢用左手吃饭或做其他事情。更常见的是，这些国家的人们在如厕后使用左手清洁自己。中东大部分地区、斯里兰卡、印度和非洲部分地区就属于这样的国家。为了安全起见，在这些地方与人打招呼、拿东西和吃饭时最好用右手。
+        </div>
+
+        <!-- 11-25 选项 -->
+        <div class="q-item-inline"><span class="q-num-inline">11</span><span class="q-text-inline">A. us  B. you  C. it  D. them</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：them 指代 customs。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">12</span><span class="q-text-inline">A. as for  B. because of  C. instead of  D. thanks to</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：instead of 而不是，用嘴唇而不是手指。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">A. what  B. why  C. when  D. how</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：what 作 point out 的宾语。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">A. skin  B. point  C. area  D. shape</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：lip point 嘴唇指向。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">A. interesting  B. strange  C. worth  D. common</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：给小费在美国很常见。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">A. customers  B. relatives  C. managers  D. directors</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：顾客被期待给小费。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">A. refuse  B. warn  C. provide  D. cancel</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：provide better service 提供更好的服务。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">A. funny  B. impolite  C. normal  D. relaxing</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：吵闹地吃被认为是不礼貌的。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">A. anyway  B. besides  C. therefore  D. however</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：然而在日本不同。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">A. really  B. widely  C. directly  D. suddenly</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：真的很喜欢。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">A. smell  B. taste  C. look  D. sound</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：taste better 味道更好。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">A. nearly  B. easily  C. hardly  D. usually</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：hardly liked 几乎不被喜欢。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">A. right  B. middle  C. last  D. left</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：用左手清洁自己。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">24</span><span class="q-text-inline">A. countries  B. towns  C. neighbourhoods  D. communities</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：属于这样的国家。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">25</span><span class="q-text-inline">A. to  B. for  C. at  D. of</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：use...for doing 用……做某事。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 阅读选择 (共4小题，每小题2分，计8分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文介绍了不同国家在送礼物方面的文化差异。</div>
+        <div class="passage-box">
+            <p>①Different countries have different customs of giving presents. How should we do properly? Always remember: ____</p>
+            <p>②In China you must never give a clock to a Chinese person, because the sound of the word for “clock” is similar to the sound for “death” in Chinese. Also, don't wrap a present in white, black or blue paper, because these are the colours for funerals. Don't give a knife, because something sharp can cut a friendship.</p>
+            <p>③In Russia, if we give flowers as a present, we have to give odd numbers of them (one, three, five, etc.), because even numbers of flowers (two, four, six, etc.) are for funerals.</p>
+            <p>④In Germany, flowers are a good present to take to your dinner hostess, but don't take her red roses because it means you are in love with her. Don't take thirteen of anything because it's an unlucky number. Don't take an even number of anything, either. Don't wrap your present in white, brown or black paper.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            ①不同国家有不同送礼习俗。我们应该如何正确送礼？永远记住：入乡随俗。<br>
+            ②在中国，绝不能给中国人送钟，因为“钟”的发音与“死”相似。另外，不要用白色、黑色或蓝色纸包礼物，因为这些是葬礼的颜色。不要送刀，因为锋利的东西会切断友谊。<br>
+            ③在俄罗斯，如果送花作为礼物，必须送奇数朵（1、3、5等），因为偶数朵花（2、4、6等）是用于葬礼的。<br>
+            ④在德国，鲜花是带给晚宴女主人的好礼物，但不要送红玫瑰，因为那表示你爱上她了。任何东西都不要送13个，因为那是不吉利的数字。任何东西也不要送偶数个。不要用白色、棕色或黑色纸包礼物。
+        </div>
+
+        <!-- 26 -->
+        <div class="q-item-inline"><span class="q-num-inline">26</span><span class="q-text-inline">Which is the best sentence that can be put into ________ in Paragraph 1?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Knowledge is power!</span>
+            <span class="opt-item">B. East or west, home is best!</span>
+            <span class="opt-item">C. Never give up easily!</span>
+            <span class="opt-item">D. When in Rome, do as the Romans do!</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：入乡随俗符合主题。</div>
+
+        <!-- 27 -->
+        <div class="q-item-inline"><span class="q-num-inline">27</span><span class="q-text-inline">What does the underlined word “even” in Paragraph 3 mean in Chinese?</span></div>
+        <div class="options">
+            <span class="opt-item">A. 甚至</span>
+            <span class="opt-item">B. 更加</span>
+            <span class="opt-item">C. 偶数的</span>
+            <span class="opt-item">D. 奇数的</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：even numbers 偶数。</div>
+
+        <!-- 28 -->
+        <div class="q-item-inline"><span class="q-num-inline">28</span><span class="q-text-inline">You may wrap your gifts in ________ paper if you go to a party in Germany.</span></div>
+        <div class="options">
+            <span class="opt-item">A. white</span>
+            <span class="opt-item">B. blue</span>
+            <span class="opt-item">C. black</span>
+            <span class="opt-item">D. brown</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：德国不能用白、棕、黑，蓝色可以。</div>
+
+        <!-- 29 -->
+        <div class="q-item-inline"><span class="q-num-inline">29</span><span class="q-text-inline">Which is the best structure of this passage?</span></div>
+        <div class="options">
+            <span class="opt-item">A. ①/②③④</span>
+            <span class="opt-item">B. ①②/③④</span>
+            <span class="opt-item">C. ①/②/③④</span>
+            <span class="opt-item">D. ①②③/④</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：总分结构，第一段总起，后面分别介绍。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 阅读表达 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 阅读表达 (共5小题，每小题2分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要讲述了作者的儿子因为懂礼貌、尊重他人而获得了工作机会的经历。</div>
+        <div class="passage-box">
+            <p>Half a year before graduation from college, my son began to seek a job. Due to the financial crisis, fewer companies would like to employ new staff. My son targeted a company that was going to hire only one person while there were more than twenty people providing their resumes.</p>
+            <p>After the interview, there would be only 3 who could enter the final round. Later the company would decide one person to be employed. Everything seemed to go quite well and my son passed the first round and entered the final round in a week.</p>
+            <p>On the day of the final interview, my son and the other two candidates arrived at the interview place on time, waiting for the test. Unexpectedly, the interview was unbelievably simple. The interviewer only said to them, “All of you are super. Please go home and wait for our notice. We will tell you the result in 3 days. Good luck to all of you!” On the morning of the third day, my son received a text from the company shortly after breakfast that he was not employed. We all felt very disappointed.</p>
+            <p>At dusk that day, my son suddenly told me excitedly on the phone, “Dad, I have been employed!” Greatly surprised, I could not wait to ask him, “What's the whole matter?” My son told me that he received another text saying that he was employed. Actually, the first text sent to my son was also part of the test in the interview. Three men received the same text this morning and only my son's reply was “Thank you”, while the others said “Goodbye”.</p>
+            <p>Only then did I know that my son's “hope” came in that way. That is, when you feel disappointed, do not forget to say “Thank you” to the one who disappoints you. Saying “Thank you” shows respect for others' work and shows you are generous. Therefore, while under the same conditions, you will gain the upper hand in terms of opportunities compared with others!</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            儿子大学毕业前半年前开始找工作。由于金融危机，很少有公司愿意招聘新员工。儿子瞄准了一家公司，该公司只招聘一个人，却有二十多人投递简历。<br>
+            面试后，只有3人能进入最后一轮。然后公司将决定聘用一人。一切似乎进展顺利，儿子通过了第一轮，一周后进入最后一轮。<br>
+            最后一轮面试那天，儿子和另外两名候选人准时到达面试地点等待测试。出乎意料的是，面试简单得难以置信。面试官只对他们说：“你们都很棒。请回家等通知。我们将在3天内告诉你们结果。祝你们好运！”第三天早上，儿子早餐后不久收到公司短信，说他没有被录用。我们都很失望。<br>
+            那天黄昏，儿子突然在电话里兴奋地告诉我：“爸爸，我被录用了！”我大吃一惊，迫不及待地问：“怎么回事？”儿子告诉我他收到了另一条短信，说他被录用了。实际上，第一条发给儿子的短信也是面试的一部分。三个人今天早上收到了同样的短信，只有儿子的回复是“谢谢”，而其他人说“再见”。<br>
+            那时我才知道儿子的“希望”是这样来的。也就是说，当你感到失望时，不要忘记对让你失望的人说“谢谢”。说“谢谢”是对他人工作的尊重，也显示你的大度。因此，在同等条件下，你会比其他人获得更多机会！
+        </div>
+
+        <!-- 30-34 -->
+        <div class="q-item-inline"><span class="q-num-inline">30</span><span class="q-text-inline">When did the author's son begin to seek a job?</span></div>
+        <div class="answer-box">✅ 答案：Half a year before graduation from college.</div>
+        <div class="analysis-box">📝 解析：第一段第一句。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">31</span><span class="q-text-inline">How many people applied for the job?</span></div>
+        <div class="answer-box">✅ 答案：More than twenty people.</div>
+        <div class="analysis-box">📝 解析：第一段末。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">32</span><span class="q-text-inline">How did the author feel after being told the news at dusk that day?</span></div>
+        <div class="answer-box">✅ 答案：He felt greatly surprised.</div>
+        <div class="analysis-box">📝 解析：第四段 Greatly surprised。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">33</span><span class="q-text-inline">What was the difference between the author's son's answer and the others'?</span></div>
+        <div class="answer-box">✅ 答案：The author's son's answer was “Thank you”, while the others said “Goodbye”.</div>
+        <div class="analysis-box">📝 解析：第四段最后。</div>
+
+        <!-- 34 开放性试题 -->
+        <div class="q-item-inline"><span class="q-num-inline">34</span><span class="q-text-inline">What do you think of the interview? What have you learnt from it? (开放性试题)</span></div>
+        <div class="answer-box">✅ 答案示例：The interview was very creative. I have learnt that politeness and gratitude are very important. Even when disappointed, we should say thank you.</div>
+        <div class="analysis-box">📝 解析：开放性试题，言之有理即可。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 书面表达 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 书面表达 (15分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📝 35. 你们下周将在学校礼堂举办一个以“Good manners in the UK”为题的讲座，讲座的目的是教学生英国的礼仪。届时将有许多关于礼仪的建议，请根据下表提示内容写一篇100词左右的文章，可适当发挥。</div>
+        <div class="passage-box">
+            <p><strong>We are going to hold a talk on “Good manners in the UK”. The purpose of the talk is to teach the students good manners in the UK.</strong></p>
+            <p>When British people meet each other for the first time, they shake hands and greet each other by saying “hello”. It's right to start a conversation with the topic “weather”. But it's not proper to talk about the age with them. In public, you should behave politely. You mustn't throw litter carelessly and jump the queue. It's not polite to shout in public. When you eat, you mustn't eat until the others are ready. And you shouldn't reach over somebody's plate for something.</p>
+            <p>I think we should behave well. If so, we can make more friends easily. So it's important for everyone to learn good manners.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>我们将在学校礼堂举办一个以“英国的礼仪”为题的讲座。讲座的目的是教学生英国的礼仪。</strong><br>
+            当英国人第一次见面时，他们握手并互相问候“你好”。以“天气”为话题开始谈话是正确的。但与他们谈论年龄是不合适的。在公共场合，你应该举止礼貌。绝不能乱扔垃圾和插队。在公共场合大喊大叫是不礼貌的。吃饭时，要等到大家都准备好了再吃。你不应该越过别人的盘子去够东西。<br>
+            我认为我们应该举止得体。如果这样，我们可以更容易交到朋友。所以学习良好的礼仪对每个人都很重要。
+        </div>
+        <div class="analysis-box">📝 解析：范文覆盖了见面礼仪、谈话话题、公共行为、用餐礼仪等方面，结构清晰，语言简洁。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
