@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 6 Sunshine for all · Period 2 Reading (Ⅰ)</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>☀️ Unit 6 Sunshine for all · Period 2</h1>
+        <p>Reading (Ⅰ) 基础+能力 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础单词填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础单词填空 (5小题·首字母/音标)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">I hope the Chinese players can win as many g______ as possible at the Olympics.</span>
+        </div>
+        <div class="answer-box">✅ 答案：golds</div>
+        <div class="analysis-box">📝 解析：golds 金牌，此处指赢得的金牌数量，常用复数。</div>
+        <div class="trans-box">🌐 翻译：我希望中国运动员能在奥运会上赢得尽可能多的金牌。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">When someone helps you, a “thank you” is always n______.</span>
+        </div>
+        <div class="answer-box">✅ 答案：necessary</div>
+        <div class="analysis-box">📝 解析：necessary 必要的，礼貌用语。</div>
+        <div class="trans-box">🌐 翻译：当有人帮助你时，说声“谢谢”总是必要的。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">The successful businessman has no special family ____________ /ˈbækgraʊnd/, but through his own effort, he has created a very big company.</span>
+        </div>
+        <div class="answer-box">✅ 答案：background</div>
+        <div class="analysis-box">📝 解析：音标对应 background，意为“背景”。</div>
+        <div class="trans-box">🌐 翻译：这位成功的商人没有特殊的家庭背景，但通过自己的努力，他创建了一家非常大的公司。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">She is a great _________ /ˈæθli:t/ and has won many medals in her career.</span>
+        </div>
+        <div class="answer-box">✅ 答案：athlete</div>
+        <div class="analysis-box">📝 解析：音标对应 athlete，意为“运动员”。</div>
+        <div class="trans-box">🌐 翻译：她是一位伟大的运动员，在她的职业生涯中赢得了许多奖牌。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">Sue always has great _________ /ˈkʌrɪdʒ/ to face difficulties and that's why we all respect her.</span>
+        </div>
+        <div class="answer-box">✅ 答案：courage</div>
+        <div class="analysis-box">📝 解析：音标对应 courage，意为“勇气”。</div>
+        <div class="trans-box">🌐 翻译：苏总是有巨大的勇气面对困难，这就是我们都尊重她的原因。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 单项选择 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">【2025江苏宿迁期末】—I think ________ is necessary to help the people in need. —Yes, I agree with you.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. it</span>
+            <span class="opt-item">B. this</span>
+            <span class="opt-item">C. that</span>
+            <span class="opt-item">D. what</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：it is + adj. + to do sth. 是固定句型，it 作形式主语。</div>
+        <div class="trans-box">🌐 翻译：——我认为有必要帮助有需要的人。——是的，我同意你的看法。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">【2025江苏扬州期末·节选】The famous writer has been dead for over a hundred years, but his works still have great ________ today.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. confidence</span>
+            <span class="opt-item">B. courage</span>
+            <span class="opt-item">C. service</span>
+            <span class="opt-item">D. influence</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：influence 影响，符合句意。</div>
+        <div class="trans-box">🌐 翻译：这位著名作家已去世一百多年，但他的作品至今仍有很大影响。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">—Lucy ________ her dream and won two gold medals for her country. —________ excellent girl!</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. achieved； How</span>
+            <span class="opt-item">B. came true； How</span>
+            <span class="opt-item">C. achieved； What an</span>
+            <span class="opt-item">D. came true； What an</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：achieve one's dream 实现梦想；感叹句中心词 girl 是可数名词，用 What an。</div>
+        <div class="trans-box">🌐 翻译：——露西实现了她的梦想，为她的国家赢得了两枚金牌。——多么优秀的女孩！</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">—Waiter, there's a fly swimming in my soup. —So what do you ________ me to do? Call a lifeguard?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. warn</span>
+            <span class="opt-item">B. expect</span>
+            <span class="opt-item">C. invite</span>
+            <span class="opt-item">D. encourage</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：expect sb. to do sth. 期望某人做某事，符合语境。</div>
+        <div class="trans-box">🌐 翻译：——服务员，我的汤里有一只苍蝇在游泳。——那么你期望我做什么呢？给救生员打电话吗？</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (3小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 10 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">她还提醒我天气变化时要好好照顾自己。</span>
+        </div>
+        <div class="answer-box">✅ 答案：She also reminded me to look after myself well when the weather changes.</div>
+        <div class="analysis-box">📝 解析：remind sb. to do sth. 提醒某人做某事；look after oneself 照顾自己。</div>
+
+        <!-- 11 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">【2025江苏苏州期末·节选】小朋友们似乎永远不会对看动画片感到厌烦。</span>
+        </div>
+        <div class="answer-box">✅ 答案：It seems that little kids never feel bored with watching cartoons.</div>
+        <div class="analysis-box">📝 解析：It seems that... 似乎……；feel bored with 对……感到厌烦。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">李先生是一位善良的老师，并且他尽最大努力帮助了许多残疾学生。</span>
+        </div>
+        <div class="answer-box">✅ 答案：Mr Lee is a kind teacher and he did his best to help a lot of disabled students / students with disabilities.</div>
+        <div class="analysis-box">📝 解析：disabled students 或 students with disabilities 都表示“残疾学生”。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 短文填空 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (5小题·方框选词)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">🔤 方框内单词：join, be busy with, look after, used to, provide (需适当形式变化)</div>
+        <div class="passage-box">
+            <p>Are you looking for something fun and would you like to help others when you are free? Then <strong>13.</strong> us to be a volunteer. We're a non-profit organization. We have volunteer jobs for all ages. Anyone from 12-year-old children to people in their seventies can become a volunteer.</p>
+            <p>You can help people in many ways. Schools need volunteers to take care of children while the teachers <strong>14.</strong> other work. Hospitals need volunteers to <strong>15.</strong> children while their parents are seeing doctors. "As a volunteer, I don't want to get anything. Seeing the children's happy faces, I am happy too," said Carol Domingo, an old woman of 62. "I <strong>16.</strong> play computer games in my free time, but now I like helping the old people learn how to use computers," said another volunteer at the age of 18.</p>
+            <p>If everyone can try to <strong>17.</strong> help for others, we will have a better world. Call us on 55××-7579 or visit our website: www.act.com.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            你在找有趣的事情，并且想在空闲时帮助他人吗？那么加入我们成为一名志愿者吧。我们是一个非营利组织。我们有适合所有年龄段的志愿者工作。任何从12岁的孩子到七十多岁的人都可以成为志愿者。<br>
+            你可以通过多种方式帮助他人。学校需要志愿者在老师们忙于其他工作时照顾孩子。医院需要志愿者在父母看医生时照顾孩子。“作为一名志愿者，我不想要任何回报。看到孩子们开心的笑脸，我也很高兴，”62岁的卡罗尔·多明戈说。“我过去空闲时常常玩电脑游戏，但现在我喜欢帮老年人学习如何使用电脑，”另一位18岁的志愿者说。<br>
+            如果每个人都可以尽力为他人提供帮助，我们将会拥有一个更美好的世界。致电55××-7579或访问我们的网站：www.act.com。
+        </div>
+
+        <!-- 13 -->
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">join</span></div>
+        <div class="answer-box">✅ 答案：join</div>
+        <div class="analysis-box">📝 解析：join us 加入我们，祈使句用动词原形。</div>
+
+        <!-- 14 -->
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">are busy with</span></div>
+        <div class="answer-box">✅ 答案：are busy with</div>
+        <div class="analysis-box">📝 解析：be busy with sth. 忙于某事。</div>
+
+        <!-- 15 -->
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">look after</span></div>
+        <div class="answer-box">✅ 答案：look after</div>
+        <div class="analysis-box">📝 解析：look after 照顾，to 后接动词原形。</div>
+
+        <!-- 16 -->
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">used to</span></div>
+        <div class="answer-box">✅ 答案：used to</div>
+        <div class="analysis-box">📝 解析：used to do 过去常常做某事。</div>
+
+        <!-- 17 -->
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">provide</span></div>
+        <div class="answer-box">✅ 答案：provide</div>
+        <div class="analysis-box">📝 解析：provide help for others 为他人提供帮助。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 阅读选择 (5小题·印尼志愿者活动)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要讲述了作者和朋友们在印度尼西亚的一家回收中心的一次志愿活动的过程。</div>
+        <div class="passage-box">
+            <p>Volunteering allows us to connect with our community and make it a better place. In Indonesia, I did a lot of volunteer work to help children, the elderly and the environment.</p>
+            <p>Last year, I volunteered at a recycling centre in Indonesia with my friends. As soon as we arrived, we saw huge piles of plastic bottles on the ground. I wondered, "What are we going to do with those?"</p>
+            <p>A group of people from the recycling centre welcomed us. One person said that bottles and caps were made of different materials and had different uses. He said, "Today, you are going to remove the plastic covers and caps from all of these plastic bottles." I put on my mask and gloves, sat down on a stool and started grabbing plastic bottles and removing their plastic covers with a cutting tool.</p>
+            <p>There were straws and trash inside the bottles, so I had to remove these items. Some of my friends were not comfortable doing this work and neither was I, but it was important work and was part of a larger effort to improve the environment. After we finished removing the covers and caps from the plastic bottles, we crushed all the plastic bottles and put them all in a larger box.</p>
+            <p>After a long day, we finally finished our work. Though it was a simple job, it would have a lasting influence on our lives and our environment. That's what volunteering is about. How meaningful it is!</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            志愿活动让我们与社区建立联系，并使其变得更美好。在印度尼西亚，我做了很多志愿工作来帮助儿童、老年人和环境。<br>
+            去年，我和朋友们在印度尼西亚的一家回收中心做志愿者。我们一到那里，就看到地上堆满了塑料瓶。我心想：“我们要拿那些瓶子做什么？”<br>
+            回收中心的一群工作人员欢迎了我们。一个人说瓶身和瓶盖是由不同材料制成的，有不同的用途。他说：“今天，你们要把所有这些塑料瓶上的塑料封套和瓶盖去掉。”我戴上口罩和手套，坐在凳子上，开始抓取塑料瓶，用切割工具去掉它们的塑料封套。<br>
+            瓶子里有吸管和垃圾，所以我必须把这些东西去掉。我的一些朋友做这项工作感觉不舒服，我也是，但这是重要的工作，是改善环境这一更大努力的一部分。我们去掉塑料瓶上的封套和瓶盖后，把所有的塑料瓶压碎，然后放进一个大箱子里。<br>
+            漫长的一天之后，我们终于完成了工作。虽然这是一份简单的工作，但它将对我们生活和环境产生持久的影响。这就是志愿活动的意义所在。多么有意义啊！
+        </div>
+
+        <!-- 1 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">Where did the writer do voluntary work in Indonesia last year?</span></div>
+        <div class="options">
+            <span class="opt-item">A. At the home for the elderly.</span>
+            <span class="opt-item">B. At a school.</span>
+            <span class="opt-item">C. In a hospital.</span>
+            <span class="opt-item">D. At a recycling centre.</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：第二段明确提到 at a recycling centre。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">What are the bottles and caps made of according to the passage?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Gold.</span>
+            <span class="opt-item">B. Wood.</span>
+            <span class="opt-item">C. Metal.</span>
+            <span class="opt-item">D. Different materials.</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：第三段说由不同材料制成。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">How did the writer feel while taking trash out of the bottles?</span></div>
+        <div class="options">
+            <span class="opt-item">A. She felt relaxed.</span>
+            <span class="opt-item">B. She felt sad.</span>
+            <span class="opt-item">C. She felt uncomfortable.</span>
+            <span class="opt-item">D. She felt bored.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：第四段提到 not comfortable, neither was I。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">How did they do the voluntary work? Choose the right order. a. They crushed all the plastic bottles. b. They removed the straws and trash inside the plastic bottles. c. They put all the plastic bottles in a larger box. d. They removed the covers and caps from the plastic bottles.</span></div>
+        <div class="options">
+            <span class="opt-item">A. b-a-c-d</span>
+            <span class="opt-item">B. d-b-a-c</span>
+            <span class="opt-item">C. a-b-d-c</span>
+            <span class="opt-item">D. b-a-d-c</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：正确顺序：先去封盖和瓶盖（d），再去吸管和垃圾（b），再压碎（a），最后放大箱（c）。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline"><span class="q-num-inline">5</span><span class="q-text-inline">What does the writer think of voluntary work?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Interesting.</span>
+            <span class="opt-item">B. Simple.</span>
+            <span class="opt-item">C. Meaningful.</span>
+            <span class="opt-item">D. Exciting.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：最后一句 How meaningful it is! 表明作者认为志愿活动很有意义。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
