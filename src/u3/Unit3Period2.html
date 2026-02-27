@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 3 The world at one click · Period 2 Reading (Ⅰ)</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🌐 Unit 3 The world at one click · Period 2</h1>
+        <p>Reading (Ⅰ) 基础+能力 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础单词填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础单词填空 (5小题·首字母/音标)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">My brother is a member of the school b_____. He plays the guitar in it.</span>
+        </div>
+        <div class="answer-box">✅ 答案：band</div>
+        <div class="analysis-box">📝 解析：根据“plays the guitar”可知是学校乐队，band 意为“乐队”。</div>
+        <div class="trans-box">🌐 翻译：我哥哥是学校乐队的成员。他在里面弹吉他。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">【2025安徽蚌埠期中】The b_______ still stands over the river after several earthquakes.</span>
+        </div>
+        <div class="answer-box">✅ 答案：bridge</div>
+        <div class="analysis-box">📝 解析：根据“over the river”和首字母b，可知是桥 bridge。</div>
+        <div class="trans-box">🌐 翻译：几次地震后，那座桥仍然横跨在河上。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">【2025江苏南通质检】We watched a l_____ concert in the park last night.</span>
+        </div>
+        <div class="answer-box">✅ 答案：live</div>
+        <div class="analysis-box">📝 解析：live concert 现场音乐会，live 是形容词，意为“现场的”。</div>
+        <div class="trans-box">🌐 翻译：昨晚我们在公园观看了一场现场音乐会。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">If you are going to visit the northern _______ /kəʊst/ of Norway in winter, you’d better pack some warm clothes.</span>
+        </div>
+        <div class="answer-box">✅ 答案：coast</div>
+        <div class="analysis-box">📝 解析：音标 /kəʊst/ 对应单词 coast，意为“海岸”。</div>
+        <div class="trans-box">🌐 翻译：如果你打算冬天去挪威北部海岸旅游，最好带上一些保暖的衣服。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">【2025江苏苏州调研】Eating dumplings is a ______ /mʌst/ during the festival.</span>
+        </div>
+        <div class="answer-box">✅ 答案：must</div>
+        <div class="analysis-box">📝 解析：音标 /mʌst/ 对应单词 must，此处是名词，意为“必须做的事情”。</div>
+        <div class="trans-box">🌐 翻译：节日期间吃饺子是必须的。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 单项选择 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">Seeing the keepers, the baby pandas run over with ________. This makes the tourists ________.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. excite; excited</span>
+            <span class="opt-item">B. excite; exciting</span>
+            <span class="opt-item">C. excitement; exciting</span>
+            <span class="opt-item">D. excitement; excited</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：with 是介词，后接名词 excitement；make + 宾语 + 形容词，修饰人用 excited。</div>
+        <div class="trans-box">🌐 翻译：看到饲养员，熊猫宝宝兴奋地跑了过来。这让游客们很兴奋。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">To tell the ________, everyone is good at something, but some people are ________ talented.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. true; truth</span>
+            <span class="opt-item">B. truth; truly</span>
+            <span class="opt-item">C. true; truly</span>
+            <span class="opt-item">D. truth; true</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：to tell the truth 说实话；修饰形容词 talented 用副词 truly。</div>
+        <div class="trans-box">🌐 翻译：说实话，每个人都擅长某件事，但有些人确实很有天赋。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">【2025江苏宿迁期末】The programme was covered ________ yesterday. It brought dinosaurs ________ on screen.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. live; alive</span>
+            <span class="opt-item">B. lively; alive</span>
+            <span class="opt-item">C. living; live</span>
+            <span class="opt-item">D. alive; live</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：第一空修饰 covered，用副词 live 表示“现场直播”；第二空 bring...alive 使……鲜活。</div>
+        <div class="trans-box">🌐 翻译：这个节目昨天现场直播。它让恐龙在屏幕上活灵活现。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">【2025安徽滁州期中】—Will Joe come to our new club this weekend? —I am not sure ________ he will come, but I believe ________ he will help us.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. if; whether</span>
+            <span class="opt-item">B. that; whether</span>
+            <span class="opt-item">C. whether; if</span>
+            <span class="opt-item">D. whether; that</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：第一空“是否”用 whether（与 or not 连用，但此处也可用 if，但选项中没有 if 开头的合适组合）；第二空“相信”后接 that 引导的宾语从句。</div>
+        <div class="trans-box">🌐 翻译：——乔这个周末会来我们的新俱乐部吗？——我不确定他是否会来，但我相信他会帮助我们的。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 10 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">关于这个活动，我首先需要请妈妈批准。(As for)</span>
+        </div>
+        <div class="answer-box">✅ 答案：As for this activity, I need to ask permission from my mum first.</div>
+        <div class="analysis-box">📝 解析：As for 关于，置于句首；ask permission 请求许可。</div>
+
+        <!-- 11 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">【2025江苏无锡质检】毫无疑问，冬天是堆雪人的好时候。(No doubt)</span>
+        </div>
+        <div class="answer-box">✅ 答案：No doubt it’s a good time to make a snowman in winter.</div>
+        <div class="analysis-box">📝 解析：No doubt + 句子，表示“毫无疑问……”。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">【2025江苏徐州期中·节选】她弹钢琴的技艺在我们学校无人能及。(be second to none)</span>
+        </div>
+        <div class="answer-box">✅ 答案：Her skills in playing the piano are second to none in our school.</div>
+        <div class="analysis-box">📝 解析：be second to none 首屈一指，无人能及。</div>
+
+        <!-- 13 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">13</span>
+            <span class="q-text-inline">我们的周末计划包括各种活动——徒步旅行、烹饪和看电影。(a bit of everything)</span>
+        </div>
+        <div class="answer-box">✅ 答案：Our weekend plan includes a bit of everything—hiking, cooking, and watching movies.</div>
+        <div class="analysis-box">📝 解析：a bit of everything 每样一点，此处指各种活动。</div>
+
+        <!-- 14 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">14</span>
+            <span class="q-text-inline">【2025江苏常州期末·节选】他们现在正在一起倒计时为新年做准备。(count down)</span>
+        </div>
+        <div class="answer-box">✅ 答案：They are counting down and preparing for the New Year together now.</div>
+        <div class="analysis-box">📝 解析：现在进行时 are counting down；count down 倒计时。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 短文填空 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (5小题·方框选词)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">🔤 方框内单词：large, build, include, amaze, achieve (需适当形式变化)</div>
+        <div class="passage-box">
+            <p>The Forbidden City is over 720,000 square metres in size. It is the <strong>15.____</strong> palace in the world. To protect the people inside the palace, the ancient people <strong>16.____</strong> a moat around it, which is 52 metres wide and about 4 metres deep. There is also a thick wall. The wall <strong>17.____</strong> four gates in it. They are Wumen in the south, Shenwumen in the north, Donghuamen in the east and Xihuamen in the west. All the buildings are strong and <strong>18.____</strong>. They are great <strong>19.____</strong> of Chinese architecture.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            故宫占地72万多平方米。它是世界上最大的宫殿。为了保护宫殿内的人们，古代人在宫殿周围修建了一条宽52米、深约4米的护城河。还有一道厚墙。墙上有四座门：南面的午门、北面的神武门、东面的东华门和西面的西华门。所有的建筑都很坚固且令人惊叹。它们是中国建筑的伟大成就。
+        </div>
+
+        <!-- 15 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">15</span>
+            <span class="q-text-inline">✅ 答案：largest</span>
+        </div>
+        <div class="analysis-box">📝 解析：the + 形容词最高级 + palace in the world，large 的最高级 largest。</div>
+
+        <!-- 16 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">16</span>
+            <span class="q-text-inline">✅ 答案：built</span>
+        </div>
+        <div class="analysis-box">📝 解析：过去的事情，用 built 表示“建造”。</div>
+
+        <!-- 17 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">17</span>
+            <span class="q-text-inline">✅ 答案：includes</span>
+        </div>
+        <div class="analysis-box">📝 解析：主语 The wall 三单，用 includes，表示“包含”。</div>
+
+        <!-- 18 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">18</span>
+            <span class="q-text-inline">✅ 答案：amazing</span>
+        </div>
+        <div class="analysis-box">📝 解析：形容词与 strong 并列，amazing 令人惊叹的。</div>
+
+        <!-- 19 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">19</span>
+            <span class="q-text-inline">✅ 答案：achievements</span>
+        </div>
+        <div class="analysis-box">📝 解析：名词复数 achievements 成就，符合语境。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 阅读选择 (5小题·纽约旅行指南)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 体裁：应用文 · 题材：旅游与交通 · 词数291 · 难度★★</div>
+        <div class="passage-box">
+            <p><strong>Arriving in New York</strong></p>
+            <p>There are three airports in New York. When you arrive at one of them, you can take a bus or a taxi to any place in New York.</p>
+            <p><strong>Public transport</strong></p>
+            <p>In New York, there is a good bus and subway service. If you are planning to use the subway a lot, you should buy a subway ticket for your journeys because it's cheaper. But you don't have to use public transport—there are lots of places you can go to on foot, like the Empire State Building, Fifth Avenue and Central Park. The New York taxis are a part of the city experience, so you should take at least one taxi during your visit.</p>
+            <p><strong>Hotels</strong></p>
+            <p>There are lots of good hotels in New York. A good one is the Plaza on Fifth Avenue but you don't have to pay a lot to stay in the city. There are lots of smaller hotels and the YMCA near the Central Park is great for young people.</p>
+            <p><strong>Eating out</strong></p>
+            <p>There are many kinds of food in New York and you shouldn't eat at McDonald's every day. There are good restaurants in Little Italy and Chinatown, for example.</p>
+            <p><strong>Shopping</strong></p>
+            <p>Shopping in New York is fun. There are big shops on Fifth Avenue. They are open seven days a week. But be careful when you look at the prices, you have to pay a special tax for about 8% on everything you buy in New York.</p>
+            <p><strong>Places to see</strong></p>
+            <p>Finally, there are a lot of places to see in New York—Times Square, the Statue of Liberty. And you shouldn't go home without climbing the Statue of Liberty to enjoy the scenery of the city.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            <strong>抵达纽约</strong><br>
+            纽约有三个机场。当你到达其中一个时，可以乘坐公共汽车或出租车去纽约的任何地方。<br>
+            <strong>公共交通</strong><br>
+            纽约有良好的公共汽车和地铁服务。如果你打算经常乘坐地铁，应该买地铁票，因为更便宜。但你不必使用公共交通——有很多地方可以步行前往，比如帝国大厦、第五大道和中央公园。纽约的出租车是城市体验的一部分，所以在游览期间你至少应该坐一次出租车。<br>
+            <strong>酒店</strong><br>
+            纽约有很多好酒店。第五大道的广场酒店是个不错的选择，但你不必花很多钱住在城里。有很多较小的酒店，中央公园附近的基督教青年会对年轻人来说很棒。<br>
+            <strong>外出就餐</strong><br>
+            纽约有多种食物，你不应该每天都吃麦当劳。例如，小意大利和唐人街有很好的餐馆。<br>
+            <strong>购物</strong><br>
+            在纽约购物很有趣。第五大道上有大商店，每周七天营业。但看价格时要小心，在纽约买的每件东西都要付大约8%的特别税。<br>
+            <strong>景点</strong><br>
+            最后，纽约有很多地方值得一看——时代广场、自由女神像。你不应该没爬过自由女神像就回家，在那里可以欣赏城市风光。
+        </div>
+
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">How many kinds of public transport are mentioned in the second paragraph?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Two.</span>
+            <span class="opt-item">B. Three.</span>
+            <span class="opt-item">C. Four.</span>
+            <span class="opt-item">D. Five.</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：第二段提到了 bus, subway, taxi 三种公共交通工具。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">Here, “the Plaza” is the name of ________.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. a restaurant</span>
+            <span class="opt-item">B. a hotel</span>
+            <span class="opt-item">C. an airport</span>
+            <span class="opt-item">D. a shop</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：根据上文“There are lots of good hotels in New York. A good one is the Plaza...”可知 Plaza 是酒店名。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">How much do you have to pay if you buy a book of $10 in New York?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. About $10.8.</span>
+            <span class="opt-item">B. About $10.08.</span>
+            <span class="opt-item">C. About $18.</span>
+            <span class="opt-item">D. About $10.</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：购物需付8%的税，10 + 10×8% = 10.8 美元。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">When you visit New York, you should ________.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. eat at McDonald’s every day</span>
+            <span class="opt-item">B. take a taxi whenever you go out</span>
+            <span class="opt-item">C. stay at the best hotel</span>
+            <span class="opt-item">D. climb the Statue of Liberty</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：最后一段明确“you shouldn't go home without climbing the Statue of Liberty”。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">From the passage, we can learn that ________.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. people can visit many places of interest in New York on foot</span>
+            <span class="opt-item">B. people must travel by public transport in New York</span>
+            <span class="opt-item">C. New York is not a good place for shopping</span>
+            <span class="opt-item">D. people have to eat only one kind of food in New York</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：第二段提到“there are lots of places you can go to on foot”，A 正确。B 错在 must；C 与 Shopping 部分矛盾；D 与 Eating out 部分矛盾。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
