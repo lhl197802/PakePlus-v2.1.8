@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 3 The world at one click · 单元限时检测</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🌐 Unit 3 The world at one click · 单元限时检测</h1>
+        <p>满分 56分  |  建议用时 40分钟</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 单项选择 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 单项选择 (共10小题，每小题1分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">After finishing the experiment, our teacher asked us to write a(n) ________ to record our findings and conclusions.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. report</span>
+            <span class="opt-item">B. story</span>
+            <span class="opt-item">C. poem</span>
+            <span class="opt-item">D. email</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：根据“record our findings and conclusions”可知是写报告(report)。</div>
+        <div class="trans-box">🌐 翻译：完成实验后，老师要求我们写一份报告来记录我们的发现和结论。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">—Hello, Beijing Hotel. Can I help you? —Yes, I'd like to ________ a single room for two nights.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. enter</span>
+            <span class="opt-item">B. move</span>
+            <span class="opt-item">C. book</span>
+            <span class="opt-item">D. provide</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：预订房间用 book。</div>
+        <div class="trans-box">🌐 翻译：——您好，北京酒店。我能帮您吗？——是的，我想要预订一个（住宿）两晚的单人间。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">I don't come from ________, but I am good at ________.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. French; France</span>
+            <span class="opt-item">B. France; French</span>
+            <span class="opt-item">C. French; French</span>
+            <span class="opt-item">D. France; France</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：第一个空指国家 France，第二个空指语言 French。</div>
+        <div class="trans-box">🌐 翻译：我不来自法国，但我擅长法语。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">【2025云南昆明期中】The earthquake happened so ________ that we were ________ shocked.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. heavily; completely</span>
+            <span class="opt-item">B. recently; quickly</span>
+            <span class="opt-item">C. quietly; slowly</span>
+            <span class="opt-item">D. suddenly; completely</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：地震发生突然用 suddenly，完全震惊用 completely shocked。</div>
+        <div class="trans-box">🌐 翻译：地震发生得如此突然，以至于我们完全被震住了。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">【2025安徽二模】—I'm not sure whether to visit the National Museum of China during my stay in Beijing. —You should really go ________. There are so many amazing artworks.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. in person</span>
+            <span class="opt-item">B. in total</span>
+            <span class="opt-item">C. in public</span>
+            <span class="opt-item">D. in common</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：建议亲自去，用 in person。</div>
+        <div class="trans-box">🌐 翻译：——我在北京期间不确定是否去参观中国国家博物馆。——你真的应该亲自去。那里有这么多令人惊叹的艺术品。</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">【2024江苏宿迁期末】—Greenwood Park is the best place ________ at weekends. —Really? Let's go there next time.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. go</span>
+            <span class="opt-item">B. going to</span>
+            <span class="opt-item">C. to go to</span>
+            <span class="opt-item">D. going</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：不定式作后置定语，修饰 the best place，go 是不及物动词，后面需要加 to。</div>
+        <div class="trans-box">🌐 翻译：——格林伍德公园是周末最好的去处。——真的？我们下次去那儿吧。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">【2025江苏无锡期末】—I have a bad cold. I don't feel like ________ anything. —Why not ________ a doctor?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. eating; see</span>
+            <span class="opt-item">B. eating; to see</span>
+            <span class="opt-item">C. eat; to see</span>
+            <span class="opt-item">D. eating; seeing</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：feel like doing 想要做某事；Why not do 为什么不做某事。</div>
+        <div class="trans-box">🌐 翻译：——我得了重感冒。我什么都不想吃。——为什么不去看医生呢？</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">【2025江苏镇江质检】I don't doubt ________ he can do the job well, but I doubt ________ he can finish it on time.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. if; that</span>
+            <span class="opt-item">B. that; whether</span>
+            <span class="opt-item">C. that; that</span>
+            <span class="opt-item">D. whether; if</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：don't doubt that... 不怀疑……；doubt whether... 怀疑是否……。</div>
+        <div class="trans-box">🌐 翻译：我不怀疑他能做好这项工作，但我怀疑他是否能按时完成。</div>
+        <div class="small-note">链接狂K：doubt 的详细讲解见狂K重点P15。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">【2024江苏无锡期末】—I didn't know you could play the guitar so well. —Thanks. I ________ it for several years when I was a child.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. was learning</span>
+            <span class="opt-item">B. have learnt</span>
+            <span class="opt-item">C. would learn</span>
+            <span class="opt-item">D. learnt</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：when I was a child 是过去时间，动作已完成，用一般过去时。</div>
+        <div class="trans-box">🌐 翻译：——我不知道你弹吉他可以弹得这么好。——谢谢。我在我是个孩子的时候学了几年。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【2025江苏宿迁一模】—Food safety rules are really worth learning. —________! It's important for us to follow them.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. No doubt about it</span>
+            <span class="opt-item">B. None of your business</span>
+            <span class="opt-item">C. You're welcome</span>
+            <span class="opt-item">D. What a pity</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：根据后文“遵守它们很重要”可知表示赞同，No doubt about it 毫无疑问。</div>
+        <div class="trans-box">🌐 翻译：——食品安全规则确实值得学习。——毫无疑问！遵守它们对我们很重要。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 完形填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 完形填空 (共15小题，每小题1分，计15分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了壶口瀑布的地理特征、名称由来、奇观以及最佳游览时间等。</div>
+        <div class="passage-box">
+            <p><strong>Hukou Waterfall: Water Falls from the Sky</strong></p>
+            <p>Hukou Waterfall is the largest yellow waterfall in the world. It is also the second waterfall in China next to Huangguoshu Waterfall in Guizhou Province.</p>
+            <p>From its headwater in Qinghai Province, the Yellow River <strong>11.____ </strong> all the way to the east and finally to the sea. It carries Chinese history and civilization of more than 5,000 years, so the Yellow River is <strong>12.____ </strong> as China's "Mother River".</p>
+            <p>As it flows to Hukou Village, the river sharply narrows from about 300 metres <strong>13.____ </strong> to only about 50 metres. The calm water suddenly falls down into a deep pool <strong>14.____ </strong> thousands of wild horses run forward wildly. As a result, a wonderful waterfall <strong>15.____ </strong>. It seems that the water pours down from a big teapot, so the waterfall has the name Hukou—meaning the <strong>16.____ </strong> of the teapot in Chinese.</p>
+            <p>The falling water brings huge smoke and clouds, with colour <strong>17.____ </strong> from yellow to grey, grey to blue. People <strong>18.____ </strong> this heart-shaking sight "smoke from the bottom of the water". There is also a stone under the waterfall. It moves up and down <strong>19.____ </strong> the falling water. It is not seen all the time as the water is always changing. It is <strong>20.____ </strong> guishi.</p>
+            <p>Over history, lots of poets and painters once travelled here. They admired the <strong>21.____ </strong> view, and left numerous works about the great waterfall. <strong>22.____ </strong> them, Li Bai's Invitation to Wine may be the best-known. It says, "Do you not see the Yellow River come from the sky, <strong>23.____ </strong> the sea and never come back?"</p>
+            <p>There are many wonders at Hukou Waterfall, <strong>24.____ </strong> smoke from the bottom of the water, boating on land and rainbows in the sunshine. April and October are the best time to <strong>25.____ </strong> Hukou Waterfall. Why? Because the water is full!</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            <strong>壶口瀑布：黄河之水天上来</strong><br>
+            壶口瀑布是世界上最大的黄色瀑布。它也是中国第二大瀑布，仅次于贵州的黄果树瀑布。<br>
+            从青海省的源头开始，黄河一路向东，最终流入大海。它承载着5000多年的中国历史和文明，所以黄河被描述为中国的“母亲河”。<br>
+            当它流到壶口镇时，河水从约300米宽急剧变窄到只有约50米宽。平静的水突然掉进一个深潭，好像成千上万的野马向前狂奔。结果，一个美妙的瀑布出现了。水似乎是从一个大茶壶里倒出来的，所以这个瀑布的名字叫壶口——在中文里意思是茶壶的壶口。<br>
+            落水带来巨大的烟雾和云彩，颜色从黄色变为灰色，从灰色变为蓝色。人们称这种震撼人心的景象为“水底生烟”。瀑布下还有一块石头。它随着落下的水上下移动。由于水一直在变化，它并不总是能被看见。它被命名为龟石。<br>
+            历史上，许多诗人和画家曾到此一游。他们欣赏这美妙的景色，留下了许多关于这个伟大瀑布的作品。在它们当中，李白的《将进酒》也许是最有名的。诗中写道：“君不见黄河之水天上来，奔流到海不复回。”<br>
+            壶口瀑布有许多奇观，如水底生烟、旱地行船和霓虹戏水。四月和十月是参观壶口瀑布的最佳时间。为什么？因为水满！
+        </div>
+
+        <!-- 11-25 选项 -->
+        <div class="q-item-inline"><span class="q-num-inline">11</span><span class="q-text-inline">A. circles  B. runs  C. opens  D. jumps</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：河流“流淌”用 runs。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">12</span><span class="q-text-inline">A. described  B. increased  C. mixed  D. signed</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：被描述为……用 is described as。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">A. long  B. high  C. wide  D. deep</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：narrows from ... wide 从……宽变窄。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">A. so soon as  B. so that  C. as if  D. even though</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：好像 (as if) 成千上万的野马狂奔。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">A. drops  B. goes  C. disappears  D. appears</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：瀑布“出现”了。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">A. mouth  B. shape  C. bottom  D. cover</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：壶口即茶壶的口 (mouth)。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">A. facing  B. turning  C. dividing  D. keeping</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：颜色“变化”用 turning。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">A. think  B. seem  C. call  D. regard</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：称这种景象为…… call sth. sth.</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">A. from  B. for  C. off  D. with</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：随着落水 (with the falling water) 移动。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">A. named  B. brought  C. caught  D. thought</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：被命名为 named。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">A. lovely  B. impossible  C. wonderful  D. common</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：美妙的景色 wonderful。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">A. Between  B. Opposite  C. Among  D. Beside</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：在它们之中 (三者以上) 用 Among。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">A. Moving on  B. Rushing into  C. Waving to  D. Looking for</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：奔流到海 (rushing into the sea)。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">24</span><span class="q-text-inline">A. thanks to  B. according to  C. instead of  D. such as</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：举例用 such as。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">25</span><span class="q-text-inline">A. swim  B. visit  C. drink  D. draw</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：参观瀑布 visit。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 阅读选择 (共3小题，每小题2分，计6分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了西安的大雁塔。</div>
+        <div class="passage-box">
+            <p>The Wild Goose Pagoda is in Xi'an, Shaanxi Province. It is one of the most famous Buddhist pagodas in China. The pagoda has 7 floors. It is about 64 metres high. The pagoda is made of brick and has a squarish shape. It has stairs inside so that people can go up and down. The pagoda was built in the Tang Dynasty and has a history of over 1,300 years. Every year, many tourists visit it.</p>
+            <p>Near the pagoda, there is a large square. In the square, there is a music fountain. It is one of the largest fountains in Asia. Many people like to watch the fountain show at night.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            大雁塔位于陕西省西安市。它是中国最著名的佛教宝塔之一。大雁塔有七层。它高约64米。宝塔由砖砌成，呈方形。里面有楼梯，方便人们上下。大雁塔建于唐代，已有1300多年历史。每年都有许多游客来参观。<br>
+            宝塔附近有一个大广场。广场上有一个音乐喷泉。它是亚洲最大的喷泉之一。许多人喜欢在晚上观看喷泉表演。
+        </div>
+
+        <!-- 26 -->
+        <div class="q-item-inline"><span class="q-num-inline">26</span><span class="q-text-inline">How many floors does the Wild Goose Pagoda have?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Six.</span>
+            <span class="opt-item">B. Seven.</span>
+            <span class="opt-item">C. Eight.</span>
+            <span class="opt-item">D. Nine.</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：原文明确说“The pagoda has 7 floors”。</div>
+
+        <!-- 27 -->
+        <div class="q-item-inline"><span class="q-num-inline">27</span><span class="q-text-inline">Which piece of the following information is NOT included in the text?</span></div>
+        <div class="options">
+            <span class="opt-item">A. How high the pagoda is.</span>
+            <span class="opt-item">B. What style the pagoda is.</span>
+            <span class="opt-item">C. Who built the pagoda.</span>
+            <span class="opt-item">D. What was used to build the pagoda.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：文中介绍了高度（64米）、风格（squarish）、建筑材料（brick），但没有提及谁建造的。</div>
+
+        <!-- 28 -->
+        <div class="q-item-inline"><span class="q-num-inline">28</span><span class="q-text-inline">We can probably read this text ________.</span></div>
+        <div class="options">
+            <span class="opt-item">A. in a travel magazine</span>
+            <span class="opt-item">B. in a science report</span>
+            <span class="opt-item">C. on a medical website</span>
+            <span class="opt-item">D. in a music textbook</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：介绍景点，应来自旅游杂志。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 阅读表达 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 阅读表达 (共5小题，每小题2分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了20元纸币背面的人物黄全德以及人民币背面的不同图案及其文化价值。</div>
+        <div class="passage-box">
+            <p>You may have seen such a photo online: with a long white beard and wearing a bamboo hat, an old fisherman sits on a boat. Huang Quande looked like this when tourists took photos with him on the Lijiang River in Guilin, Guangxi. He became so famous online that many believed the fisherman on the back of the 20-yuan Renminbi banknote was based on him. Sadly, Huang died at the age of 94 on 18 February, 2023.</p>
+            <p>Huang gave up fishing and became a photo model in 2008. He showed the true spirit of Lijiang River—being positive and friendly. In his 90s, Huang could still move his boat with speed.</p>
+            <p>The image of the fisherman on the back of the 20-yuan banknote is not just about one man. Instead, it is a cultural symbol of Guilin landscape.</p>
+            <p>In fact, the different backsides of the fifth series of Renminbi banknotes show the most iconic landscapes in China. Each of them carries its own cultural value. For example, on the back of the 5-yuan banknote is Mount Tai in Shandong. In ancient times many emperors would go there and pray for the country. On the back of the 1-yuan banknote are the Three Pools Mirroring the Moon in West Lake, Zhejiang. It is a great place for moon watchers during the Mid-Autumn Festival.</p>
+            <p>Because of the Renminbi pictures, these places have attracted more tourists than before. Following the banknotes from 1 yuan to 100, Pan Jinyu from Chongqing had a "banknote tour" when he was 21. "I want to finish a ceremonial journey and feel the beauty of our country," Pan said.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            你可能在网上见过这样一张照片：一位留着长白胡子、戴着竹帽的老渔夫坐在船上。黄全德在广西桂林的漓江上与游客合影时就是这个样子。他在网上如此出名，以至于许多人认为20元人民币纸币背面的渔夫是以他为原型。遗憾的是，黄全德于2023年2月18日去世，享年94岁。<br>
+            黄全德在2008年放弃打鱼，成为了一名摄影模特。他展现了漓江的真精神——积极友好。在90多岁的时候，黄全德仍然能快速划动他的船。<br>
+            20元纸币背面的渔夫形象不仅仅是关于一个人。相反，它是桂林风景的文化象征。<br>
+            事实上，第五套人民币纸币的不同背面展示了中国最具标志性的风景。每一处都有其自身的文化价值。例如，5元纸币的背面是山东的泰山。古代许多帝王会去那里为国家祈祷。1元纸币的背面是浙江西湖的三潭印月。这是中秋节赏月的好去处。<br>
+            因为人民币图案，这些地方吸引了比以前更多的游客。来自重庆的潘金玉在21岁时按照从1元到100元的纸币进行了一次“纸币之旅”。“我想完成一次有仪式感的旅行，感受我们国家的美丽，”潘说。
+        </div>
+
+        <div class="q-item-inline"><span class="q-num-inline">29</span><span class="q-text-inline">When did the old fisherman die?</span></div>
+        <div class="answer-box">✅ 答案：On 18 February, 2023.</div>
+        <div class="analysis-box">📝 解析：第一段最后一句明确。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">30</span><span class="q-text-inline">What is the true spirit of Lijiang River?</span></div>
+        <div class="answer-box">✅ 答案：Being positive and friendly.</div>
+        <div class="analysis-box">📝 解析：第二段“He showed the true spirit of Lijiang River—being positive and friendly.”</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">31</span><span class="q-text-inline">On which banknote is the picture of Mount Tai in Shandong?</span></div>
+        <div class="answer-box">✅ 答案：On the 5-yuan banknote.</div>
+        <div class="analysis-box">📝 解析：第四段“on the back of the 5-yuan banknote is Mount Tai”。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">32</span><span class="q-text-inline">Why are there more tourists than before in these places?</span></div>
+        <div class="answer-box">✅ 答案：Because of the Renminbi pictures.</div>
+        <div class="analysis-box">📝 解析：最后一段“Because of the Renminbi pictures, these places have attracted more tourists than before.”</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">33</span><span class="q-text-inline">What do you think of these Renminbi pictures? (开放性试题)</span></div>
+        <div class="answer-box">✅ 答案示例：They are beautiful and meaningful.</div>
+        <div class="analysis-box">📝 解析：言之有理即可。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 书面表达 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 书面表达 (15分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📝 34. 假如你在“八小时环游中国”的网站上浏览了中国的北京，请根据以下要点写一篇短文，可适当发挥，80词左右，开头已给出。</div>
+        <div class="passage-box">
+            <p><strong>An Online Tour</strong></p>
+            <p>Today I took an online tour of Beijing on the website "Around China in Eight Hours".</p>
+            <p>Tian'anmen Square is the biggest city square in the world. Every morning, thousands of people gather there to watch the flag-raising ceremony. The centre of the city is the Palace Museum. It has been one of the five greatest palaces in the world. Beihai Park is one of the oldest parks in China. It has a history of almost 1,000 years. It is also a good place to relax after a day's hard work.</p>
+            <p>There are so many attractive places in Beijing. I dream of visiting it some day. Don't you want to visit?</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>一次在线游览</strong><br>
+            今天我在“八小时环游中国”网站上在线游览了北京。<br>
+            天安门广场是世界上最大的城市广场。每天早上，成千上万的人聚集在那里观看升旗仪式。城市的中心是故宫博物院。它一直是世界五大宫殿之一。北海公园是中国最古老的公园之一。它有近1000年的历史。它也是辛苦工作一天后放松的好地方。<br>
+            北京有这么多迷人的地方。我梦想有一天能去那里参观。你难道不想去吗？
+        </div>
+        <div class="analysis-box">📝 范文要点：描述了天安门广场、故宫、北海公园，表达向往之情。结构清晰，语言流畅。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
