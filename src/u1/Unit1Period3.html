@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 1 Past and present · Period 3 Reading (Ⅱ) 同步训练</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 40px;
+            padding: 14px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 12px rgba(0,30,45,0.05);
+            border: 1px solid #dde7f0;
+        }
+        .top-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+        }
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f8fbfe;
+        }
+        .title-area h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #0d4c6e, #0b3b55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title-area p {
+            color: #54738f;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .close-btn {
+            background: #ecf3fa;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1d577b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid #bed3e6;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .close-btn:hover {
+            background: #dae6f2;
+            color: #093852;
+            border-color: #7fa9c7;
+            box-shadow: 0 4px 10px rgba(0,60,90,0.1);
+        }
+        .close-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: white;
+            border-radius: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 22px -6px rgba(20, 50, 70, 0.12);
+            overflow: hidden;
+            border: 1px solid #e2eef9;
+            transition: box-shadow 0.2s;
+        }
+        .section-header {
+            background: white;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #10435c;
+            transition: background 0.15s, padding 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .section-header:hover {
+            background: #e9f2fa;
+        }
+        .section-header .toggle-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #2c779b;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+        /* 折叠样式 */
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .section-content {
+            padding: 8px 28px 28px 28px;
+            border-top: 1px solid #d1e2f0;
+            background: #ffffff;
+        }
+
+        /* 题目元素 */
+        .question-item {
+            margin-top: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e0ecf5;
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+        .q-num {
+            display: inline-block;
+            background: #cde1f0;
+            color: #0f4b6b;
+            font-weight: 700;
+            padding: 4px 16px 5px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin-bottom: 12px;
+            border: 1px solid #aac6dd;
+        }
+        .q-text {
+            font-size: 1.04rem;
+            font-weight: 500;
+            color: #113845;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: #f5faff;
+            padding: 16px 22px;
+            border-radius: 24px;
+            border-left: 5px solid #3182a3;
+            box-shadow: inset 0 1px 4px #d7e6f5;
+        }
+        .options {
+            margin: 12px 0 16px 8px;
+            color: #1d506b;
+            background: #f0f6fd;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-weight: 460;
+        }
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 28px;
+            white-space: nowrap;
+        }
+        .answer-box, .analysis-box, .trans-box {
+            margin: 12px 0 8px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+        .answer-box {
+            background: #e2f0fa;
+            color: #004d7c;
+            font-weight: 600;
+            border-left: 6px solid #0073aa;
+        }
+        .analysis-box {
+            background: #fff6e5;
+            color: #624c2a;
+            border-left: 6px solid #efb13b;
+        }
+        .trans-box {
+            background: #e1f1e8;
+            color: #1b6e4a;
+            border-left: 6px solid #2e9e68;
+        }
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+        .small-note {
+            font-size: 0.86rem;
+            color: #6a859e;
+            margin-top: 12px;
+            padding-left: 12px;
+        }
+        .word-box {
+            background: #e7f0fa;
+            padding: 12px 20px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #145a82;
+            border: 1px dashed #7dafd1;
+        }
+        .passage-box {
+            background: #f9f7f0;
+            padding: 20px 24px;
+            border-radius: 28px;
+            margin: 20px 0 10px 0;
+            border-left: 6px solid #8f6d3f;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #2d3b45;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #c4d7e8;
+            margin: 20px 0;
+        }
+        @media (max-width: 600px) {
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 12px 18px; }
+            .title-area h1 { font-size: 1.4rem; }
+            .section-header { font-size: 1.15rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 20px; }
+            .q-text { padding: 12px; font-size: 0.98rem; }
+            .opt-item { display: block; margin: 6px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>📖 Unit 1 Past and present · Period 3</h1>
+        <p>Reading (Ⅱ) 基础+能力 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础适当形式填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础适当形式填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">【2025云南昆明期末】In winter, many birds fly to the _____________________ (south) part of China to get away from the cold weather.</div>
+            <div class="answer-box">✅ 答案：southern / Southern (或 south)</div>
+            <div class="analysis-box">📝 详细解析：空后为名词 part，需要用形容词作定语。southern 表示“南方的”，首字母可大写也可小写；也可直接用 south 构成 south part，但 southern 更常见。根据括号提示 south，应变为形容词 southern。故填 southern / South。</div>
+            <div class="trans-box">🌐 中文翻译：冬天，许多鸟飞往中国的南部地区以躲避寒冷的天气。</div>
+        </div>
+        <!-- 2 -->
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">【2025上海徐汇区期中】Many __________ (citizen) are talking about that news which happened yesterday.</div>
+            <div class="answer-box">✅ 答案：citizens</div>
+            <div class="analysis-box">📝 详细解析：citizen 为可数名词，many 修饰可数名词复数，故填 citizens。</div>
+            <div class="trans-box">🌐 中文翻译：许多市民正在谈论昨天发生的那条新闻。</div>
+        </div>
+        <!-- 3 -->
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">A good teacher can encourage the students’ ____________ (creative).</div>
+            <div class="answer-box">✅ 答案：creativity</div>
+            <div class="analysis-box">📝 详细解析：根据 the students’ 可知此处需用名词，creative 的名词形式 creativity 意为“创造力”，不可数。故填 creativity。</div>
+            <div class="trans-box">🌐 中文翻译：一个好老师可以鼓励学生的创造力。</div>
+        </div>
+        <!-- 4 -->
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">【2025江苏无锡质检】It is ___________ (certain) wrong to think that all cars are the same; they are not.</div>
+            <div class="answer-box">✅ 答案：certainly</div>
+            <div class="analysis-box">📝 详细解析：certain 为形容词，空格后 wrong 是形容词，需用副词修饰形容词。certainly 意为“肯定地”。故填 certainly。</div>
+            <div class="trans-box">🌐 中文翻译：认为所有小汽车都一样肯定是错误的；它们并不相同。</div>
+        </div>
+        <!-- 5 -->
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">【2025江苏苏州期中】Cars _____________ (become) smarter and smarter over the past few years. Some of them can even drive themselves.</div>
+            <div class="answer-box">✅ 答案：have become</div>
+            <div class="analysis-box">📝 详细解析：时间状语 over the past few years 提示用现在完成时，主语 Cars 复数，故填 have become。</div>
+            <div class="trans-box">🌐 中文翻译：在过去的几年里，汽车变得越来越智能。有些甚至能够自动驾驶。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 卡片Ⅱ 方框选词填空 -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 方框选词填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">🔤 方框内单词：wealthy, attract, plan, active, China (需适当形式变化)</div>
+        <!-- 6 -->
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">【2025江苏扬州期中】As we all know, reading makes a full man. It helps you feel _________ in spirit.</div>
+            <div class="answer-box">✅ 答案：wealthy</div>
+            <div class="analysis-box">📝 详细解析：feel 是感官动词，后接形容词。根据句意“读书使人充实”，此处用 wealthy (富足的) 符合语境。故填 wealthy。</div>
+            <div class="trans-box">🌐 中文翻译：众所周知，读书使人充实。它使你的精神富足。</div>
+        </div>
+        <!-- 7 -->
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">【2025江苏无锡二模】Wuxi Nianhua Bay _______________ more and more people’s attention since this March.</div>
+            <div class="answer-box">✅ 答案：has attracted</div>
+            <div class="analysis-box">📝 详细解析：since this March 提示现在完成时，主语 Wuxi Nianhua Bay 为第三人称单数，故填 has attracted。attract 意为“吸引”。</div>
+            <div class="trans-box">🌐 中文翻译：从今年3月开始，无锡拈花湾吸引了越来越多人的注意。</div>
+        </div>
+        <!-- 8 -->
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">My sister works as a wedding _________ and creates beautiful events.</div>
+            <div class="answer-box">✅ 答案：planner</div>
+            <div class="analysis-box">📝 详细解析：works as 后跟职业名词，plan 的名词 planner 意为“策划者”。故填 planner。</div>
+            <div class="trans-box">🌐 中文翻译：我的姐姐是一名婚礼策划师，负责打造美丽的活动。</div>
+            <div class="small-note">知识拓展：plan to do sth 计划做某事</div>
+        </div>
+        <!-- 9 -->
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">【2025重庆调研】The study shows our brain works _______________ at night than it does in the daytime because it needs to have time to rest.</div>
+            <div class="answer-box">✅ 答案：more actively</div>
+            <div class="analysis-box">📝 详细解析：根据 than 可知用比较级，修饰动词 works 需用副词 actively 的比较级 more actively。句意：大脑在夜间比白天更活跃地工作。</div>
+            <div class="trans-box">🌐 中文翻译：研究表明，我们的大脑在夜间比在白天更活跃地工作，因为它需要时间休息。</div>
+        </div>
+        <!-- 10 -->
+        <div class="question-item">
+            <span class="q-num">10</span>
+            <div class="q-text">The Yellow River is __________ second longest river after the Yangtze River.</div>
+            <div class="answer-box">✅ 答案：China's</div>
+            <div class="analysis-box">📝 详细解析：表示“中国的第二长河”，需用名词所有格 China's，修饰 second longest river。</div>
+            <div class="trans-box">🌐 中文翻译：黄河是中国第二长河，仅次于长江。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 卡片Ⅲ 翻译句子 -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 11 -->
+        <div class="question-item">
+            <span class="q-num">11</span>
+            <div class="q-text">【2025江苏常州期末】我很荣幸向大家介绍我自己。(It’s one’s great honour to…)</div>
+            <div class="answer-box">✅ 答案：It’s my great honour to introduce myself to all of you.</div>
+            <div class="analysis-box">📝 解析：固定句型 It’s one’s great honour to do sth. 意为“做某事是某人的荣幸”。introduce oneself 介绍自己。</div>
+            <div class="trans-box">🌐 翻译：我很荣幸向大家介绍我自己。</div>
+        </div>
+        <!-- 12 -->
+        <div class="question-item">
+            <span class="q-num">12</span>
+            <div class="q-text">【2025江苏宿迁期末】美术课给了我们一个了解世界名画的机会。(world-famous paintings)</div>
+            <div class="answer-box">✅ 答案：The art class gives us a chance/an opportunity to learn/know about world-famous paintings.</div>
+            <div class="analysis-box">📝 解析：give sb. a chance to do sth. 给某人机会做某事。learn about 了解。</div>
+            <div class="trans-box">🌐 翻译：美术课给了我们一个了解世界名画的机会。</div>
+        </div>
+        <!-- 13 -->
+        <div class="question-item">
+            <span class="q-num">13</span>
+            <div class="q-text">【2025四川宜宾期中】很多人喜欢在成都的林荫道上骑自行车。(on the greenway)</div>
+            <div class="answer-box">✅ 答案：Many people like to go cycling on the greenway in Chengdu.</div>
+            <div class="analysis-box">📝 解析：like to do sth. 喜欢做某事；go cycling 骑自行车；on the greenway 在林荫道上。</div>
+            <div class="trans-box">🌐 翻译：很多人喜欢在成都的林荫道上骑自行车。</div>
+        </div>
+        <!-- 14 -->
+        <div class="question-item">
+            <span class="q-num">14</span>
+            <div class="q-text">【2025浙江宁波质检】——学生们为什么欢呼？ ——因为他们在比赛中获得了一等奖。(win first prize)</div>
+            <div class="answer-box">✅ 答案：—Why are the students cheering? —Because they won first prize in the competition.</div>
+            <div class="analysis-box">📝 解析：根据语境，欢呼是正在进行的动作，用现在进行时；获得一等奖是过去发生的事情，用一般过去时。</div>
+            <div class="trans-box">🌐 翻译：——学生们为什么欢呼？ ——因为他们在比赛中获得了一等奖。</div>
+        </div>
+        <!-- 15 -->
+        <div class="question-item">
+            <span class="q-num">15</span>
+            <div class="q-text">【2025贵州铜仁调研】这个城市的所有公园和博物馆都免费向公众开放。(be open to the public)</div>
+            <div class="answer-box">✅ 答案：All the parks and museums in the city are open to the public for free.</div>
+            <div class="analysis-box">📝 解析：be open to the public 向公众开放；for free 免费。</div>
+            <div class="trans-box">🌐 翻译：这个城市的所有公园和博物馆都免费向公众开放。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 卡片Ⅳ 短文填空（首字母） -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (10小题·首字母)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box" style="background:#eef4fa;">
+            <p>Mrs Brown is a 55-year-old woman. She has retired (退休) 16. f_____ a computer company. She 17. u_____ to live in the centre of New York. She lived there for over twenty years. In her free time, she usually played 18. c____________ and chatted with her friends in the park. Sometimes, she jogged in the park. She liked that 19. b________ she could enjoy fresh air and beautiful views there while jogging. She enjoyed her life very much.</p>
+            <p>Two years ago, she moved to 20. a________ city about 200 miles away from New York. It’s a small city with less noise and air 21. p__________. Her parents live there. They are quite old. She moved there to look after them. Now, she is very happy to be with them. Her parents become happier and 22. h__________ with her.</p>
+            <p>23. H________, Mrs Brown can’t see her old friends as often as before. She 24. m_______ them from time to time. Happily, she can keep in 25. t______ with them through the internet and the mobile phone. She hopes she can visit them often.</p>
+        </div>
+        <!-- 全文翻译 -->
+        <div class="trans-box" style="margin-bottom:20px;">
+            🌐 <strong>全文翻译：</strong><br>
+            布朗夫人是一位55岁的妇女。她已经从一家电脑公司退休。她过去住在纽约市中心，在那里住了二十多年。空闲时，她通常和朋友在公园打牌/下棋、聊天。有时她在公园慢跑。她喜欢这样，因为慢跑时可以享受新鲜空气和美景。她非常享受生活。<br>
+            两年前，她搬到了另一个距离纽约约200英里的城市。这是一个小城市，噪音和空气污染较少。她的父母住在那里，年纪很大了。她搬过去照顾他们。现在，她和他们在一起很开心。她的父母也因为她的陪伴变得更快乐、更健康。<br>
+            然而，布朗夫人不能像以前那样经常见到老朋友了。她时常想念他们。幸运的是，她可以通过互联网和手机与他们保持联系。她希望能经常去看望他们。
+        </div>
+        <div class="question-item">
+            <div class="answer-box">✅ 16. from  17. used  18. cards/chess  19. because  20. another  21. pollution  22. healthier  23. However  24. misses  25. touch</div>
+            <div class="analysis-box">
+                📝 详细解析：<br>
+                <strong>16.</strong> retire from 从……退休。<br>
+                <strong>17.</strong> used to do 过去常常。<br>
+                <strong>18.</strong> play cards/chess 打牌/下棋，符合语境。<br>
+                <strong>19.</strong> because 解释原因。<br>
+                <strong>20.</strong> another 另一个（城市）。<br>
+                <strong>21.</strong> pollution 污染，不可数名词。<br>
+                <strong>22.</strong> healthier 与 happier 并列，比较级。<br>
+                <strong>23.</strong> However 然而，表转折。<br>
+                <strong>24.</strong> misses 想念，主语为第三人称单数。<br>
+                <strong>25.</strong> touch keep in touch with 保持联系。
+            </div>
+        </div>
+        <div class="small-note">语篇导读：本文叙述了布朗夫人的生活变化。</div>
+    </div>
+</div>
+
+<!-- 卡片Ⅴ 完形填空 -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 完形填空 (15小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 体裁：记叙文 · 题材：卫生与健康 · 词数245 · 难度★★</div>
+        <div class="passage-box" style="background:#f4efe5;">
+            <p>It is very important to stay healthy. I have a neighbour. She is an old lady. She can do all the housework, 1. _____ newspapers, watch TV and look for 2. _____ on the internet to learn something new. I often see 3. _____ do tai chi in the morning and dance in the evening. She is over seventy 4. _____ she looks young and beautiful.</p>
+            <p>Last week a reporter from a magazine interviewed her and asked 5. _____ to keep so young and healthy. She answered 6. _____ a smile on her face, “I have a secret of staying young and healthy. It is quite 7. _____. Keep your mind active, be interested in the world 8. _____ you, and learn at least one new thing every day. Try to do different kinds of housework and do sports as 9. _____ as you can. Don’t think you are too old to go back to 10. _____. I know a man who entered a medical college when he was 11. _____ years old. He studied there for 6 years and now he is a 12. _____. Another man went to a tennis school at the age of 71 and now he is good at 13. _____ tennis. Some people may say staying young is easy only for those who live in the future. In fact, no matter 14. _____ you are, you can make it.”</p>
+            <p>Please tell the story to your family. I think people should 15. _____ the lady. I hope everyone will stay young and healthy.</p>
+        </div>
+        <!-- 全文翻译 -->
+        <div class="trans-box" style="margin-bottom:20px;">
+            🌐 <strong>全文翻译：</strong><br>
+            保持健康非常重要。我有一位邻居，她是一位老妇人。她能做所有家务、读报纸、看电视，并在网上查找信息以学习新事物。我经常看见她早上打太极拳，晚上跳舞。她七十多岁了，但看起来年轻漂亮。<br>
+            上周，一位杂志记者采访了她，问她如何保持如此年轻健康。她面带微笑地回答：“我有一个保持年轻健康的秘诀。它相当容易。保持思维活跃，对你周围的世界感兴趣，每天至少学习一件新事物。尝试做不同种类的家务，尽可能多地运动。不要认为你太老了不能回学校。我认识一个人，他在70岁时进入医学院。他在那里学习了6年，现在是一名医生。另一个人在71岁时去了一所网球学校，现在他擅长打网球。有些人可能会说，只有活在未来的人才能轻松保持年轻。事实上，无论你多大年龄，你都可以做到。”<br>
+            请把这个故事讲给你的家人。我认为人们应该向这位女士学习。我希望每个人都能保持年轻健康。
+        </div>
+        <!-- 逐题 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">A. look  B. read  C. see  D. watch</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：read newspapers 读报纸，固定搭配。look 为不及物动词，see 强调结果，watch 观看动态事物。</div>
+            <div class="trans-box">🌐 翻译：她能做所有家务、读报纸、看电视……</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">A. information  B. ideas  C. messages  D. jobs</div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：在网上查找信息，information 不可数名词，符合语境。</div>
+            <div class="trans-box">🌐 翻译：在网上查找信息以学习新事物。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">A. her  B. him  C. other  D. others</div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：see sb. do sth. 看见某人做某事，此处指邻居老太太，用人称代词宾格 her。</div>
+            <div class="trans-box">🌐 翻译：我经常看见她早上打太极拳，晚上跳舞。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">A. and  B. or  C. but  D. because</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：前后转折，“虽然七十多岁但是看起来年轻”，用 but。</div>
+            <div class="trans-box">🌐 翻译：她七十多岁了，但看起来年轻漂亮。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">A. what  B. why  C. who  D. how</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：记者询问保持年轻健康的方法，用 how。</div>
+            <div class="trans-box">🌐 翻译：问她如何保持如此年轻健康。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">A. on  B. in  C. with  D. at</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：with a smile 面带微笑，介词 with 表示伴随。</div>
+            <div class="trans-box">🌐 翻译：她面带微笑地回答。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">A. early  B. dear  C. easy  D. late</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：根据后文列举的方法都很简单，可知 secret 相当容易做到，easy。</div>
+            <div class="trans-box">🌐 翻译：它相当容易。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">A. under  B. around  C. above  D. between</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：around you 你周围的世界。</div>
+            <div class="trans-box">🌐 翻译：对你周围的世界感兴趣。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">A. soon  B. busily  C. hardly  D. often</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：as often as you can 尽可能经常地运动。</div>
+            <div class="trans-box">🌐 翻译：尽可能多地做运动。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">10</span>
+            <div class="q-text">A. place  B. song  C. school  D. dance</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：go back to school 回学校（学习），后文举例进入医学院。</div>
+            <div class="trans-box">🌐 翻译：不要认为你太老了不能回学校。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">11</span>
+            <div class="q-text">A. seventeen  B. seven  C. seventy  D. seventieth</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：根据语境，强调年纪大时入学，seventy 符合后文“at the age of 71”。</div>
+            <div class="trans-box">🌐 翻译：他在70岁时进入医学院。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">12</span>
+            <div class="q-text">A. doctor  B. student  C. postman  D. driver</div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：医学院学习6年后成为医生。</div>
+            <div class="trans-box">🌐 翻译：现在他是一名医生。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">13</span>
+            <div class="q-text">A. buying  B. losing  C. sending  D. playing</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：擅长打网球，play tennis。</div>
+            <div class="trans-box">🌐 翻译：现在他擅长打网球。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">14</span>
+            <div class="q-text">A. how long  B. how old  C. how far  D. how many</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：no matter how old you are 无论你多大年龄。</div>
+            <div class="trans-box">🌐 翻译：事实上，无论你多大，你都可以做到。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">15</span>
+            <div class="q-text">A. listen to  B. learn from  C. play with  D. talk about</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：向这位女士学习，learn from。</div>
+            <div class="trans-box">🌐 翻译：我认为人们应该向这位女士学习。</div>
+        </div>
+        <div class="small-note">语篇导读：本文介绍了一位邻居保持年轻的故事。</div>
+    </div>
+</div>
+
+<!-- 卡片Ⅵ 阅读选择 -->
+<div class="section-card collapsed" id="section6">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅵ 阅读选择 (4小题·中国EV发展)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 体裁：说明文 · 题材：科普与现代技术 · 词数220 · 难度★★★</div>
+        <div class="passage-box">
+            <p>China has become the world’s largest producer and market of EVs (电动汽车). According to a report, 9.58 million Chinese-made EVs were produced and 9.49 million were sold in 2023. Among the total sales, 1.2 million EVs were exported.</p>
+            <p>The Chinese government has been encouraging EVs as part of its effort for green, high-quality development. As a result, China’s EV industry develops very quickly. At Auto China 2004, BYD was the only company showing EVs there. At Auto China 2024, there were 278 different EV models on show, including BYD, SAIC, Geely, Li Auto, Nio, Xpeng and other brands.</p>
+            <p>China’s EV industry is now facing both challenges and chances. It’s reported that 71% of EV brands cut prices in 2023. EV makers without the ability of innovation will face growing risks. In order to be both green and smart, Chinese EV makers are trying hard to improve technologies like battery qualities and AI support. At the same time, the government is adding even more charging points. On the other hand, more Chinese people are aware of the environmental problems. It is encouraging more buyers to choose EVs.</p>
+            <p>EVs are the way of the future. In an ideal world, everyone benefits from innovation and green transport. Some might get there sooner than others, and will gain greater rewards. It is very likely that China will hold the lead.</p>
+        </div>
+        <div class="trans-box" style="margin-bottom:20px;">🌐 <strong>全文翻译：</strong>中国已成为全球最大的电动汽车生产国和市场。据统计，2023年中国生产958万辆电动汽车，销售949万辆，其中出口120万辆。中国政府一直鼓励电动汽车，作为绿色高质量发展的一部分。因此，中国电动汽车产业发展迅速。在2004年北京车展上，比亚迪是唯一展示电动汽车的公司；在2024年车展上，共有278款不同电动汽车车型亮相，包括比亚迪、上汽、吉利、理想、蔚来、小鹏等品牌。中国电动汽车产业目前面临挑战与机遇。据报道，2023年71%的电动汽车品牌降价。没有创新能力的制造商将面临越来越大风险。为了既环保又智能，中国电动汽车制造商正努力提高电池质量和人工智能支持等技术。同时，政府正在增加更多充电站。另一方面，更多中国人意识到环境问题，这促使更多买家选择电动汽车。电动汽车是未来之路。在理想世界里，每个人都能从创新和绿色交通中受益。有些人可能比别人更早到达，并获得更大回报。中国很可能会保持领先地位。</div>
+
+        <div class="question-item">
+            <span class="q-num">16</span>
+            <div class="q-text">How many Chinese-made EVs were sold in China in 2023?</div>
+            <div class="options">
+                <span class="opt-item">A. 8.38 million.</span>
+                <span class="opt-item">B. 9.49 million.</span>
+                <span class="opt-item">C. 9.58 million.</span>
+                <span class="opt-item">D. 8.29 million.</span>
+            </div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：细节题。第一段总销售9.49 million，其中出口1.2 million，国内销售=9.49-1.2=8.29 million。故选D。</div>
+            <div class="trans-box">🌐 翻译：2023年中国国内销售了多少辆中国制造的电动汽车？A.838万；B.949万；C.958万；D.829万。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">17</span>
+            <div class="q-text">What is the purpose of Paragraph 2?</div>
+            <div class="options">
+                <span class="opt-item">A. To introduce different EV brands in China.</span>
+                <span class="opt-item">B. To give some information about Auto China.</span>
+                <span class="opt-item">C. To show the development of China’s EV industry.</span>
+                <span class="opt-item">D. To advise people to buy Chinese-made EVs.</span>
+            </div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：推理判断题。第二段通过2004年仅一家参展到2024年278款车型，展示了中国电动汽车产业的快速发展。</div>
+            <div class="trans-box">🌐 翻译：第二段的目的是什么？A.介绍中国不同的电动汽车品牌；B.提供一些关于中国车展的信息；C.展示中国电动汽车产业的发展；D.建议人们购买中国制造的电动汽车。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">18</span>
+            <div class="q-text">EV makers can most probably reduce growing risks by ________.</div>
+            <div class="options">
+                <span class="opt-item">A. improving the ability of innovation</span>
+                <span class="opt-item">B. winning the government’s support</span>
+                <span class="opt-item">C. adding more charging points</span>
+                <span class="opt-item">D. dealing with environmental problems</span>
+            </div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：细节题。第三段“EV makers without the ability of innovation will face growing risks.”说明有创新能力才能降低风险。</div>
+            <div class="trans-box">🌐 翻译：电动汽车制造商最有可能通过什么降低日益增长的风险？A.提高创新能力；B.赢得政府支持；C.增加更多充电站；D.处理环境问题。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">19</span>
+            <div class="q-text">What’s the writer’s attitude towards the future of China’s EV industry?</div>
+            <div class="options">
+                <span class="opt-item">A. Uncertain.</span>
+                <span class="opt-item">B. Hopeful.</span>
+                <span class="opt-item">C. Doubtful.</span>
+                <span class="opt-item">D. Worried.</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：推理判断题。最后一段“It is very likely that China will hold the lead.”作者认为中国很可能保持领先，态度是充满希望的。</div>
+            <div class="trans-box">🌐 翻译：作者对中国电动汽车产业的未来持什么态度？A.不确定；B.充满希望；C.怀疑；D.担忧。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 卡片Ⅶ 阅读还原 -->
+<div class="section-card collapsed" id="section7">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅶ 阅读还原 (5选5·条形码)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 体裁：说明文 · 题材：科普知识 · 词数170 · 难度★★★</div>
+        <div class="passage-box">
+            <p>The invention of barcodes is based on a very simple idea. We only need to give each product a specific number and print it. 20. _____ It can simply print the number itself. But this can cause problems. For example, an unclearly printed “seven” could look like a “one” to a computer. It’s also true for “three” and “eight”. 21. _____ We need a better way of printing numbers so that they can be read correctly at high speed. That’s the problem barcodes solve.</p>
+            <p>Each number in a barcode is shown by seven blocks of the same size. 22. _____ For example, the number “one” is shown in turn by two white stripes, two black stripes, two white stripes, and one black stripe. 23. _____</p>
+            <p>A barcode includes different parts and each one provides a specific meaning. The first part of a barcode tells you the country where the product was made. For example, 690—692 is the barcode for China. 24. _____ The final part is about the product itself. This is how barcodes work.</p>
+        </div>
+        <!-- 全文翻译 -->
+        <div class="trans-box" style="margin-bottom:20px;">
+            🌐 <strong>全文翻译：</strong><br>
+            条形码的发明基于一个非常简单的想法。我们只需要给每个产品一个特定的编号并打印出来。但这会导致问题。它可以简单地打印数字本身。但这会导致问题。例如，打印不清晰的“7”在电脑看来可能像“1”。“3”和“8”也是如此。我们需要一种更好的打印数字的方式，以便能够高速准确地读取。这就是条形码要解决的问题。<br>
+            条形码中的每个数字由七个相同大小的块表示。这些块被印成白色和黑色的条纹。例如，数字“1”依次由两条白色条纹、两条黑色条纹、两条白色条纹和一条黑色条纹表示。即使你把它颠倒过来，它也和任何其他数字不相似。<br>
+            条形码包含不同的部分，每个部分都有特定的含义。条形码的第一部分告诉你产品生产的国家。例如，690—692是中国的条形码。下一部分告诉你生产该产品的公司。最后一部分是关于产品本身。条形码就是这样工作的。
+        </div>
+        <div class="word-box" style="background:#e9eef5;">选项：<br>A. But this can cause problems.<br>B. (未使用)<br>C. The next part tells you the company that made the product.<br>D. For example, an unclearly printed “seven” could look like a “one” to a computer.<br>E. These are printed as white and black stripes.<br>F. Even if you turn it upside down, it’s still not similar to any other number.</div>
+        <div class="question-item">
+            <span class="q-num">20</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：上文提到给每个产品打印特定数字，但仅打印数字本身可能引起问题，A项“但这会导致问题”承上启下。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">21</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：前文提到数字混淆，D项具体举例说明“七”可能被误认为“一”，符合语境。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">22</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：E</div>
+            <div class="analysis-box">📝 解析：前句介绍每个数字由七个相同大小的块表示，E项“这些被印成白色和黑色的条纹”进一步解释。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">23</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：F</div>
+            <div class="analysis-box">📝 解析：介绍数字“一”的条纹表示后，F项“即使你把它颠倒过来，它也和任何其他数字不相似”说明这种编码的优势。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">24</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：前句讲第一部分表示国家，后文讲最后一部分关于产品本身，中间C项“下一部分告诉你生产该产品的公司”符合逻辑。</div>
+        </div>
+        <div class="small-note">语篇导读：本文主要介绍了条形码的工作原理。</div>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<div class="bottom-bar">
+    <span style="color:#3f627c; font-size:0.95rem;">📌 点击上方标题展开/折叠 · 所有题目均附详细解析与翻译</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    function attemptClose() {
+        if (confirm("是否尝试关闭本页面？若浏览器阻止，请使用快捷键 (Ctrl+W / ⌘+W) 手动关闭。")) {
+            try { window.close(); } catch { alert("无法直接关闭，请手动关闭标签页。"); }
+        }
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    attemptClose();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    attemptClose();
+    //});
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
