@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 2 Amazing China · Period 5 Integration (Ⅰ)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 40px;
+            padding: 14px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 12px rgba(0,30,45,0.05);
+            border: 1px solid #dde7f0;
+        }
+        .top-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+        }
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f8fbfe;
+        }
+        .title-area h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #0d4c6e, #0b3b55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title-area p {
+            color: #54738f;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .close-btn {
+            background: #ecf3fa;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1d577b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid #bed3e6;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .close-btn:hover {
+            background: #dae6f2;
+            color: #093852;
+            border-color: #7fa9c7;
+            box-shadow: 0 4px 10px rgba(0,60,90,0.1);
+        }
+        .close-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: white;
+            border-radius: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 22px -6px rgba(20, 50, 70, 0.12);
+            overflow: hidden;
+            border: 1px solid #e2eef9;
+            transition: box-shadow 0.2s;
+        }
+        .section-header {
+            background: white;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #10435c;
+            transition: background 0.15s, padding 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .section-header:hover {
+            background: #e9f2fa;
+        }
+        .section-header .toggle-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #2c779b;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+        /* 折叠样式 */
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .section-content {
+            padding: 8px 28px 28px 28px;
+            border-top: 1px solid #d1e2f0;
+            background: #ffffff;
+        }
+
+        /* 题目元素 */
+        .question-item {
+            margin-top: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e0ecf5;
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+        .q-num {
+            display: inline-block;
+            background: #cde1f0;
+            color: #0f4b6b;
+            font-weight: 700;
+            padding: 4px 16px 5px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin-bottom: 12px;
+            border: 1px solid #aac6dd;
+        }
+        .q-text {
+            font-size: 1.04rem;
+            font-weight: 500;
+            color: #113845;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: #f5faff;
+            padding: 16px 22px;
+            border-radius: 24px;
+            border-left: 5px solid #3182a3;
+            box-shadow: inset 0 1px 4px #d7e6f5;
+        }
+        .options {
+            margin: 12px 0 16px 8px;
+            color: #1d506b;
+            background: #f0f6fd;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-weight: 460;
+        }
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 28px;
+            white-space: nowrap;
+        }
+        .answer-box, .analysis-box, .trans-box {
+            margin: 12px 0 8px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+        .answer-box {
+            background: #e2f0fa;
+            color: #004d7c;
+            font-weight: 600;
+            border-left: 6px solid #0073aa;
+        }
+        .analysis-box {
+            background: #fff6e5;
+            color: #624c2a;
+            border-left: 6px solid #efb13b;
+        }
+        .trans-box {
+            background: #e1f1e8;
+            color: #1b6e4a;
+            border-left: 6px solid #2e9e68;
+        }
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+        .small-note {
+            font-size: 0.86rem;
+            color: #6a859e;
+            margin-top: 12px;
+            padding-left: 12px;
+        }
+        .word-box {
+            background: #e7f0fa;
+            padding: 12px 20px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #145a82;
+            border: 1px dashed #7dafd1;
+        }
+        .passage-box {
+            background: #f9f7f0;
+            padding: 20px 24px;
+            border-radius: 28px;
+            margin: 20px 0 10px 0;
+            border-left: 6px solid #8f6d3f;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #2d3b45;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #c4d7e8;
+            margin: 20px 0;
+        }
+        @media (max-width: 600px) {
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 12px 18px; }
+            .title-area h1 { font-size: 1.4rem; }
+            .section-header { font-size: 1.15rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 20px; }
+            .q-text { padding: 12px; font-size: 0.98rem; }
+            .opt-item { display: block; margin: 6px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🇨🇳 Unit 2 Amazing China · Period 5</h1>
+        <p>Integration (Ⅰ) 综合训练 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础适当形式填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础适当形式填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">Do you enjoy listening to ___________ (classic) music or pop music?</div>
+            <div class="answer-box">✅ 答案：classical</div>
+            <div class="analysis-box">📝 解析：空处修饰名词 music，需用形容词。classic 的形容词形式 classical 意为“古典的”。</div>
+            <div class="trans-box">🌐 翻译：你喜欢听古典音乐还是流行音乐？</div>
+        </div>
+        <!-- 2 -->
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">The doctor asked him to check his blood pressure at different _________ (period) of the day.</div>
+            <div class="answer-box">✅ 答案：periods</div>
+            <div class="analysis-box">📝 解析：different 后接可数名词复数，period 的复数形式为 periods。</div>
+            <div class="trans-box">🌐 翻译：医生让他在一天的不同时间检查血压。</div>
+        </div>
+        <!-- 3 -->
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">【2025上海模拟】Students were told to read the paper _______ (two) before making a decision.</div>
+            <div class="answer-box">✅ 答案：twice</div>
+            <div class="analysis-box">📝 解析：此处表示“读两遍”，用副词 twice 修饰动词 read。</div>
+            <div class="trans-box">🌐 翻译：学生们被告知在做决定之前要把这篇论文读两遍。</div>
+        </div>
+        <!-- 4 -->
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">【2025江苏南京质检】—Do you know Yuan Longping? —Of course. He developed a new type of hybrid rice and solved the problem of hunger. I think he is one of the greatest ________ (hero) in China.</div>
+            <div class="answer-box">✅ 答案：heroes</div>
+            <div class="analysis-box">📝 解析：one of + the + 形容词最高级 + 可数名词复数，hero 的复数为 heroes。</div>
+            <div class="trans-box">🌐 翻译：——你认识袁隆平吗？——当然。他培育了一种新型杂交水稻，解决了饥饿问题。我认为他是中国最伟大的英雄之一。</div>
+            <div class="small-note">链接狂K：“one of the/one's+形容词最高级+可数名词复数”的详细讲解见狂K重点P11。</div>
+        </div>
+        <!-- 5 -->
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">【2025上海奉贤区期末】The scientists set up a ______ (basic) in the North Pole to do some research about the polar bear.</div>
+            <div class="answer-box">✅ 答案：base</div>
+            <div class="analysis-box">📝 解析：basic 是形容词，其名词形式 base 意为“基地”，符合句意。</div>
+            <div class="trans-box">🌐 翻译：科学家们在北极建立了一个基地来进行一些有关北极熊的研究。</div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 单项选择 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">Scientists know the number of birds by ________.</div>
+            <div class="options">
+                <span class="opt-item">A. do a bird record</span>
+                <span class="opt-item">B. do a bird recording</span>
+                <span class="opt-item">C. doing a bird record</span>
+                <span class="opt-item">D. doing a bird reward</span>
+            </div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：by 是介词，后接动名词；do a bird record 意为“做鸟类记录”。</div>
+            <div class="trans-box">🌐 翻译：科学家通过做鸟类记录知道鸟的数量。</div>
+        </div>
+        <!-- 7 -->
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">Helen likes China very much. She can’t wait ________ to China.</div>
+            <div class="options">
+                <span class="opt-item">A. coming</span>
+                <span class="opt-item">B. came</span>
+                <span class="opt-item">C. come</span>
+                <span class="opt-item">D. to come</span>
+            </div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：can't wait to do sth. 等不及做某事，固定搭配。</div>
+            <div class="trans-box">🌐 翻译：海伦非常喜欢中国。她等不及要来中国了。</div>
+        </div>
+        <!-- 8 -->
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">【2025天津和平区调研】Mr Black is a boss and he often takes the plane ________.</div>
+            <div class="options">
+                <span class="opt-item">A. on busy</span>
+                <span class="opt-item">B. for busy</span>
+                <span class="opt-item">C. on business</span>
+                <span class="opt-item">D. to business</span>
+            </div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：on business 出差，固定短语。</div>
+            <div class="trans-box">🌐 翻译：布莱克先生是个老板，他经常坐飞机出差。</div>
+        </div>
+        <!-- 9 -->
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">—When ________ you ________ the new car? —Well, I ________ it for a week.</div>
+            <div class="options">
+                <span class="opt-item">A. did; have; have had</span>
+                <span class="opt-item">B. did; buy; have had</span>
+                <span class="opt-item">C. did; buy; have bought</span>
+                <span class="opt-item">D. did; have; have bought</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：询问何时买用一般过去时 did...buy；答语 for a week 用现在完成时，且需用延续性动词 have had。</div>
+            <div class="trans-box">🌐 翻译：——你什么时候买的这辆新车？——哦，我已经买了一个星期了。</div>
+        </div>
+        <!-- 10 -->
+        <div class="question-item">
+            <span class="q-num">10</span>
+            <div class="q-text">【2025江苏淮安质检】—The exchange student from America has learnt to use chopsticks to eat Chinese food. —Oh, really? Just as the saying goes, “________”.</div>
+            <div class="options">
+                <span class="opt-item">A. Actions speak louder than words</span>
+                <span class="opt-item">B. A friend in need is a friend indeed</span>
+                <span class="opt-item">C. When in Rome, do as Romans do</span>
+                <span class="opt-item">D. It never rains but it pours</span>
+            </div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：根据语境，交换生学会了用筷子，体现了“入乡随俗”，故选C。</div>
+            <div class="trans-box">🌐 翻译：——来自美国的交换生已经学会用筷子吃中国食物了。——哦，真的吗？俗话说：“入乡随俗”。</div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 根据中文完成句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 根据中文完成句子 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 11 -->
+        <div class="question-item">
+            <span class="q-num">11</span>
+            <div class="q-text">【2025上海杨浦区调研】这个项链和耳环可以追溯到公元前四世纪。</div>
+            <div class="answer-box">✅ 答案：can date back to</div>
+            <div class="analysis-box">📝 解析：date back to 追溯到，情态动词 can 后接动词原形。</div>
+            <div class="trans-box">🌐 翻译：The necklace and earrings can date back to the fourth century BC.</div>
+        </div>
+        <!-- 12 -->
+        <div class="question-item">
+            <span class="q-num">12</span>
+            <div class="q-text">【2025江苏无锡质检】这个主题公园已经安排了很多活动来吸引游客们的注意。</div>
+            <div class="answer-box">✅ 答案：the/this theme park</div>
+            <div class="analysis-box">📝 解析：根据句意，主语是“这个主题公园”，译为 the/this theme park。注意前面已有 to catch...，主句主语需完整。</div>
+            <div class="trans-box">🌐 翻译：To catch the tourists' attention, the/this theme park has set up a lot of activities.</div>
+        </div>
+        <!-- 13 -->
+        <div class="question-item">
+            <span class="q-num">13</span>
+            <div class="q-text">【2025江苏无锡期末】虽然他的成就经常受到高度评价，但他从不炫耀。</div>
+            <div class="answer-box">✅ 答案：never shows off</div>
+            <div class="analysis-box">📝 解析：show off 炫耀，主语 he 三单，故用 shows off；never 表否定。</div>
+            <div class="trans-box">🌐 翻译：Although his achievements are often highly regarded, he never shows off.</div>
+        </div>
+        <!-- 14 -->
+        <div class="question-item">
+            <span class="q-num">14</span>
+            <div class="q-text">【2025江苏苏州期中】不管情况如何艰难，你最好别灰心。</div>
+            <div class="answer-box">✅ 答案：No matter how</div>
+            <div class="analysis-box">📝 解析：No matter how 引导让步状语从句，意为“无论多么”。</div>
+            <div class="trans-box">🌐 翻译：No matter how hard your situation is, you had better not lose heart.</div>
+        </div>
+        <!-- 15 -->
+        <div class="question-item">
+            <span class="q-num">15</span>
+            <div class="q-text">【2025广东珠海调研】他总是在接近年底时为下一年制订新的计划。</div>
+            <div class="answer-box">✅ 答案：makes new plans for</div>
+            <div class="analysis-box">📝 解析：make plans for 为……制定计划；主语 he 三单，用 makes。</div>
+            <div class="trans-box">🌐 翻译：He always makes new plans for the next year when it is close to the end of the year.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 阅读还原 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 阅读还原 (5小题·阿勒泰)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 体裁：说明文 · 题材：自然 · 词数170 · 难度★★★</div>
+        <div class="passage-box">
+            <p>The Chinese TV show To the Wonder makes more people know about Altay. The show is based on Li Juan's book My Altay. <strong>1.</strong> _____</p>
+            <p>Altay is in the northern part of Xinjiang. It has many amazing high mountains, clean rivers and forests. <strong>2.</strong> _____ There are beautiful lakes like Kanas, White, Double and Black lakes. The Kanas River runs through some pretty valleys.</p>
+            <p><strong>3.</strong> _____ In spring and summer, the green trees and the white snow mountains look nice together. The flowers also add their colours. <strong>4.</strong> _____ In winter, it becomes a world of ice and snow. Besides, groups of animals and round tents make a nice picture of nature and people.</p>
+            <p><strong>5.</strong> _____ It is home to different ethnic groups. Each group has its own way of life and language. That is why Altay's culture is colourful and lovely. Travellers can go to busy markets, try traditional food and meet friendly local people there.</p>
+        </div>
+        <div class="word-box" style="background:#e9eef5;">
+            🔤 选项：<br>
+            A. (未使用)<br>
+            B. Altay is also famous for its rich culture.<br>
+            C. In autumn, the leaves turn yellow and red.<br>
+            D. It tells a story about a girl called Li Wenxiu.<br>
+            E. (未使用)<br>
+            F. The area has different faces in different seasons.<br>
+            G. One of the most famous places in Altay is the Kanas area.
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            中国电视节目《我的阿勒泰》让更多人了解了阿勒泰。该节目改编自李娟的书《我的阿勒泰》。它讲述了一个叫李文秀的女孩的故事。<br>
+            阿勒泰位于新疆北部。它有许多令人惊叹的高山、清澈的河流和森林。阿勒泰最著名的地方之一是喀纳斯地区。那里有美丽的湖泊，如喀纳斯湖、白湖、双湖和黑湖。喀纳斯河流过一些美丽的山谷。<br>
+            这个地区在不同的季节有不同的面貌。春天和夏天，绿树和白雪山相映成趣。花朵也增添了色彩。秋天，树叶变黄变红。冬天，这里变成了冰雪世界。此外，成群的动物和圆顶帐篷构成了一幅人与自然的美好画卷。<br>
+            阿勒泰也以其丰富的文化而闻名。它是不同少数民族的家园。每个民族都有自己的生活方式和语言。这就是为什么阿勒泰的文化丰富多彩、可爱动人。游客可以去热闹的市场，品尝传统食物，结识友好的当地人。
+        </div>
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：前文提到书《我的阿勒泰》，D项“它讲述了一个叫李文秀的女孩的故事”承接上文。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：G</div>
+            <div class="analysis-box">📝 解析：后文介绍喀纳斯湖等，G项“阿勒泰最著名的地方之一是喀纳斯地区”引出下文。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：F</div>
+            <div class="analysis-box">📝 解析：后文描述春、夏、冬景色，F项“这个地区在不同的季节有不同的面貌”总领下文。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：前文春、夏，后文冬，中间缺秋季，C项“秋天，树叶变黄变红”符合。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">______</div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：后文介绍不同民族和文化，B项“阿勒泰也以其丰富的文化而闻名”总领。</div>
+        </div>
+        <div class="small-note">语篇导读：本文介绍了中国新疆北部的阿勒泰地区。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 阅读表达 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 阅读表达 (4小题·四季旅游)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 体裁：说明文 · 题材：旅游与交通 · 词数200 · 难度★★★</div>
+        <div class="passage-box">
+            <p>You can have great tours for every season in China.</p>
+            <p>Spring is the best time to visit Wuyuan in Jiangxi. The yellow flowers all over the hills make the villages look like a fairy-tale world. You'll have free time to walk across the beautiful countryside and enjoy the famous tea.</p>
+            <p>The best time to visit Changbai Mountain in Jilin is August. It's usually sunny. Why not go there to visit the Stone Forest and Changbai Mountain Caves? Don't forget the Heaven Lake at the top. You'll have time to take lots of photos.</p>
+            <p>You can see all the colours of autumn near the Great Wall. It's cool and dry, so it's great for hiking. You can walk on the Mutianyu Great Wall. There won't be as many tourists as at the Badaling Great Wall, but it's just beautiful.</p>
+            <p>Sanya on Hainan Island is great for a holiday in winter. You can get away from the cold. The three famous beaches, Yalongwan, Sanyawan and Dadonghai, all have great sand. You'll love swimming in the clear water.</p>
+            <p>You can have a great time in different seasons!</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            在中国，每个季节你都可以享受绝佳的旅行。<br>
+            春季是游览江西婺源的最佳时间。山上遍布的黄色花朵使村庄看起来像童话世界。你有空闲时间漫步美丽的乡村，品尝名茶。<br>
+            游览吉林长白山的最佳时间是八月。天气通常晴朗。为什么不去那里参观石林和长白山石窟呢？别忘了山顶的天池。你会有时间拍很多照片。<br>
+            秋季你可以在长城附近看到各种色彩。天气凉爽干燥，非常适合徒步。你可以在慕田峪长城上行走。那里的游客不会像八达岭长城那么多，但它同样美丽。<br>
+            海南岛的三亚是冬季度假的好去处。你可以远离寒冷。三个著名的海滩——亚龙湾、三亚湾和大东海——都有很好的沙滩。你会喜欢在清澈的海水中游泳。<br>
+            在不同的季节你都能玩得开心！
+        </div>
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">Is winter the best time to visit Wuyuan?</div>
+            <div class="answer-box">✅ 答案：No, it isn't.</div>
+            <div class="analysis-box">📝 解析：细节题。第一段说春季是游览婺源的最佳时间。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">What activity can the tourists do near the Great Wall in autumn?</div>
+            <div class="answer-box">✅ 答案：They can go hiking.</div>
+            <div class="analysis-box">📝 解析：细节题。第三段提到“it's great for hiking”。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">What places does the writer recommend visiting on Changbai Mountain in August?</div>
+            <div class="answer-box">✅ 答案：The Stone Forest, Changbai Mountain Caves and the Heaven Lake.</div>
+            <div class="analysis-box">📝 解析：细节题。第二段提到石林、长白山石窟和天池。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">What may affect people's decision on where to visit? Write at least 2 reasons. (25词左右)</div>
+            <div class="answer-box">✅ 答案示例：Seasons and weather may affect people's decisions. Some people prefer warm places in winter to avoid cold. Others choose places with beautiful autumn colours.</div>
+            <div class="analysis-box">📝 解析：开放性试题，言之有理即可。可从季节、天气、个人偏好等角度回答。</div>
+            <div class="small-note">知识拓展：avoid doing sth 避免做某事</div>
+        </div>
+        <div class="small-note">语篇导读：本文主要介绍了中国每个季节的绝佳旅游地点。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#3f627c; font-size:0.95rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
