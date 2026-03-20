@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 7 Charities · Period 3 Reading (Ⅱ)</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>❤️ Unit 7 Charities · Period 3</h1>
+        <p>Reading (Ⅱ) 基础+能力 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础适当形式填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础适当形式填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">The __________________________ (interview) asked me a lot of questions, and I hoped I could get the job.</span>
+        </div>
+        <div class="answer-box">✅ 答案：interviewer/interviewers</div>
+        <div class="analysis-box">📝 解析：根据句意，此处指“面试官”，可用单数或复数。</div>
+        <div class="trans-box">🌐 翻译：面试官问了我很多问题，我希望我能得到这份工作。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">【2025江苏常州调研】The old man tried every ___________ (treat) the doctor had suggested, but it was no use.</span>
+        </div>
+        <div class="answer-box">✅ 答案：treatment</div>
+        <div class="analysis-box">📝 解析：every 后接可数名词单数，treat 的名词形式 treatment。</div>
+        <div class="trans-box">🌐 翻译：老人尝试了医生建议的每一种治疗，但都没有用。</div>
+        <div class="small-note">链接狂K：treatment 的详细讲解见狂K重点P37。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">【2025江苏南京期中】Yesterday evening, my room suddenly had a power cut, leaving me in the _______________ (dark).</span>
+        </div>
+        <div class="answer-box">✅ 答案：dark/darkness</div>
+        <div class="analysis-box">📝 解析：in the dark/darkness 在黑暗中。</div>
+        <div class="trans-box">🌐 翻译：昨天晚上，我的房间突然停电了，把我留在黑暗中。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">【2025江苏徐州期中】I can't afford _______ (go) to a restaurant every day.</span>
+        </div>
+        <div class="answer-box">✅ 答案：to go</div>
+        <div class="analysis-box">📝 解析：afford to do sth. 负担得起做某事。</div>
+        <div class="trans-box">🌐 翻译：我负担不起每天去餐馆吃饭。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">I can understand the meaning by __________ (watch) their body language and the expressions on their faces.</span>
+        </div>
+        <div class="answer-box">✅ 答案：watching</div>
+        <div class="analysis-box">📝 解析：by 是介词，后接动名词 watching。</div>
+        <div class="trans-box">🌐 翻译：我可以通过观察他们的肢体语言和脸上的表情来理解意思。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 方框选词填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 方框选词填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">🔤 方框内单词：operate, train, read, develop, disease (需适当形式变化)</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">【2025江苏连云港期中】The doctor performed a/an ___________ on the poor man yesterday.</span>
+        </div>
+        <div class="answer-box">✅ 答案：operation</div>
+        <div class="analysis-box">📝 解析：perform an operation 做手术。</div>
+        <div class="trans-box">🌐 翻译：医生昨天给这个可怜的人做了手术。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">After two months of __________, his young brother could swim.</span>
+        </div>
+        <div class="answer-box">✅ 答案：training</div>
+        <div class="analysis-box">📝 解析：months of training 几个月的训练。</div>
+        <div class="trans-box">🌐 翻译：经过两个月的训练，他的弟弟会游泳了。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">【2025江苏南京期末】A good ________ lives a thousand lives before he dies. The man who never reads lives only one.</span>
+        </div>
+        <div class="answer-box">✅ 答案：reader</div>
+        <div class="analysis-box">📝 解析：a good reader 一个好读者。</div>
+        <div class="trans-box">🌐 翻译：一个好读者在死前活了一千次。从不读书的人只活一次。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">The children are ____________ a plan to grow some flowers in the school garden.</span>
+        </div>
+        <div class="answer-box">✅ 答案：developing</div>
+        <div class="analysis-box">📝 解析：are developing a plan 正在制订计划。</div>
+        <div class="trans-box">🌐 翻译：孩子们正在制订一个计划，在学校花园里种一些花。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【2025江苏南通质检】My brother is doing some medical research on some ______________.</span>
+        </div>
+        <div class="answer-box">✅ 答案：disease(s)</div>
+        <div class="analysis-box">📝 解析：some 后接可数名词复数或不可数名词，disease(s) 疾病。</div>
+        <div class="trans-box">🌐 翻译：我哥哥正在对一些疾病进行医学研究。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 11 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">【2025江苏南京调研】戴维作为学校排球队的一员感到很自豪。(be proud to)</span>
+        </div>
+        <div class="answer-box">✅ 答案：David is very proud to be a member of the school volleyball team.</div>
+        <div class="analysis-box">📝 解析：be proud to do 自豪地做某事。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">【2025江苏无锡期中】感谢你带我们参观你的新房子。(thank sb for doing sth)</span>
+        </div>
+        <div class="answer-box">✅ 答案：Thank you for showing us around your new house.</div>
+        <div class="analysis-box">📝 解析：thank sb. for doing 感谢某人做某事；show sb. around 带某人参观。</div>
+
+        <!-- 13 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">13</span>
+            <span class="q-text-inline">我希望每个人都能加入这个游戏中。(be able to)</span>
+        </div>
+        <div class="answer-box">✅ 答案：I hope that everyone will be able to join in the game.</div>
+        <div class="analysis-box">📝 解析：will be able to 将能够。</div>
+
+        <!-- 14 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">14</span>
+            <span class="q-text-inline">我们不必害怕犯错误，因为我们可以从中受益。(benefit from)</span>
+        </div>
+        <div class="answer-box">✅ 答案：We don't need to be afraid of making mistakes because we can benefit from them.</div>
+        <div class="analysis-box">📝 解析：benefit from 从……中受益。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 短文填空 (首字母) ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (10小题·首字母)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>Operation Smile was started by a doctor and his wife, Bill and Kathy Magee. In 1982, <strong>15. t________</strong> with some volunteers, they went to the Philippines to help children with the cleft lip and palate. Eating and drinking are very <strong>16. d________</strong> for these children. The couple worked very hard, but they worried that they could not <strong>17. c________</strong> on with the work because they didn't have enough money to treat more children. Then they <strong>18. d________</strong> to start a charity so that they could help these children. They <strong>19. c________</strong> it Operation Smile.</p>
+            <p>Over the years, Operation Smile has won many <strong>20. p________</strong> for its work and in 1999 they even started a special event called the "World Journey of Hope". About 5,000 children in 18 countries were <strong>21. o________</strong> on successfully during the event.</p>
+            <p>Now the charity works in more than 30 countries and has volunteer doctors from <strong>22. o________</strong> 60 countries. It <strong>23. p________</strong> free operations and medical care for many children each year. On the other hand, Operation Smile helps <strong>24. t________</strong> local doctors and nurses so that they can continue to help children when Operation Smile leaves.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            “微笑行动”是由医生比尔·马吉和他的妻子凯西·马吉发起的。1982年，他们和一些志愿者一起去了菲律宾帮助唇腭裂儿童。对这些孩子来说，吃喝非常困难。这对夫妇工作很努力，但他们担心他们无法继续这项工作，因为他们没有足够的资金治疗更多孩子。于是他们决定成立一个慈善组织以便他们能帮助这些孩子。他们将其命名为“微笑行动”。<br>
+            多年来，“微笑行动”因其工作赢得了许多奖项，并在1999年他们甚至发起了一个名为“希望之旅”的特殊活动。在该活动中，18个国家的约5000名儿童成功接受了手术。<br>
+            如今该慈善机构在30多个国家开展工作，并有来自60多个国家的志愿医生。它每年为许多儿童提供免费手术和医疗护理。另一方面，“微笑行动”帮助培训当地医生和护士，以便在“微笑行动”离开后他们能继续帮助儿童。
+        </div>
+
+        <!-- 15-24 -->
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">together</span></div>
+        <div class="answer-box">✅ 答案：together</div>
+        <div class="analysis-box">📝 解析：together with 和……一起。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">difficult</span></div>
+        <div class="answer-box">✅ 答案：difficult</div>
+        <div class="analysis-box">📝 解析：be difficult for 对……来说困难。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">carry</span></div>
+        <div class="answer-box">✅ 答案：carry</div>
+        <div class="analysis-box">📝 解析：carry on with 继续。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">decided</span></div>
+        <div class="answer-box">✅ 答案：decided</div>
+        <div class="analysis-box">📝 解析：decide to do 决定做，过去式 decided。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">called</span></div>
+        <div class="answer-box">✅ 答案：called</div>
+        <div class="analysis-box">📝 解析：called it... 把它叫做……。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">prizes</span></div>
+        <div class="answer-box">✅ 答案：prizes</div>
+        <div class="analysis-box">📝 解析：win prizes 获奖。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">operated</span></div>
+        <div class="answer-box">✅ 答案：operated</div>
+        <div class="analysis-box">📝 解析：operate on 给……做手术，被动语态 were operated on。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">over</span></div>
+        <div class="answer-box">✅ 答案：over</div>
+        <div class="analysis-box">📝 解析：over 60 countries 超过60个国家。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">provides</span></div>
+        <div class="answer-box">✅ 答案：provides</div>
+        <div class="analysis-box">📝 解析：provide sth. for sb. 为某人提供某物，主语 it 三单用 provides。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">24</span><span class="q-text-inline">train</span></div>
+        <div class="answer-box">✅ 答案：train</div>
+        <div class="analysis-box">📝 解析：help train 帮助培训。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 完形填空 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 完形填空 (15小题·写明信片的家庭)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要讲述了乔丹一家受朋友的女儿启发，定期给癌症患者写明信片，希望让他们开心的故事。</div>
+        <div class="passage-box">
+            <p>A family of four spend their Sunday evenings writing postcards to put smiles on the faces of people living with cancer. The Jourdain family began doing it last September through a charity which helps <strong>1.</strong>. Mrs Jourdain, who is a leadership coach and consultant and lives with her family in Eastbourne, told the <strong>2.</strong> in an interview, "I have a friend called Emily, whose daughter Rosie was <strong>3.</strong> writing letters to people with cancer and I thought that sounded <strong>4.</strong>. Every Sunday evening we all sit down around the kitchen table and <strong>5.</strong> together. We thought it would be a nice way to put a <strong>6.</strong> on someone's face."</p>
+            <p>Mrs Jourdain said she and her husband have <strong>7.</strong> some friends and family because of cancer, which <strong>8.</strong> them to partake in the project. "I think it's nice because we've got such a range of ages between us, which gives us a <strong>9.</strong> of topics to write about," Mrs Jourdain <strong>10.</strong>. "We got some feedback from the recipients, one of whom sent us a message saying they just got back from quite a <strong>11.</strong> chemotherapy session and that it was just so lovely to receive something uplifting.</p>
+            <p>She said she hoped to "inspire" others to <strong>12.</strong>. "It's so simple, but can have such a big <strong>13.</strong> and I just think we need to reignite the love of a postcard or letter," she said. "Something <strong>14.</strong> is so lovely and personal and cannot be <strong>15.</strong> in an email or a text."</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            一家四口每周日晚写明信片，让癌症患者脸上露出笑容。乔丹一家去年九月开始通过一个帮助患者的慈善机构做这件事。乔丹夫人是一位领导力教练兼顾问，与家人住在伊斯特本，她在接受媒体采访时说：“我有一个朋友叫艾米莉，她的女儿罗茜定期给癌症患者写信，我觉得这听起来很棒。每个星期天晚上我们都围坐在厨房的桌子旁一起写。我们认为这会是让人脸上露出微笑的好方法。”<br>
+            乔丹夫人说她和丈夫因为癌症失去了一些朋友和家人，这促使他们参与这个项目。“我觉得这很好，因为我们年龄跨度很大，有各种各样的话题可写，”乔丹夫人继续说道。“我们从收信人那里得到了一些反馈，其中一人给我们发信息说他们刚结束一次非常痛苦的化疗，收到让人振奋的东西真是太美好了。”<br>
+            她说她希望“激励”其他人效仿。“它很简单，但可以产生很大的影响，我觉得我们需要重燃对明信片或书信的热爱，”她说。“手写的东西是如此可爱和个性化，不能在电子邮件或短信中被复制。”
+        </div>
+
+        <!-- 1-15 选项 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">A. teenagers  B. families  C. patients  D. readers</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：帮助患者的慈善机构。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">A. media  B. charity  C. hospital  D. school</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：in an interview 对媒体说。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">A. incredibly  B. regularly  C. exactly  D. bravely</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：定期写信。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">A. strange  B. ambitious  C. enthusiastic  D. awesome</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：听起来很棒。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">5</span><span class="q-text-inline">A. discuss  B. write  C. operate  D. express</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：一起写（明信片）。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">6</span><span class="q-text-inline">A. smile  B. surprise  C. burden  D. relaxation</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：put a smile on someone's face 让人微笑。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">7</span><span class="q-text-inline">A. made  B. met  C. lost  D. remembered</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：失去朋友和家人。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">8</span><span class="q-text-inline">A. required  B. allowed  C. directed  D. urged</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：促使他们参与。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">9</span><span class="q-text-inline">A. flow  B. variety  C. bucket  D. team</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：a variety of 各种各样的。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">10</span><span class="q-text-inline">A. continued  B. wondered  C. replied  D. demanded</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：继续说道。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">11</span><span class="q-text-inline">A. thrilling  B. joyous  C. painful  D. beneficial</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：化疗是痛苦的。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">12</span><span class="q-text-inline">A. pay attention  B. reach an agreement  C. follow suit  D. take care</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：follow suit 效仿。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">A. opportunity  B. impact  C. occasion  D. option</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：big impact 大影响。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">A. handwritten  B. delivered  C. printed  D. taught</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：手写的东西。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">A. represented  B. conveyed  C. imagined  D. reproduced</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：cannot be reproduced 不能被复制。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅵ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section6">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅵ 阅读选择 (5小题·慈善义卖)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了一场为贫穷的非洲孩子举行的义卖。</div>
+        <div class="passage-box">
+            <p>Here is a charity sale for the poor African children. We will give away the money we raise in the charity sale. Come and see our things.</p>
+            <p><strong>Nancy:</strong> I have a teddy bear. It's cute. It can sing. The teddy bear is my thirteen-year-old birthday gift. I have had it for one year. It still looks new. I want to sell it for only $10.</p>
+            <p><strong>David:</strong> I have a music player. It stays with me whenever I feel upset. I listen to pop songs on it. There are also some country songs and light music on it. It works well. You can have it for $15.</p>
+            <p><strong>Henry:</strong> My favourite book is Alice's Adventures in Wonderland. I have read it many times. I believe anyone will learn a lot from this book like me. Each book only costs $10. You can get the second one at half price.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            这里是为非洲贫困儿童举办的慈善义卖。我们将捐出义卖筹得的钱。来看看我们的东西吧。<br>
+            <strong>南希：</strong>我有一个泰迪熊。它很可爱。它会唱歌。这个泰迪熊是我13岁的生日礼物。我拥有它一年了。它看起来还是新的。我只想卖10美元。<br>
+            <strong>戴维：</strong>我有一个音乐播放器。每当我感到难过时，它都陪着我。我在上面听流行歌曲。也有一些乡村音乐和轻音乐。它运行良好。你可以花15美元买下它。<br>
+            <strong>亨利：</strong>我最喜欢的书是《爱丽丝梦游仙境》。我已经读了很多遍。我相信任何人都会像我一样从这本书中学到很多。每本书只要10美元。第二本半价。
+        </div>
+
+        <!-- 16 -->
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">Who may get the money raised from the charity sale?</span></div>
+        <div class="options">
+            <span class="opt-item">A. A poor child in Africa.</span>
+            <span class="opt-item">B. A homeless man from America.</span>
+            <span class="opt-item">C. A disabled man in hospital.</span>
+            <span class="opt-item">D. A poor family with three children.</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：第一句明确 for the poor African children。</div>
+
+        <!-- 17 -->
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">How old is Nancy?</span></div>
+        <div class="options">
+            <span class="opt-item">A. 12.</span>
+            <span class="opt-item">B. 13.</span>
+            <span class="opt-item">C. 14.</span>
+            <span class="opt-item">D. 15.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：13岁生日礼物，拥有一年，现在14岁。</div>
+
+        <!-- 18 -->
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">According to the passage, what may David do when he is unhappy?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Listen to music.</span>
+            <span class="opt-item">B. Watch movies.</span>
+            <span class="opt-item">C. Read fiction.</span>
+            <span class="opt-item">D. Play with toys.</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：音乐播放器在他难过时陪着他。</div>
+
+        <!-- 19 -->
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">How much will you pay if you buy two books from Henry?</span></div>
+        <div class="options">
+            <span class="opt-item">A. $5.</span>
+            <span class="opt-item">B. $10.</span>
+            <span class="opt-item">C. $15.</span>
+            <span class="opt-item">D. $20.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：第一本$10，第二本半价$5，共$15。</div>
+
+        <!-- 20 -->
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">Which of the following is TRUE?</span></div>
+        <div class="options">
+            <span class="opt-item">A. The three children sell the same thing.</span>
+            <span class="opt-item">B. You can get the teddy bear at half price.</span>
+            <span class="opt-item">C. Henry learns a lot from Alice's Adventures in Wonderland.</span>
+            <span class="opt-item">D. There are many rock songs in David's music player.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：亨利说 anyone will learn a lot from this book like me。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅶ 阅读还原 ========= -->
+<div class="section-card collapsed" id="section7">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅶ 阅读还原 (5小题·帮助邻居兄妹)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了琳达和她的哥哥约翰用自己攒的钱帮助别人的故事。</div>
+        <div class="passage-box">
+            <p>Linda and her brother John have saved money for many years. One day, Linda emptied her money box. "I would like to help other people with the money," she said. <strong>21.</strong> _____</p>
+            <p>"We can do a lot for others with all the money," John said with a smile.</p>
+            <p>"But who shall we help?" Linda asked.</p>
+            <p>"Let's help our neighbours, Billy and his sister, Rose. I have found that there were some holes in their shoes," John said.</p>
+            <p><strong>22.</strong> _____</p>
+            <p>Linda and John told their mother their plan. She was glad and took them to a shoe store at once. They picked out two pairs of shoes for Billy and Rose. <strong>23.</strong> _____ When it was dark, John put the boxes near Billy and Rose's door, and knocked hard, and then ran away quickly. Billy and Rose came out. "Look! There are presents for us," Billy said. They looked around, but they didn't find anyone. <strong>24.</strong> _____</p>
+            <p>The next morning, when Linda and John went out, they saw Billy and Rose wearing their new shoes. <strong>25.</strong> _____</p>
+        </div>
+        <div class="word-box">🔤 选项：<br>A. (未使用)<br>B. John also emptied his money box.<br>C. They happily took the boxes inside.<br>D. "That's a great idea!" said Linda.<br>E. They put the shoes in two boxes.<br>F. They felt very happy.</div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            琳达和她的哥哥约翰攒了很多年的钱。一天，琳达清空了存钱罐。“我想用这些钱帮助别人，”她说。约翰也倒空了他的存钱罐。<br>
+            “我们可以用这些钱为别人做很多事，”约翰笑着说。<br>
+            “但我们应该帮助谁呢？”琳达问。<br>
+            “我们帮助邻居比利和他的妹妹罗丝吧。我发现他们鞋上有破洞，”约翰说。<br>
+            “好主意！”琳达说。<br>
+            琳达和约翰把他们的计划告诉了妈妈。妈妈很高兴，立刻带他们去了鞋店。他们为比利和罗丝挑了两双鞋。他们把鞋放进两个盒子里。天黑后，约翰把盒子放在比利和罗丝家门口，使劲敲门，然后迅速跑开。比利和罗丝出来了。“看！有礼物给我们，”比利说。他们环顾四周，但没找到任何人。他们高兴地把盒子拿了进去。<br>
+            第二天早上，琳达和约翰出门时，看到比利和罗丝穿着他们的新鞋。他们感到非常开心。
+        </div>
+
+        <!-- 21-25 -->
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：哥哥也清空存钱罐，与上文呼应。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：琳达赞同约翰的主意。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：E</div>
+        <div class="analysis-box">📝 解析：把鞋放进盒子里。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">24</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：他们高兴地把盒子拿进去。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">25</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：F</div>
+        <div class="analysis-box">📝 解析：他们感到很开心。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
