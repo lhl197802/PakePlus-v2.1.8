@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 3 The world at one click · 外刊时文阅读速递</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🌐 Unit 3 The world at one click · 外刊时文阅读速递</h1>
+        <p>Oyster  |  词数269 难度★★★</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 外刊时文阅读卡片 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>📚 阅读选择 · 澳大利亚之旅 (大堡礁/弗雷泽岛/蓝山)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 语篇导读 -->
+        <div class="word-box" style="background: #f2e8d5;">
+            📘 语篇导读：本文主要介绍了作者的澳大利亚之旅，包括在大堡礁浮潜、游览弗雷泽岛和徒步蓝山。建议用时7分钟。
+        </div>
+        
+        <!-- 阅读原文 (英文) -->
+        <div class="passage-box">
+            <h3 style="margin-top:0; color:#6b4f2a;">📜 阅读原文</h3>
+            <p>Australia is a large country. I didn't really know about its size until my 5-week-long trip down the country's east coast. I have never been there before. Now let me tell you some important and unforgettable events.</p>
+            <p><strong>Snorkelling to the Great Barrier Reef</strong><br>Taking a snorkelling day trip out onto the Great Barrier Reef is a must for any visitor to the state of Queensland in Australia's north-east. We snorkelled at three different sites throughout the day. We saw different kinds of fishes and beautiful coral. All of them are just in front of me, not a photo!</p>
+            <p><strong>A Day Trip to Fraser Island</strong><br>Fraser Island is the world's largest sand island. The best way of exploring this island is by 4WD, so we joined a small group for a tour. It was a busy but exciting day, with plenty of chances for swimming. We also experienced several hours of exciting driving over the sandy roads. At times, it was ____ to believe that we were on an island made of sand. Forests have grown well and the scenery is certainly a lot more beautiful than what I first expected!</p>
+            <p><strong>Walking on the Blue Mountains</strong><br>We made an overnight visit to the Blue Mountains. Forests of eucalyptus, with their special blue haze, were interspersed with wonderful waterfalls and rocks, and with the coral reef earlier in the trip, there were times when I couldn't quite believe that what I was seeing was real! Walking on the Blue Mountains, we were just like living in a different world.</p>
+        </div>
+        
+        <!-- 全文翻译 (中文) -->
+        <div class="trans-box" style="margin-bottom:20px;">
+            🌐 <strong>全文翻译：</strong><br>
+            澳大利亚是一个幅员辽阔的国家。直到我沿着东海岸进行了为期五周的旅行，我才真正了解它的大小。我以前从未去过那里。现在让我告诉你一些重要而难忘的经历。<br>
+            <strong>大堡礁浮潜</strong><br>去大堡礁进行一日浮潜旅行是任何前往澳大利亚东北部昆士兰州的游客必做之事。我们一整天在三个不同的地点浮潜。我们看到了不同种类的鱼和美丽的珊瑚。它们就在我面前，不是照片！<br>
+            <strong>弗雷泽岛一日游</strong><br>弗雷泽岛是世界上最大的沙岛。探索这个岛屿的最佳方式是乘坐四驱车，所以我们加入了一个小团进行游览。这是忙碌但兴奋的一天，有很多游泳的机会。我们还在沙路上体验了几个小时的刺激驾驶。有时很难相信我们是在一个由沙子构成的岛上。森林生长得很好，风景肯定比我最初预想的要美丽得多！<br>
+            <strong>徒步蓝山</strong><br>我们在蓝山过夜游览。桉树林带着它们特有的蓝色薄雾，点缀着美妙的瀑布和岩石，加上旅行早期的大堡礁，有时我简直不敢相信我所看到的是真实的！在蓝山徒步，我们就像生活在另一个世界。
+        </div>
+
+        <!-- 题目1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">Which of the following are right about the snorkelling to the Great Barrier Reef? ①We snorkelled at three different sites. ②We saw different fishes and coral. ③We snorkelled from day to night. ④All the things are very real.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. ①②③</span>
+            <span class="opt-item">B. ①②④</span>
+            <span class="opt-item">C. ②③④</span>
+            <span class="opt-item">D. ①③④</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：细节题。根据第二段“We snorkelled at three different sites... We saw different kinds of fishes and beautiful coral... not a photo!”可知①②④正确，③“从白天到夜晚”原文未提及（只说throughout the day）。</div>
+
+        <!-- 题目2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">How did we take the tour on Fraser Island?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. By taking the train.</span>
+            <span class="opt-item">B. By swimming with others.</span>
+            <span class="opt-item">C. By joining a group.</span>
+            <span class="opt-item">D. By walking on sandy roads.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：细节题。第三段明确说“so we joined a small group for a tour”，因此是加入一个旅行团。</div>
+        <div class="small-note">易混辨析：join 加入（团体），take part in 参加（活动）。</div>
+
+        <!-- 题目3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">Which word can be filled in the blank in the third paragraph?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. hard</span>
+            <span class="opt-item">B. simple</span>
+            <span class="opt-item">C. direct</span>
+            <span class="opt-item">D. fantastic</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：根据语境“At times, it was ____ to believe that we were on an island made of sand.”以及后文“风景比预想的美”，可知作者很难相信这是在沙岛上，因此用hard（困难的）。</div>
+
+        <!-- 题目4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">What will the writer probably say in the end?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. How large Australia is!</span>
+            <span class="opt-item">B. How expensive the trip is!</span>
+            <span class="opt-item">C. What a long trip to Australia!</span>
+            <span class="opt-item">D. What an unforgettable trip!</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：推理判断题。全文描述了许多难忘的经历（unforgettable events），结尾应呼应主题，感叹这是一次难忘的旅行。</div>
+
+        <!-- 题目5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">What is the structure of this passage? (P=paragraph)</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. ①/②③/④</span>
+            <span class="opt-item">B. ①/②/③④</span>
+            <span class="opt-item">C. ①/②/③/④</span>
+            <span class="opt-item">D. ①②/③/④</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：篇章结构题。第一段总述，后面三段分别介绍三个地点的经历，是典型的总分结构，四个段落各自独立，故选C。</div>
+
+        <!-- 知识拓展 -->
+        <div class="small-note" style="margin-top:20px;">
+            📘 知识拓展：join 与 take part in 的区别：join 指加入某个组织或团体，也可指和某人一起做某事；take part in 指参加群众性活动。
+        </div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
