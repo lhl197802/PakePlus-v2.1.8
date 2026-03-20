@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 6 Sunshine for all · Period 1 Welcome to the unit</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>☀️ Unit 6 Sunshine for all · Period 1</h1>
+        <p>Welcome to the unit 基础训练 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础单词填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础单词填空 (5小题·汉译英/首字母)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">Jogging is a kind of exercise suitable for both young people and _____________ (年老的) people.</span>
+        </div>
+        <div class="answer-box">✅ 答案：elderly / old</div>
+        <div class="analysis-box">📝 解析：“年老的”可用 elderly 或 old，此处泛指老年人，与 young people 对应。</div>
+        <div class="trans-box">🌐 翻译：慢跑是一种适合年轻人和老年人的运动。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">The young woman learnt to use body language to communicate with her ______ (聋的) child.</span>
+        </div>
+        <div class="answer-box">✅ 答案：deaf</div>
+        <div class="analysis-box">📝 解析：deaf 聋的，形容词修饰 child。</div>
+        <div class="trans-box">🌐 翻译：这位年轻妇女学会了用身体语言与她耳聋的孩子交流。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">Take the GPS with you, or you will be as good as a _______ (瞎的) man in the big desert.</span>
+        </div>
+        <div class="answer-box">✅ 答案：blind</div>
+        <div class="analysis-box">📝 解析：blind 瞎的，as good as a blind man 像个盲人一样。</div>
+        <div class="trans-box">🌐 翻译：带上GPS，否则你在茫茫沙漠里就会像瞎子一样。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">The young man was born in a poor family and he began to work to s________ his family at the age of 14.</span>
+        </div>
+        <div class="answer-box">✅ 答案：support</div>
+        <div class="analysis-box">📝 解析：support his family 养家糊口。</div>
+        <div class="trans-box">🌐 翻译：这个年轻人出生在一个贫穷的家庭，14岁时就开始工作养家。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">Public places are becoming more convenient to people with d_______________.</span>
+        </div>
+        <div class="answer-box">✅ 答案：disabilities / disability</div>
+        <div class="analysis-box">📝 解析：people with disabilities 残疾人，也可用单数 disability 强调“残疾”。</div>
+        <div class="trans-box">🌐 翻译：公共场所对残疾人来说变得越来越便利。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 单项选择 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">Many tourists like five-star hotels because they think those hotels always ________ guests with better service.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. prevent</span>
+            <span class="opt-item">B. protect</span>
+            <span class="opt-item">C. prepare</span>
+            <span class="opt-item">D. provide</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：provide sb. with sth. 为某人提供某物。</div>
+        <div class="trans-box">🌐 翻译：许多游客喜欢五星级酒店，因为他们认为那些酒店总是为客人提供更好的服务。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">________ is impolite for us to shout at others loudly.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. This</span>
+            <span class="opt-item">B. That</span>
+            <span class="opt-item">C. There</span>
+            <span class="opt-item">D. It</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：It is + adj. + for sb. to do sth. 固定句型。</div>
+        <div class="trans-box">🌐 翻译：对我们来说，对别人大声喊叫是无礼的。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">She doesn't ________ a new dictionary because she has ________.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. need to buy; one</span>
+            <span class="opt-item">B. need buy; one</span>
+            <span class="opt-item">C. need to buy; it</span>
+            <span class="opt-item">D. need buy; it</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：need 为实义动词，后接 to do；one 泛指上文提到的单数可数名词。</div>
+        <div class="trans-box">🌐 翻译：她不需要买一本新词典，因为她已经有一本了。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">【2024江苏睢宁期末】—Do you have enough men to carry the clothes? —No. I think we need ________ men.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. another</span>
+            <span class="opt-item">B. two others</span>
+            <span class="opt-item">C. more two</span>
+            <span class="opt-item">D. two more</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：“数词 + more + 名词”表示“另外的……，再……”。</div>
+        <div class="trans-box">🌐 翻译：——你有足够的人来拿衣服吗？——不。我想我们还需要两个人。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 适当形式填空 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 适当形式填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 10 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">We should give the __________ (able) a helping hand when they need help.</span>
+        </div>
+        <div class="answer-box">✅ 答案：disabled</div>
+        <div class="analysis-box">📝 解析：the disabled 指残疾人，形容词作名词用。</div>
+        <div class="trans-box">🌐 翻译：当残疾人需要帮助的时候，我们应该帮助他们。</div>
+
+        <!-- 11 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">The war makes thousands of people become __________ (home). I really hope the war can stop at once.</span>
+        </div>
+        <div class="answer-box">✅ 答案：homeless</div>
+        <div class="analysis-box">📝 解析：become + 形容词，homeless 无家可归的。</div>
+        <div class="trans-box">🌐 翻译：战争使成千上万的人变得无家可归。我真的希望战争能立刻停止。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">The _________ (serve) of the shop was unacceptable. We stood there for ten minutes and no one came to us.</span>
+        </div>
+        <div class="answer-box">✅ 答案：service</div>
+        <div class="analysis-box">📝 解析：service 服务，作主语。</div>
+        <div class="trans-box">🌐 翻译：这家商店的服务令人无法接受。我们在那里站了十分钟，没有人来找我们。</div>
+
+        <!-- 13 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">13</span>
+            <span class="q-text-inline">【2025江苏南京期末】Have you _________ (donate) money to the people who lost their homes?</span>
+        </div>
+        <div class="answer-box">✅ 答案：donated</div>
+        <div class="analysis-box">📝 解析：现在完成时 have + 过去分词，donate 的过去分词 donated。</div>
+        <div class="trans-box">🌐 翻译：你给失去家园的人捐款了吗？</div>
+
+        <!-- 14 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">14</span>
+            <span class="q-text-inline">Many medical workers take an active part in ______________ (volunteer).</span>
+        </div>
+        <div class="answer-box">✅ 答案：volunteering</div>
+        <div class="analysis-box">📝 解析：in 是介词，后接动名词 volunteering。</div>
+        <div class="trans-box">🌐 翻译：许多医务工作者积极参加志愿活动。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 按要求完成句子 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 按要求完成句子 (4小题·每空一词)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 15 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">15</span>
+            <span class="q-text-inline">You needn't water the plants today. (改为同义句)</span>
+        </div>
+        <div class="answer-box">✅ 答案：<span class="fill-blank">don't</span> <span class="fill-blank">need</span> to water the plants today.</div>
+        <div class="analysis-box">📝 解析：needn't = don't need to，注意 need 作实义动词。</div>
+        <div class="trans-box">🌐 翻译：你今天不必给植物浇水。</div>
+
+        <!-- 16 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">16</span>
+            <span class="q-text-inline">Do you know why she looks worried? (作否定回答)</span>
+        </div>
+        <div class="answer-box">✅ 答案：<span class="fill-blank">No</span>, <span class="fill-blank">I</span> <span class="fill-blank">don't</span>.</div>
+        <div class="analysis-box">📝 解析：一般疑问句否定回答用 No, 主语 + don't/doesn't。</div>
+        <div class="trans-box">🌐 翻译：——你知道她为什么看起来担心吗？——不，我不知道。</div>
+
+        <!-- 17 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">17</span>
+            <span class="q-text-inline">They put on a show to celebrate National Day last year. (对画线部分提问)</span>
+        </div>
+        <div class="answer-box">✅ 答案：<span class="fill-blank">What</span> <span class="fill-blank">did</span> they do to celebrate National Day last year?</div>
+        <div class="analysis-box">📝 解析：对事件提问用 what，助动词 did 后用动词原形。</div>
+        <div class="trans-box">🌐 翻译：他们去年举办了一场演出庆祝国庆。 → 他们去年做了什么庆祝国庆？</div>
+
+        <!-- 18 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">18</span>
+            <span class="q-text-inline">Marie was so generous. She donated half of her pocket money. (改为同义句)</span>
+        </div>
+        <div class="answer-box">✅ 答案：It was <span class="fill-blank">generous</span> <span class="fill-blank">of</span> Marie to donate half of her pocket money.</div>
+        <div class="analysis-box">📝 解析：It is + adj. + of sb. to do sth. 形容词描述人的品质用 of。</div>
+        <div class="trans-box">🌐 翻译：玛丽很慷慨。她捐出了一半零花钱。 → 玛丽捐出一半零花钱是很慷慨的。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
