@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 1 Past and present · Period 4 Grammar 同步训练</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 40px;
+            padding: 14px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 12px rgba(0,30,45,0.05);
+            border: 1px solid #dde7f0;
+        }
+        .top-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+        }
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f8fbfe;
+        }
+        .title-area h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #0d4c6e, #0b3b55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title-area p {
+            color: #54738f;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .close-btn {
+            background: #ecf3fa;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1d577b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid #bed3e6;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .close-btn:hover {
+            background: #dae6f2;
+            color: #093852;
+            border-color: #7fa9c7;
+            box-shadow: 0 4px 10px rgba(0,60,90,0.1);
+        }
+        .close-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: white;
+            border-radius: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 22px -6px rgba(20, 50, 70, 0.12);
+            overflow: hidden;
+            border: 1px solid #e2eef9;
+            transition: box-shadow 0.2s;
+        }
+        .section-header {
+            background: white;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #10435c;
+            transition: background 0.15s, padding 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .section-header:hover {
+            background: #e9f2fa;
+        }
+        .section-header .toggle-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #2c779b;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+        /* 折叠样式 */
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .section-content {
+            padding: 8px 28px 28px 28px;
+            border-top: 1px solid #d1e2f0;
+            background: #ffffff;
+        }
+
+        /* 题目元素 */
+        .question-item {
+            margin-top: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e0ecf5;
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+        .q-num {
+            display: inline-block;
+            background: #cde1f0;
+            color: #0f4b6b;
+            font-weight: 700;
+            padding: 4px 16px 5px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin-bottom: 12px;
+            border: 1px solid #aac6dd;
+        }
+        .q-text {
+            font-size: 1.04rem;
+            font-weight: 500;
+            color: #113845;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: #f5faff;
+            padding: 16px 22px;
+            border-radius: 24px;
+            border-left: 5px solid #3182a3;
+            box-shadow: inset 0 1px 4px #d7e6f5;
+        }
+        .options {
+            margin: 12px 0 16px 8px;
+            color: #1d506b;
+            background: #f0f6fd;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-weight: 460;
+        }
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 28px;
+            white-space: nowrap;
+        }
+        .answer-box, .analysis-box, .trans-box {
+            margin: 12px 0 8px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+        .answer-box {
+            background: #e2f0fa;
+            color: #004d7c;
+            font-weight: 600;
+            border-left: 6px solid #0073aa;
+        }
+        .analysis-box {
+            background: #fff6e5;
+            color: #624c2a;
+            border-left: 6px solid #efb13b;
+        }
+        .trans-box {
+            background: #e1f1e8;
+            color: #1b6e4a;
+            border-left: 6px solid #2e9e68;
+        }
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+        .small-note {
+            font-size: 0.86rem;
+            color: #6a859e;
+            margin-top: 12px;
+            padding-left: 12px;
+        }
+        .word-box {
+            background: #e7f0fa;
+            padding: 12px 20px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #145a82;
+            border: 1px dashed #7dafd1;
+        }
+        .passage-box {
+            background: #f9f7f0;
+            padding: 20px 24px;
+            border-radius: 28px;
+            margin: 20px 0 10px 0;
+            border-left: 6px solid #8f6d3f;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #2d3b45;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #c4d7e8;
+            margin: 20px 0;
+        }
+        @media (max-width: 600px) {
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 12px 18px; }
+            .title-area h1 { font-size: 1.4rem; }
+            .section-header { font-size: 1.15rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 20px; }
+            .q-text { padding: 12px; font-size: 0.98rem; }
+            .opt-item { display: block; margin: 6px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>📖 Unit 1 Past and present · Period 4</h1>
+        <p>Grammar 语法专练 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 单项选择 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 单项选择 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">Eric ________ many things since he became interested in science.</div>
+            <div class="options">
+                <span class="opt-item">A. is learning</span>
+                <span class="opt-item">B. was learning</span>
+                <span class="opt-item">C. will learn</span>
+                <span class="opt-item">D. has learnt</span>
+            </div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：since 引导的时间状语从句，主句用现在完成时，表示从过去持续到现在的动作或状态。故选 D。</div>
+            <div class="trans-box">🌐 翻译：自从埃里克对科学感兴趣以来，他已经学习了很多东西。</div>
+            <div class="small-note">链接狂K 现在完成时（一）的详细讲解见狂K重点P5。</div>
+        </div>
+        <!-- 2 -->
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">—________ you ________ about Naxi Ancient Music yet? —Yes, I have. It is a part of Naxi culture.</div>
+            <div class="options">
+                <span class="opt-item">A. Has; heard</span>
+                <span class="opt-item">B. Have; heard</span>
+                <span class="opt-item">C. Did; hear</span>
+                <span class="opt-item">D. Do; hear</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：问句中有 yet，且答语是 Yes, I have，提示用现在完成时，主语 you 助动词用 have。</div>
+            <div class="trans-box">🌐 翻译：——你听说过纳西古乐吗？——是的，听说过。它是纳西文化的一部分。</div>
+        </div>
+        <!-- 3 -->
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">This book must be great. My sister ________ it five times.</div>
+            <div class="options">
+                <span class="opt-item">A. reads</span>
+                <span class="opt-item">B. has read</span>
+                <span class="opt-item">C. is reading</span>
+                <span class="opt-item">D. was reading</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：five times 表示动作已完成，强调次数，用现在完成时。</div>
+            <div class="trans-box">🌐 翻译：这本书一定很棒。我妹妹已经把它读了五遍了。</div>
+        </div>
+        <!-- 4 -->
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">【2024江苏无锡质检】Henry said he would be home by five o’clock. But it’s already eight now and he ________.</div>
+            <div class="options">
+                <span class="opt-item">A. hasn’t come back</span>
+                <span class="opt-item">B. don’t come back</span>
+                <span class="opt-item">C. didn’t come back</span>
+                <span class="opt-item">D. wouldn’t come back</span>
+            </div>
+            <div class="answer-box">✅ 答案：A</div>
+            <div class="analysis-box">📝 解析：根据语境，到现在为止还没回来，强调对现在的影响，用现在完成时否定。</div>
+            <div class="trans-box">🌐 翻译：亨利说他五点钟之前到家。但现在已经八点了，他还没有回来。</div>
+        </div>
+        <!-- 5 -->
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">—Have you cooked supper ________? —Yes, I have ________ finished it.</div>
+            <div class="options">
+                <span class="opt-item">A. ever; yet</span>
+                <span class="opt-item">B. yet; just</span>
+                <span class="opt-item">C. yet; ever</span>
+                <span class="opt-item">D. ever; just</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：yet 用于疑问句，just 表示“刚刚”，符合语境。</div>
+            <div class="trans-box">🌐 翻译：——你做晚饭了吗？——是的，我刚做完。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 卡片Ⅱ 方框选词填空 -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 方框选词填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">🔤 方框内单词/短语：recently, change, hear from, check, clean (需适当形式变化)</div>
+        <!-- 6 -->
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">I have been as busy as a bee __________ because the midterm exam is coming.</div>
+            <div class="answer-box">✅ 答案：recently</div>
+            <div class="analysis-box">📝 解析：句意“因为期中考试快到了，我最近忙得不可开交。”recently 表示“最近”，作状语。</div>
+            <div class="trans-box">🌐 翻译：因为期中考试快到了，我最近忙得不可开交。</div>
+            <div class="small-note">知识拓展：副词可作状语、定语、表语。</div>
+        </div>
+        <!-- 7 -->
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">With the development of China, the life _____________ greatly in recent years.</div>
+            <div class="answer-box">✅ 答案：has changed</div>
+            <div class="analysis-box">📝 解析：in recent years 提示用现在完成时，主语 the life 为第三人称单数，故填 has changed。</div>
+            <div class="trans-box">🌐 翻译：随着中国的发展，近年来生活发生了很大的变化。</div>
+        </div>
+        <!-- 8 -->
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">I ______________________________ my parents since last week.</div>
+            <div class="answer-box">✅ 答案：haven't/have not heard from</div>
+            <div class="analysis-box">📝 解析：since last week 现在完成时，否定 haven't heard from 表示“没有收到来信”。</div>
+            <div class="trans-box">🌐 翻译：自从上周以来，我就没有收到过我父母的来信。</div>
+        </div>
+        <!-- 9 -->
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">—Are there any mistakes in your homework, Jim? —I’m not sure. I ___________________________ it carefully yet.</div>
+            <div class="answer-box">✅ 答案：haven't/have not checked</div>
+            <div class="analysis-box">📝 解析：yet 提示现在完成时否定，haven't checked 未检查。</div>
+            <div class="trans-box">🌐 翻译：——吉姆，你的作业有一些错误吗？——我不确定。我还没有仔细检查它。</div>
+        </div>
+        <!-- 10 -->
+        <div class="question-item">
+            <span class="q-num">10</span>
+            <div class="q-text">【2024江苏淮安期末】The house looks very clean. Who _________________ it up?</div>
+            <div class="answer-box">✅ 答案：has cleaned / cleaned</div>
+            <div class="analysis-box">📝 解析：强调对现在的影响可用现在完成时 has cleaned；也可用一般过去时 cleaned，表示过去动作。两种皆可。</div>
+            <div class="trans-box">🌐 翻译：房子看起来很干净。谁把它清理干净的？</div>
+        </div>
+    </div>
+</div>
+
+<!-- 卡片Ⅲ 语法填空 (短文) -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 语法填空 (10小题·海门变化)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 体裁：记叙文 · 题材：家乡变化 · 难度★★</div>
+        <div class="passage-box">
+            <p>Haimen is a modern town now. Great changes 1. ____________ (take) place over the past few years, including living conditions, transport, environment and people.</p>
+            <p>Local people used to 2. ______ (live) in old houses. They could only travel by bus. Now most of them have moved into new flats and there is a high-speed railway station in the 3. ___________________________ (south) part of the town. Most people are used to travelling 4. ____ business by high-speed railway. Moreover, the government has turned part of the town centre into a modern library. People often go there to relax 5. ____________ (they) after a hard day's work.</p>
+            <p>Another big change is the environment. In the past, people 6. _________ (drop) litter everywhere. Waste from 7. ___________ (factory) was put into rivers. The rivers were filled with waste. Now there are laws to limit and improve it. If people drop litter 8. ____________ (care) in public, they will be punished.</p>
+            <p>People in the town are trying to be polite citizens. More people are willing to give a hand if someone is in need. Daniel, a middle school student, is also a volunteer at the community centre now. He and his classmates often discuss how 9. _________ (help) people in need. He thinks his life is much 10. _________________ (mean) now.</p>
+            <p>Many hands make light work. People in Haimen believe that if they work together, they can surely make Haimen a better place.</p>
+        </div>
+        <!-- 全文翻译 -->
+        <div class="trans-box" style="margin-bottom:20px;">
+            🌐 <strong>全文翻译：</strong><br>
+            海门现在是一个现代化的城镇。在过去的几年里发生了巨大的变化，包括生活条件、交通、环境和人。<br>
+            当地人过去常常住在老房子里。他们只能乘公共汽车出行。现在他们大多数搬进了新公寓，城镇的南部有一个高铁站。大多数人习惯乘高铁出差。此外，政府已经把城镇中心的一部分变成了一个现代化的图书馆。人们经常在一天的辛苦工作后去那里放松自己。<br>
+            另一个大的变化是环境。过去，人们到处乱扔垃圾。工厂的废物被倒入河流。河里充满了垃圾。现在有法律来限制和改善这种情况。如果人们在公共场所乱扔垃圾，他们将受到处罚。<br>
+            镇上的人们正努力成为有礼貌的公民。如果有人需要帮助，更多人愿意伸出援手。丹尼尔，一名中学生，现在也是社区中心的志愿者。他和他的同学经常讨论如何帮助有需要的人。他认为他现在的生活更有意义。<br>
+            众人拾柴火焰高。海门人相信，如果他们共同努力，一定能将海门建设得更好。
+        </div>
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">_____________</div>
+            <div class="answer-box">✅ 答案：have taken</div>
+            <div class="analysis-box">📝 解析：时间状语 over the past few years 用现在完成时，主语 changes 复数，填 have taken。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">_____________</div>
+            <div class="answer-box">✅ 答案：live</div>
+            <div class="analysis-box">📝 解析：used to do sth. 过去常常做某事，填动词原形 live。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">_____________</div>
+            <div class="answer-box">✅ 答案：southern / South</div>
+            <div class="analysis-box">📝 解析：修饰名词 part 用形容词 southern，或直接用 South part 也可。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">_____________</div>
+            <div class="answer-box">✅ 答案：on</div>
+            <div class="analysis-box">📝 解析：on business 固定搭配，出差。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">_____________</div>
+            <div class="answer-box">✅ 答案：themselves</div>
+            <div class="analysis-box">📝 解析：relax oneself 放松自己，主语 People 对应反身代词 themselves。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">_____________</div>
+            <div class="answer-box">✅ 答案：dropped</div>
+            <div class="analysis-box">📝 解析：In the past 用一般过去时，drop 的过去式 dropped。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">_____________</div>
+            <div class="answer-box">✅ 答案：factories</div>
+            <div class="analysis-box">📝 解析：此处泛指多个工厂，用复数 factories。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">_____________</div>
+            <div class="answer-box">✅ 答案：carelessly</div>
+            <div class="analysis-box">📝 解析：修饰动词 drop 用副词 carelessly，表示“粗心地”。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">_____________</div>
+            <div class="answer-box">✅ 答案：to help</div>
+            <div class="analysis-box">📝 解析：“how + to do” 结构作宾语，how to help 如何帮助。</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">10</span>
+            <div class="q-text">_____________</div>
+            <div class="answer-box">✅ 答案：more meaningful</div>
+            <div class="analysis-box">📝 解析：much 修饰比较级，meaningful 的比较级 more meaningful。</div>
+        </div>
+        <div class="small-note">语篇导读：本文讲述了海门近年来的巨大变化。</div>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<div class="bottom-bar">
+    <span style="color:#3f627c; font-size:0.95rem;">📌 点击上方标题展开/折叠 · 所有题目均附详细解析与翻译</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
