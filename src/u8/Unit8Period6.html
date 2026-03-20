@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 8 A green world · Period 6 Integration (Ⅱ) & Assessment & Further study</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        .topic-item {
+            display: flex;
+            align-items: baseline;
+            margin: 16px 0;
+            background: #f5faff;
+            padding: 12px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #8bb9d1;
+        }
+        .topic-zh {
+            width: 160px;
+            font-weight: 500;
+            color: #1b3c4f;
+        }
+        .topic-en {
+            flex: 1;
+            font-weight: 600;
+            color: #1e4f6b;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+            .topic-item { flex-direction: column; }
+            .topic-zh { width: auto; margin-bottom: 6px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🌱 Unit 8 A green world · Period 6</h1>
+        <p>Integration (Ⅱ) & Assessment & Further study 写作专项</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 高分词句储备 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 高分词句储备 (话题词汇+佳句仿写)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 话题词汇 -->
+        <div class="word-box">📝 一、话题词汇</div>
+        <div class="topic-item">
+            <span class="topic-zh">1. 环保的</span>
+            <span class="topic-en">eco-friendly</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">2. 回收利用</span>
+            <span class="topic-en">recycle</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">3. 控制</span>
+            <span class="topic-en">control</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">4. 污染</span>
+            <span class="topic-en">pollution</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">5. 用完；耗尽</span>
+            <span class="topic-en">run out</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">6. 解决</span>
+            <span class="topic-en">deal with</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">7. 把……分成</span>
+            <span class="topic-en">separate… into</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">8. 有作用；有影响</span>
+            <span class="topic-en">make a difference</span>
+        </div>
+
+        <!-- 佳句仿写 (9-12) -->
+        <div class="word-box" style="margin-top:30px;">📝 二、佳句仿写</div>
+
+        <div class="q-item-inline">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">【教材原句】It's a good idea to share a ride to school with others or take the bus. (It's a good idea to do sth) → 仿写：多种些树让我们的城市更绿是个好主意。</span>
+        </div>
+        <div class="answer-box">✅ 答案：It's a good idea to plant more trees to make our city greener.</div>
+        <div class="analysis-box">📝 解析：It's a good idea to do sth. 做某事是个好主意。</div>
+
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【教材原句】In fact, Switzerland has one of the highest levels of waste recycling in the world… (one of the+形容词最高级+可数名词复数) → 仿写：保护环境最好的方法之一是减少浪费。</span>
+        </div>
+        <div class="answer-box">✅ 答案：One of the best ways to protect the environment is to reduce waste.</div>
+        <div class="analysis-box">📝 解析：one of + the + 最高级 + 可数名词复数，表示“……之一”。</div>
+
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">【教材原句】A recycling event is going to be held at our school. (be going to be done) → 仿写：为了保护环境，我们城市将要禁止使用塑料袋。</span>
+        </div>
+        <div class="answer-box">✅ 答案：Plastic bags are going to be banned in our city to protect the environment.</div>
+        <div class="analysis-box">📝 解析：be going to be done 一般将来时的被动语态。</div>
+
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">【教材原句】Everyone can share ideas on how to make the world a better place. (疑问词+动词不定式) → 仿写：我不知道能做什么来减少空气污染。</span>
+        </div>
+        <div class="answer-box">✅ 答案：I don't know what to do to reduce air pollution.</div>
+        <div class="analysis-box">📝 解析：疑问词+不定式作宾语，what to do 做什么。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 经典范文模板 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 经典范文模板 (Environmental Protection)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p><strong>Nowadays, environmental problems are becoming more serious. Pollution, waste of resources, and deforestation threaten our planet. To protect the environment, we should take action immediately.</strong></p>
+            <p>Firstly, we can save energy by turning off lights when leaving a room and using public transport instead of cars. Secondly, reducing waste is important. We should recycle paper, glass, and plastic, and avoid using disposable products. Thirdly, planting more trees helps improve air quality and protect wildlife.</p>
+            <p>Everyone has a role to play. If we work together, our world will become a greener and healthier place. Let's start now!</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>如今，环境问题变得越来越严重。污染、资源浪费和森林砍伐威胁着我们的星球。为了保护环境，我们应该立即采取行动。</strong><br>
+            首先，我们可以通过离开房间时关灯和使用公共交通而不是汽车来节约能源。其次，减少浪费很重要。我们应该回收纸张、玻璃和塑料，避免使用一次性产品。第三，多种树有助于改善空气质量和保护野生动物。<br>
+            每个人都有责任发挥作用。如果我们共同努力，我们的世界将变得更绿色、更健康。让我们从现在开始！
+        </div>
+        <div class="analysis-box">📝 结构分析：开篇点明问题 → 用Firstly, Secondly, Thirdly列举具体措施 → 呼吁行动。层次清晰，语言简洁。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 高分范文赏析 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 高分范文赏析 (Green life, start from me!)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 【2025江苏盐城期末】学校英文报发起“Green life, start from me!”主题征文活动，请根据所给提示，写一篇英语短文投稿，和同学们分享你在环境保护方面的做法和倡议。</div>
+        <div class="passage-box">
+            <p><strong>Green living is a necessary lifestyle. To live a green life, I do many things in my daily life.</strong></p>
+            <p>First, I always turn off lights and electrical appliances when they are not in use to save energy. Second, I take shorter showers to save water. Third, I try to reduce waste by using reusable bags and bottles instead of plastic ones. I also sort my rubbish and put recyclable things like paper and cans into the recycling bin.</p>
+            <p>I believe that small actions can make a big difference. I call on everyone to join me in protecting our planet. Let's start from now and make the world a greener place!</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>绿色生活是一种必要的生活方式。为了过绿色生活，我在日常生活中做了很多事。</strong><br>
+            首先，我总是关掉不用的灯和电器以节约能源。第二，我缩短淋浴时间以节约用水。第三，我尽量通过使用可重复使用的袋子和瓶子而不是塑料制品来减少浪费。我还分类垃圾，把纸张和易拉罐等可回收物放进回收箱。<br>
+            我相信小行动能带来大改变。我呼吁大家和我一起保护我们的星球。让我们从现在开始，让世界变得更绿色！
+        </div>
+        <div class="analysis-box">📝 解析：范文包含具体做法（节电、节水、减废、分类）和倡议，结构清晰，语言简洁，符合征文要求。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 实战演练 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 实战演练 (Saving Our Planet 演讲稿)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📧 【2025江苏苏州期中】下周的英语课上，老师要求每位同学做一个主题为“Saving Our Planet”的演讲，请根据以下表格内容，写一篇演讲稿，词数80左右（开头和结尾已给出，不计入总词数）。</div>
+        <div class="passage-box">
+            <p><strong>Dear classmates,</strong></p>
+            <p>It's my honour to give a speech about saving our planet. Our planet is sick because of us. People cut down too many trees, waste water, and pollute the air and rivers. This harms animals and our environment.</p>
+            <p>We must act now! First, reduce waste. Turn off lights when they're unnecessary and save water. Second, reuse things like shopping bags and water bottles. Third, recycle paper, plastic, and glass. Planting trees also helps a lot.</p>
+            <p>By doing these small things, we can make a big difference. Let's work together to protect our beautiful home!</p>
+            <p>That's all. Thank you for listening.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>亲爱的同学们，</strong><br>
+            我很荣幸能做一个关于拯救我们星球的演讲。我们的星球因我们而生病。人们砍伐太多树木，浪费水资源，污染空气和河流。这伤害了动物和环境。<br>
+            我们必须立即行动！首先，减少浪费。关掉不必要的灯，节约用水。第二，重复使用购物袋和水瓶等物品。第三，回收纸张、塑料和玻璃。种树也很有帮助。<br>
+            通过这些小事，我们可以产生大影响。让我们一起努力保护我们美丽的家园！<br>
+            我的演讲完了。谢谢大家！
+        </div>
+        <div class="analysis-box">📝 解析：范文包含问题陈述、具体措施（reduce, reuse, recycle, plant trees）和呼吁。语言简洁有力，符合演讲稿特点。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
