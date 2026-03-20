@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 5 Good manners · Period 6 Integration (Ⅱ) & Assessment & Further study</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        .topic-item {
+            display: flex;
+            align-items: baseline;
+            margin: 16px 0;
+            background: #f5faff;
+            padding: 12px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #8bb9d1;
+        }
+        .topic-zh {
+            width: 160px;
+            font-weight: 500;
+            color: #1b3c4f;
+        }
+        .topic-en {
+            flex: 1;
+            font-weight: 600;
+            color: #1e4f6b;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+            .topic-item { flex-direction: column; }
+            .topic-zh { width: auto; margin-bottom: 6px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🤝 Unit 5 Good manners · Period 6</h1>
+        <p>Integration (Ⅱ) & Assessment & Further study 写作专项</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 高分词句储备 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 高分词句储备 (话题词汇+佳句仿写)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 话题词汇 -->
+        <div class="word-box">📝 一、话题词汇</div>
+        <div class="topic-item">
+            <span class="topic-zh">1. 礼貌</span>
+            <span class="topic-en">politeness</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">2. 表现</span>
+            <span class="topic-en">behave</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">3. 称赞；赞美</span>
+            <span class="topic-en">praise</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">4. 排队等候</span>
+            <span class="topic-en">wait in line</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">5. 互相</span>
+            <span class="topic-en">one another</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">6. 信守诺言</span>
+            <span class="topic-en">keep one's word</span>
+        </div>
+
+        <!-- 佳句仿写 (7,8) -->
+        <div class="word-box" style="margin-top:30px;">📝 二、佳句仿写</div>
+
+        <div class="q-item-inline">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">【教材原句】In many countries, people are patient enough to wait in line in banks and shops. (enough to) → 仿写：她足够有礼貌，会对老师说“谢谢”。</span>
+        </div>
+        <div class="answer-box">✅ 答案：She is polite enough to say “thank you” to the teacher.</div>
+        <div class="analysis-box">📝 解析：be + adj. + enough to do 足够……去做某事。</div>
+
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">【教材原句】When you are about to leave, say “thank you”. (be about to do sth) → 仿写：我们正要带一些水果去我们奶奶家。</span>
+        </div>
+        <div class="answer-box">✅ 答案：We are about to bring some fruits to our grandma's house.</div>
+        <div class="analysis-box">📝 解析：be about to do 即将做某事。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 经典范文模板 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 经典范文模板 (介绍中国社交礼仪)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p><strong>Dear ×××,</strong></p>
+            <p>I'm glad to know that you're interested in Chinese social manners. China is a country with a long history, so there are many customs there. Let me tell you some of them.</p>
+            <p>Firstly, you are supposed to shake hands when you meet someone for the first time. Secondly, you should bring a gift when you are invited to a party and be sure to arrive on time or a few minutes earlier. Thirdly, when you eat meals with others, it is impolite to point at others with your chopsticks. And don't make noise when you have your soup. I hope the above is helpful.</p>
+            <p>In a word, that's part of Chinese social manners. Please feel free to ask for more information.</p>
+            <p>Yours,<br>×××</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>亲爱的×××：</strong><br>
+            很高兴得知你对中国社交礼仪感兴趣。中国是一个历史悠久的国家，因此有许多习俗。让我告诉你其中一些。<br>
+            首先，第一次见面时你应该握手。其次，当你被邀请参加聚会时，你应该带一份礼物，并务必准时或提前几分钟到达。第三，当你和别人一起吃饭时，用筷子指着别人是不礼貌的。喝汤时也不要发出声音。希望以上内容对你有帮助。<br>
+            总之，这是中国社交礼仪的一部分。如有更多需要了解的地方，请尽管询问。<br>
+            你的朋友，×××
+        </div>
+        <div class="analysis-box">📝 结构分析：点明主题→分点列举见面礼仪、拜访礼仪、用餐礼仪→总结→友好结尾。层次清晰，语言简洁。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 高分范文赏析 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 高分范文赏析 (遵守公共秩序倡议书)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 【2025江苏宿迁期末】假如你是阳光中学的杨琪，请你根据表格内容描述一些不文明行为，并倡议在校内外遵守公共秩序。要求包含表格信息，适当发挥，词数100左右，开头结尾已给出。</div>
+        <div class="passage-box">
+            <p><strong>My dear friends,</strong></p>
+            <p>Each of us must obey public rules. Let's say no to the bad behaviour.</p>
+            <p>In our daily life, we can see some bad behaviour around us. For example, some people drop litter everywhere in public places. Others jump the queue when waiting for buses or in supermarkets. Some even talk loudly on the phone in libraries or museums. These actions are not only impolite but also affect others.</p>
+            <p>As students, we should set a good example. We must remember to wait in line, keep quiet in public places, and put rubbish into bins. When we see bad behaviour, we can politely remind others to follow the rules.</p>
+            <p>Let's work together to make our society more polite and pleasant. Thank you!</p>
+            <p>Yang Qi</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>亲爱的朋友们：</strong><br>
+            我们每个人都必须遵守公共规则。让我们对不良行为说不。<br>
+            在我们的日常生活中，周围可以看到一些不良行为。例如，有些人在公共场所到处扔垃圾。有些人在等公交或超市排队时插队。还有一些人在图书馆或博物馆里大声打电话。这些行为不仅不礼貌，而且影响他人。<br>
+            作为学生，我们应该树立好榜样。我们必须记住排队等候、在公共场所保持安静、将垃圾扔进垃圾桶。当我们看到不良行为时，我们可以礼貌地提醒他人遵守规则。<br>
+            让我们共同努力，让我们的社会更加礼貌、更加宜人。谢谢！<br>
+            杨琪
+        </div>
+        <div class="analysis-box">📝 解析：文章结构清晰，先点明主题，列举不文明行为，再提出倡议，最后呼吁。语言简洁有力，符合倡议书要求。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 实战演练 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 实战演练 (勤俭节约主题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📧 【2025江苏南通期末】“勤俭节约”自古以来一直是中华民族的价值取向和道德风尚。请你从以下几个方面谈谈作为一名中学生，你在日常生活中如何节约、杜绝浪费。要求要点齐全，行文连贯，词数100左右，开头已给出。</div>
+        <div class="passage-box">
+            <p><strong>Our country always practises strict economy and combats waste. As middle school students, we should start with the things around us.</strong></p>
+            <p>First of all, it's a good idea to develop healthy eating habits and value food. I won't order too much food unless I can eat up all the food I have ordered at restaurants. Second, it's important to save water because we cannot live without it. I often save water by taking shorter showers. Third, saving energy matters a lot. When I leave the room, I always remember to turn off all the lights. Last but not least, I also pay attention to saving money. I don't spend money on what I don't need.</p>
+            <p>Everyone can try his best to play a role in creating a better world.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>我们国家一直厉行节约，反对浪费。作为中学生，我们应该从身边的小事做起。</strong><br>
+            首先，养成健康的饮食习惯并珍惜粮食是个好主意。我不会点太多食物，除非我能吃完在餐厅点的所有饭菜。其次，节约用水很重要，因为我们的生活离不开水。我经常通过缩短淋浴时间来节约用水。第三，节约能源非常重要。离开房间时，我总是记得关掉所有的灯。最后但同样重要的是，我也注意省钱。我不会把钱花在不需要的东西上。<br>
+            每个人都可以尽自己最大的努力，为创造一个更美好的世界贡献力量。
+        </div>
+        <div class="analysis-box">📝 解析：范文从饮食、用水、用电、消费四个方面展开，运用 first of all, second, third, last but not least 使文章条理清晰。使用 unless 等连接词，语言地道。</div>
+        <div class="small-note">链接狂K：unless 的详细讲解见狂K重点P29。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
