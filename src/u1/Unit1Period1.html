@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 1 Past and present · 同步训练（可折叠/详细解析）</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 40px;
+            padding: 14px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 12px rgba(0,30,45,0.05);
+            border: 1px solid #dde7f0;
+        }
+        .top-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+        }
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f8fbfe;
+        }
+        .title-area h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #0d4c6e, #0b3b55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title-area p {
+            color: #54738f;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .close-btn {
+            background: #ecf3fa;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1d577b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid #bed3e6;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .close-btn:hover {
+            background: #dae6f2;
+            color: #093852;
+            border-color: #7fa9c7;
+            box-shadow: 0 4px 10px rgba(0,60,90,0.1);
+        }
+        .close-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: white;
+            border-radius: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 22px -6px rgba(20, 50, 70, 0.12);
+            overflow: hidden;
+            border: 1px solid #e2eef9;
+            transition: box-shadow 0.2s;
+        }
+        .section-header {
+            background: white;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #10435c;
+            transition: background 0.15s, padding 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .section-header:hover {
+            background: #e9f2fa;
+        }
+        .section-header .toggle-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #2c779b;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+        /* 折叠样式 */
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .section-content {
+            padding: 8px 28px 28px 28px;
+            border-top: 1px solid #d1e2f0;
+            background: #ffffff;
+        }
+
+        /* 题目元素 */
+        .question-item {
+            margin-top: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e0ecf5;
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+        .q-num {
+            display: inline-block;
+            background: #cde1f0;
+            color: #0f4b6b;
+            font-weight: 700;
+            padding: 4px 16px 5px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin-bottom: 12px;
+            border: 1px solid #aac6dd;
+        }
+        .q-text {
+            font-size: 1.04rem;
+            font-weight: 500;
+            color: #113845;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: #f5faff;
+            padding: 16px 22px;
+            border-radius: 24px;
+            border-left: 5px solid #3182a3;
+            box-shadow: inset 0 1px 4px #d7e6f5;
+        }
+        .options {
+            margin: 12px 0 16px 8px;
+            color: #1d506b;
+            background: #f0f6fd;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-weight: 460;
+        }
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 28px;
+            white-space: nowrap;
+        }
+        .answer-box, .analysis-box, .trans-box {
+            margin: 12px 0 8px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+        .answer-box {
+            background: #e2f0fa;
+            color: #004d7c;
+            font-weight: 600;
+            border-left: 6px solid #0073aa;
+        }
+        .analysis-box {
+            background: #fff6e5;
+            color: #624c2a;
+            border-left: 6px solid #efb13b;
+        }
+        .trans-box {
+            background: #e1f1e8;
+            color: #1b6e4a;
+            border-left: 6px solid #2e9e68;
+        }
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+        .small-note {
+            font-size: 0.86rem;
+            color: #6a859e;
+            margin-top: 12px;
+            padding-left: 12px;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #c4d7e8;
+            margin: 20px 0;
+        }
+        .sentence-answer {
+            background: #d7e9ff;
+            padding: 4px 16px;
+            border-radius: 40px;
+            display: inline-block;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 12px 18px; }
+            .title-area h1 { font-size: 1.4rem; }
+            .section-header { font-size: 1.15rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 20px; }
+            .q-text { padding: 12px; font-size: 0.98rem; }
+            .opt-item { display: block; margin: 6px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉：包含标题和返回按钮 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>📖 Unit 1  Past and present</h1>
+        <p>Period 1  Welcome to the unit · 基础训练全解</p>
+    </div>
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- 大题Ⅰ (默认折叠) -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础单词填空 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">【2024江苏南京中考·改编】It is easy to find a hotel because it is very close to an _____________ (地铁) station.</div>
+            <div class="answer-box">✅ 答案：underground</div>
+            <div class="analysis-box">📝 详细解析：根据汉语提示“地铁”及空前不定冠词an，可知填以元音音素开头的名词。英式英语中“地铁站”通常用 underground station，而美式多用 subway。本题为江苏南京中考改编，倾向于英式用法。故填 underground。</div>
+            <div class="trans-box">🌐 中文翻译：很容易找到酒店，因为它离地铁站非常近。</div>
+        </div>
+        <!-- 2 -->
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">【2025江苏南通期末】The newly-built teaching building will provide the students with a _____________ (舒适的) learning environment.</div>
+            <div class="answer-box">✅ 答案：comfortable</div>
+            <div class="analysis-box">📝 详细解析：provide sb. with sth. 结构，空格后为名词短语 learning environment，因此需要形容词作定语。comfortable 符合“舒适的”语义。其他形式 comfort (名词) 或 comfortably (副词) 均不适用。</div>
+            <div class="trans-box">🌐 中文翻译：新建的教学楼将为学生提供舒适的学习环境。</div>
+        </div>
+        <!-- 3 -->
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">Making a small difference every day can lead to great c____________ over time.</div>
+            <div class="answer-box">✅ 答案：changes (或 change)</div>
+            <div class="analysis-box">📝 详细解析：lead to 中to为介词，后接名词/代词。根据句意“每天一点小改变最终会带来巨大的变化”，c开头名词常为 changes (复数强调多种改变) 或 change (抽象变化)。两种均可，但用复数更常见。首字母提示c，故填 changes/change。</div>
+            <div class="trans-box">🌐 中文翻译：每天做一点小小的改变，随着时间的推移可以带来巨大的变化。</div>
+        </div>
+        <!-- 4 -->
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">【2025上海嘉定区一模】Riding bicycles is a great way to g_______ around and strengthen our bodies.</div>
+            <div class="answer-box">✅ 答案：get / go (均可)</div>
+            <div class="analysis-box">📝 详细解析：to 后跟动词原形。短语 get around 或 go around 意为“四处走动/出行”。根据句意“骑自行车是一种很好的出行方式”，两个动词均可接受。另外 strengthen our bodies 增强体质。</div>
+            <div class="trans-box">🌐 中文翻译：骑自行车是一种很好的出行方式，也能增强我们的体质。</div>
+        </div>
+        <div class="small-note">※ 第3题 changes 为推荐答案，change 也正确。</div>
+    </div>
+</div>
+
+<!-- 大题Ⅱ 单项选择 (默认折叠) -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 5 -->
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">【2025江苏南通调研】Nowadays, new energy vehicles have become very popular. This kind of car can travel ________ top speed ________ a very short time.</div>
+            <div class="options">
+                <span class="opt-item">A. with; in</span>
+                <span class="opt-item">B. with; on</span>
+                <span class="opt-item">C. at; in</span>
+                <span class="opt-item">D. at; on</span>
+            </div>
+            <div class="answer-box">✅ 答案：C (at; in)</div>
+            <div class="analysis-box">📝 详细解析：固定搭配 “at ... speed” 表示“以……的速度”，如 at top speed (以最高速度)。第二空 “in a very short time” 为固定短语“在很短的时间内”，介词用 in。因此选 C。选项 A、B 介词搭配错误，D 第二空 on 错误。</div>
+            <div class="trans-box">🌐 中文翻译：如今，新能源汽车变得非常受欢迎。这种车可以在很短时间内以最高速度行驶。</div>
+            <div class="small-note">🔗 链接狂K speed 的详细讲解见狂K重点P2。</div>
+        </div>
+        <!-- 6 -->
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">【2025上海浦东新区期中】He used to ________ CDs of his favourite band from different periods.</div>
+            <div class="options">
+                <span class="opt-item">A. collect</span>
+                <span class="opt-item">B. collected</span>
+                <span class="opt-item">C. collecting</span>
+                <span class="opt-item">D. collects</span>
+            </div>
+            <div class="answer-box">✅ 答案：A (collect)</div>
+            <div class="analysis-box">📝 详细解析：used to do sth. 是固定结构，表示“过去常常做某事(现在不做了)”，to 后接动词原形。其他选项形式均不符合。句意：他过去常常收集他最喜欢的乐队不同时期的唱片。</div>
+            <div class="trans-box">🌐 中文翻译：他过去常常收集他最喜欢的乐队不同时期的唱片。</div>
+        </div>
+        <!-- 7 -->
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">【2025江苏南通期末】It’s simple and ________ to use the reading pen and repeat out loud by touching the articles in the textbooks.</div>
+            <div class="options">
+                <span class="opt-item">A. convenient</span>
+                <span class="opt-item">B. central</span>
+                <span class="opt-item">C. unpleasant</span>
+                <span class="opt-item">D. unlucky</span>
+            </div>
+            <div class="answer-box">✅ 答案：A (convenient)</div>
+            <div class="analysis-box">📝 详细解析：and 连接两个并列形容词描述使用阅读笔的感受。simple and convenient 意为“简单又方便”，符合语境。central (中心的), unpleasant (不愉快的), unlucky (不幸的) 均不合逻辑。</div>
+            <div class="trans-box">🌐 中文翻译：使用这支阅读笔很简单方便，只要触碰课本上的文章就可以大声重复朗读。</div>
+        </div>
+        <!-- 8 -->
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">【2025江苏无锡期中】—Could you give me a few ________ on how to spend the coming weekend? —OK. Let me see. Why not go to the library and read some English books?</div>
+            <div class="options">
+                <span class="opt-item">A. tests</span>
+                <span class="opt-item">B. advice</span>
+                <span class="opt-item">C. tips</span>
+                <span class="opt-item">D. rest</span>
+            </div>
+            <div class="answer-box">✅ 答案：C (tips)</div>
+            <div class="analysis-box">📝 详细解析：a few 修饰可数名词复数。advice 不可数，排除；tests 测试，rest 休息，与请求建议的语境不符。tips 表示“建议、小贴士”，且为可数名词。故选 C。</div>
+            <div class="trans-box">🌐 中文翻译：——你能给我一些关于如何度过即将到来的周末的建议吗？——好的，让我想想。为什么不去图书馆读一些英语书呢？</div>
+        </div>
+    </div>
+</div>
+
+<!-- 大题Ⅲ 适当形式填空 (默认折叠) -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 适当形式填空 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 9 -->
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">The supermarket is always _________ (crowd) during weekends, so my parents prefer to shop on weekdays.</div>
+            <div class="answer-box">✅ 答案：crowded</div>
+            <div class="analysis-box">📝 详细解析：系动词is后需接形容词作表语。crowd 的形容词形式 crowded (拥挤的) 符合句意。be crowded 表示“拥挤”。</div>
+            <div class="trans-box">🌐 中文翻译：这家超市在周末总是很拥挤，所以我父母更喜欢在工作日购物。</div>
+        </div>
+        <!-- 10 -->
+        <div class="question-item">
+            <span class="q-num">10</span>
+            <div class="q-text">China’s railway network can connect most ________ (city) and the government is looking to build on it further.</div>
+            <div class="answer-box">✅ 答案：cities</div>
+            <div class="analysis-box">📝 详细解析：most 修饰可数名词时通常用复数形式，表示“大多数城市”。city 的复数 cities。句意：中国铁路网能连接大多数城市。</div>
+            <div class="trans-box">🌐 中文翻译：中国的铁路网可以连接大多数城市，政府期望在此基础上进一步建设。</div>
+        </div>
+        <!-- 11 -->
+        <div class="question-item">
+            <span class="q-num">11</span>
+            <div class="q-text">You will do much ________ (well) in your English if you read more than before.</div>
+            <div class="answer-box">✅ 答案：better</div>
+            <div class="analysis-box">📝 详细解析：much 可以修饰比较级，强调程度。well 的比较级是 better。do better in 表示“在……方面做得更好”。</div>
+            <div class="trans-box">🌐 中文翻译：如果你比以前读得更多，你的英语会做得更好。</div>
+        </div>
+        <!-- 12 -->
+        <div class="question-item">
+            <span class="q-num">12</span>
+            <div class="q-text">【2025甘肃定西模拟】In recent years, the countryside has become a popular place for people ___________ (travel) around.</div>
+            <div class="answer-box">✅ 答案：to travel</div>
+            <div class="analysis-box">📝 详细解析：动词不定式作后置定语修饰名词 place，即 a place to travel around (一个四处游玩的地方)。故填 to travel。</div>
+            <div class="trans-box">🌐 中文翻译：近年来，乡村已经成为人们四处游玩的热门地方。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 大题Ⅳ 按要求完成句子 (默认折叠) -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 按要求完成句子 (4小题，每空一词)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 13 -->
+        <div class="question-item">
+            <span class="q-num">13</span>
+            <div class="q-text">【2025黑龙江绥化质检】Why not hang out with us this afternoon? (改为同义句)</div>
+            <div class="answer-box">✅ 答案：Why <span class="fill-blank">don't</span> <span class="fill-blank">you</span> hang out with us this afternoon?</div>
+            <div class="analysis-box">📝 详细解析：Why not do...? 是建议句型，相当于 Why don't you do...? 因此改为 Why don't you hang out...</div>
+            <div class="trans-box">🌐 翻译：原句：为什么今天下午不和我们一起出去玩呢？ 同义句：你为什么不今天下午和我们一起出去玩呢？</div>
+        </div>
+        <!-- 14 -->
+        <div class="question-item">
+            <span class="q-num">14</span>
+            <div class="q-text">My parents and I often travel there by train. (对画线部分提问，画线部分 by train)</div>
+            <div class="answer-box">✅ 答案：<span class="fill-blank">How</span> <span class="fill-blank">do</span> <span class="fill-blank">your</span> parents and <span class="fill-blank">you</span> often travel there?</div>
+            <div class="analysis-box">📝 详细解析：对交通方式提问用 how。原句主语 My parents and I 变为 your parents and you (第一人称变为第二人称)，助动词用 do。注意语序：How + do + 主语 + 谓语。</div>
+            <div class="trans-box">🌐 翻译：原句：我父母和我经常乘火车去那里。 提问句：你父母和你经常怎样去那里？</div>
+        </div>
+        <!-- 15 -->
+        <div class="question-item">
+            <span class="q-num">15</span>
+            <div class="q-text">Linda usually goes to see her grandparents by bus. (改为同义句)</div>
+            <div class="answer-box">✅ 答案：Linda usually <span class="fill-blank">takes</span> <span class="fill-blank">a/the</span> <span class="fill-blank">bus</span> to see her grandparents.</div>
+            <div class="analysis-box">📝 详细解析：by bus 相当于 take a bus 或 take the bus。注意动词 take 与主语 Linda 保持三单形式 takes。</div>
+            <div class="trans-box">🌐 翻译：原句：琳达通常乘公共汽车去看望她的祖父母。 同义句：琳达通常乘公共汽车去看望她的祖父母。</div>
+        </div>
+        <!-- 16 -->
+        <div class="question-item">
+            <span class="q-num">16</span>
+            <div class="q-text">A high-speed train travels so fast. (改为感叹句)</div>
+            <div class="answer-box">✅ 答案：<span class="fill-blank">How</span> <span class="fill-blank">fast</span> a high-speed train travels!</div>
+            <div class="analysis-box">📝 详细解析：感叹副词 fast 用 how 引导，结构为 How + 副词 + 主语 + 谓语！注意不要漏掉 a。</div>
+            <div class="trans-box">🌐 翻译：原句：高速火车跑得这么快。 感叹句：高速火车跑得多快啊！</div>
+        </div>
+    </div>
+</div>
+
+<!-- 页脚：返回上一页按钮 + 提示 -->
+<div class="bottom-bar">
+    <span style="color:#3f627c; font-size:0.95rem;">📌 点击上方标题可展开/折叠 · 每道题均附详解与翻译</span>
+    <!--button class="close-btn" id="backPageBottom">← 返回上一页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    // 折叠/展开功能：切换collapsed类
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) {
+            card.classList.toggle('collapsed');
+        }
+    }
+
+    // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
