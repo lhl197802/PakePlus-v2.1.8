@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 5 Good manners · Period 2 Reading (Ⅰ)</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🤝 Unit 5 Good manners · Period 2</h1>
+        <p>Reading (Ⅰ) 基础+能力 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础单词填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础单词填空 (5小题·首字母/音标)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">As a h____________, you should make the guest believe that he is welcomed.</span>
+        </div>
+        <div class="answer-box">✅ 答案：host/hostess</div>
+        <div class="analysis-box">📝 解析：主人 host（男主人）或 hostess（女主人）。</div>
+        <div class="trans-box">🌐 翻译：作为主人，你应该让客人相信他是受欢迎的。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">After dinner, we have to wash these bowls and p_______.</span>
+        </div>
+        <div class="answer-box">✅ 答案：plates</div>
+        <div class="analysis-box">📝 解析：bowls and plates 碗和盘子。</div>
+        <div class="trans-box">🌐 翻译：晚饭后，我们必须洗这些碗和盘子。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">It is unfair to ________ /preɪz/ only one of those students because each of them did a good job.</span>
+        </div>
+        <div class="answer-box">✅ 答案：praise</div>
+        <div class="analysis-box">📝 解析：音标 /preɪz/ 对应 praise，意为“表扬”。</div>
+        <div class="trans-box">🌐 翻译：只表扬那些学生中的一个是不公平的，因为他们每个人都做得很好。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">I received an email from Cindy last week, but I have no time to _______ /rɪˈplaɪ/ to her.</span>
+        </div>
+        <div class="answer-box">✅ 答案：reply</div>
+        <div class="analysis-box">📝 解析：音标 /rɪˈplaɪ/ 对应 reply，reply to 回复。</div>
+        <div class="trans-box">🌐 翻译：上周我收到辛迪的电子邮件，但我没有时间回复她。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">You will _________________ /ˈri:əlaɪz/ the importance of English someday.</span>
+        </div>
+        <div class="answer-box">✅ 答案：realize/realise</div>
+        <div class="analysis-box">📝 解析：音标 /ˈri:əlaɪz/ 对应 realize 或 realise，意识到。</div>
+        <div class="trans-box">🌐 翻译：总有一天你会意识到英语的重要性。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 单项选择 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">【2025江苏苏州期末】Sam is ________ about his speech though he won first prize.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. honest</span>
+            <span class="opt-item">B. confident</span>
+            <span class="opt-item">C. modest</span>
+            <span class="opt-item">D. nervous</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：尽管得了一等奖，却很谦虚，modest 谦虚的。</div>
+        <div class="trans-box">🌐 翻译：萨姆对自己的演讲很谦虚，尽管他赢得了一等奖。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">【2025江苏无锡期末】Tom invited Jenny to his birthday party, but she ________ him.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. praised</span>
+            <span class="opt-item">B. refused</span>
+            <span class="opt-item">C. applied</span>
+            <span class="opt-item">D. accepted</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：refused 拒绝，符合转折关系。</div>
+        <div class="trans-box">🌐 翻译：汤姆邀请珍妮去他的生日聚会，但她拒绝了他。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">The guests praised Tom and his younger sister, because they ________ well at mealtime.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. will behave</span>
+            <span class="opt-item">B. behaved</span>
+            <span class="opt-item">C. have behaved</span>
+            <span class="opt-item">D. was behaving</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：praised 是过去时，原因状语从句也用一般过去时。</div>
+        <div class="trans-box">🌐 翻译：客人们称赞汤姆和他的妹妹，因为他们在用餐时表现得很好。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">All of us have to ________ the importance of school safety. We should try our best to protect each student.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. express</span>
+            <span class="opt-item">B. excuse</span>
+            <span class="opt-item">C. expect</span>
+            <span class="opt-item">D. realize</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：realize 认识到，意识到。</div>
+        <div class="trans-box">🌐 翻译：我们所有人都必须认识到校园安全的重要性。我们应该尽最大努力保护每一位学生。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【2025江苏连云港期末】The book is ________ for a seven-year-old boy ________.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. enough easy; reading</span>
+            <span class="opt-item">B. enough easy; to read</span>
+            <span class="opt-item">C. easy enough; reading</span>
+            <span class="opt-item">D. easy enough; to read</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：enough 修饰形容词后置，be + adj. + for sb. to do 结构。</div>
+        <div class="trans-box">🌐 翻译：这本书足够容易，一个七岁的男孩都能读。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 11 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">开始时，我不习惯在美国生活。</span>
+        </div>
+        <div class="answer-box">✅ 答案：At first, I didn't get used to living in America.</div>
+        <div class="analysis-box">📝 解析：get used to doing 习惯于做某事。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">【2025江苏海安期末】几百名顾客正在排队等着。</span>
+        </div>
+        <div class="answer-box">✅ 答案：Hundreds of customers are waiting in line.</div>
+        <div class="analysis-box">📝 解析：wait in line 排队等候。</div>
+
+        <!-- 13 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">13</span>
+            <span class="q-text-inline">我们在巴黎期间，他们想尽办法使我们感到像在家一样。</span>
+        </div>
+        <div class="answer-box">✅ 答案：They went out of their way to make us feel at home when we were in Paris.</div>
+        <div class="analysis-box">📝 解析：go out of one's way 想尽办法，feel at home 感觉像在家一样。</div>
+
+        <!-- 14 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">14</span>
+            <span class="q-text-inline">当谈到中国春节时，人们很容易想到春运。</span>
+        </div>
+        <div class="answer-box">✅ 答案：When it comes to the Chinese Spring Festival, people can easily think of chunyun.</div>
+        <div class="analysis-box">📝 解析：When it comes to... 当谈到……。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 短文填空 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (5小题·方框选词)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">🔤 方框内单词：manners, closed, shake hands, as well, yourself (需适当形式变化)</div>
+        <div class="passage-box">
+            <p>Do you know what it means to be polite? You are polite when you show good <strong>15. ________</strong>. Look around the lunchroom the next time you are there. You will quickly be able to tell who is polite and who is not.</p>
+            <p>Your friend who talks quietly is polite. Those people who chew food with their mouths <strong>16. ________</strong> are polite. Those who are not very polite may play with their food. They may talk loudly at the corner.</p>
+            <p>You can also show you are polite when you meet someone new. Reach out your hand to <strong>17. _____________</strong> with him or her, smile and then say, "Hi, my name is… Nice to meet you." The person you are meeting may smile <strong>18. ________</strong>. He or she will be pleased with how polite you are. You will feel good about <strong>19. __________</strong> when you are nice and polite to others.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            你知道什么是有礼貌吗？当你表现出良好的举止时，你就是有礼貌的。下次你在午餐室时，环顾四周。你很快就能分辨出谁有礼貌谁没有。<br>
+            你的朋友轻声说话是有礼貌的。那些闭着嘴咀嚼食物的人是有礼貌的。不太有礼貌的人可能会玩弄食物。他们可能会在角落里大声说话。<br>
+            当你遇到新朋友时，你也可以表现出礼貌。伸出手和他或她握手，微笑，然后说：“嗨，我叫……很高兴认识你。”你遇到的那个人可能也会微笑。他会对你有多礼貌感到满意。当你对别人友好且有礼貌时，你会对自己感觉良好。
+        </div>
+
+        <!-- 15 -->
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">________</span></div>
+        <div class="answer-box">✅ 答案：manners</div>
+        <div class="analysis-box">📝 解析：good manners 礼貌，固定搭配。</div>
+
+        <!-- 16 -->
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">________</span></div>
+        <div class="answer-box">✅ 答案：closed</div>
+        <div class="analysis-box">📝 解析：with their mouths closed 闭着嘴。</div>
+
+        <!-- 17 -->
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">________</span></div>
+        <div class="answer-box">✅ 答案：shake hands</div>
+        <div class="analysis-box">📝 解析：shake hands with sb. 与某人握手。</div>
+
+        <!-- 18 -->
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">________</span></div>
+        <div class="answer-box">✅ 答案：as well</div>
+        <div class="analysis-box">📝 解析：as well 也，常用于句末。</div>
+
+        <!-- 19 -->
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">________</span></div>
+        <div class="answer-box">✅ 答案：yourself</div>
+        <div class="analysis-box">📝 解析：feel good about yourself 自我感觉良好。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 阅读选择 (5小题·博物馆规则)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了一些在博物馆参观时的规则。</div>
+        <div class="passage-box">
+            <p>Please help protect works of art on show in the museum by following the rules listed below. We hope you can keep the art safe so that it may be enjoyed by more people!</p>
+            <p><strong>Do not touch works of art.</strong> Your touch, even the slightest touch, can damage the surface of a painting.</p>
+            <p><strong>Use only pencils.</strong> If an accident happens, a pencil mark is easier to be removed than a pen mark. We are happy to provide a pencil if you would like to write or draw during your museum visit.</p>
+            <p><strong>No leaning on walls or cases.</strong> That helps keep works of art hung on the walls or displayed in cases safe. Feel free to sit on the benches or the floor as you talk, write or draw.</p>
+            <p><strong>No food or drink.</strong> Both of them aren't allowed in the museum. The art in the museum will provide plenty of food for your thoughts as well as your eyes!</p>
+            <p><strong>Photography is allowed only after you fill out a photo release form at the Visitor Services Desk.</strong> Only works of art owned by Dartmouth College can be photographed. No flash photography is allowed because the light damages the art.</p>
+            <p>Thank you for following these rules to help keep the art safe!</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            请遵守以下规定，帮助保护博物馆展出的艺术品。我们希望你能保证艺术品的安全，以便更多的人能够欣赏！<br>
+            <strong>不要触摸艺术品。</strong> 你的触摸，即使是最轻微的触摸，也会损坏画作的表面。<br>
+            <strong>只使用铅笔。</strong> 如果发生意外，铅笔痕迹比钢笔痕迹更容易去除。如果你想在参观博物馆时写字或画画，我们很乐意提供铅笔。<br>
+            <strong>不要倚靠墙壁或展柜。</strong> 这有助于保护挂在墙上或放在展柜里的艺术品。你可以随意坐在长椅或地板上交谈、写字或画画。<br>
+            <strong>禁止携带食物或饮料。</strong> 博物馆内禁止携带食物和饮料。博物馆里的艺术品将为你提供丰富的精神食粮！<br>
+            <strong>只有在游客服务台填写照片发布表后才允许拍照。</strong> 只能拍摄达特茅斯学院拥有的艺术品。禁止使用闪光灯，因为光线会损坏艺术品。<br>
+            感谢您遵守这些规定，帮助保护艺术品安全！
+        </div>
+
+        <!-- 1 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">Which of the following signs isn't mentioned in the passage?</span></div>
+        <div class="options">
+            <span class="opt-item">A. 禁止触摸</span>
+            <span class="opt-item">B. 禁止饮食</span>
+            <span class="opt-item">C. 禁止吸烟</span>
+            <span class="opt-item">D. 禁止闪光灯</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：文中提到了禁止触摸、禁止饮食、禁止倚靠、只使用铅笔、禁止闪光灯，没有提到禁止吸烟。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">You can have a rest ________ if you are tired.</span></div>
+        <div class="options">
+            <span class="opt-item">A. by leaning on the walls</span>
+            <span class="opt-item">B. on the benches or the floor</span>
+            <span class="opt-item">C. by sitting in a restaurant</span>
+            <span class="opt-item">D. by leaning on the cases</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：第四段说可以坐在长椅或地板上休息。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">The underlined word "flash" here means "________" in Chinese.</span></div>
+        <div class="options">
+            <span class="opt-item">A. 带电</span>
+            <span class="opt-item">B. 闪光</span>
+            <span class="opt-item">C. 彩色</span>
+            <span class="opt-item">D. 数码</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：flash photography 闪光灯摄影，flash 是“闪光”。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">Which of the following is TRUE according to the passage?</span></div>
+        <div class="options">
+            <span class="opt-item">A. You'd better mark something with a pencil if necessary.</span>
+            <span class="opt-item">B. You can only eat the food like the bread in the museum.</span>
+            <span class="opt-item">C. You can't take any kinds of cameras to the museum.</span>
+            <span class="opt-item">D. You can't visit the works of art from Dartmouth College.</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：第三段建议用铅笔。B错在不能吃任何东西；C错在允许拍照但要填表；D错在达特茅斯的艺术品可以拍照。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline"><span class="q-num-inline">5</span><span class="q-text-inline">The passage is mainly about ________.</span></div>
+        <div class="options">
+            <span class="opt-item">A. the works in the museum</span>
+            <span class="opt-item">B. the ways to keep museums safe</span>
+            <span class="opt-item">C. the time to visit the museum</span>
+            <span class="opt-item">D. the rules in the museum</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：主旨大意题，全文介绍博物馆的参观规则。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
