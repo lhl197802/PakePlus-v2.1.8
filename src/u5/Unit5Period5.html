@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 5 Good manners · Period 5 Integration (Ⅰ)</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🤝 Unit 5 Good manners · Period 5</h1>
+        <p>Integration (Ⅰ) 综合训练 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础适当形式填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础适当形式填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">It's __________ (polite) to ask personal questions in Western countries.</span>
+        </div>
+        <div class="answer-box">✅ 答案：impolite</div>
+        <div class="analysis-box">📝 解析：根据语境，问私人问题是不礼貌的，用 polite 的反义词 impolite。</div>
+        <div class="trans-box">🌐 翻译：在西方国家，问私人问题是不礼貌的。</div>
+        <div class="small-note">知识拓展：polite adj. 礼貌的；impolite adj. 不礼貌的；politeness n. 礼貌</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">【2025江苏海安期末】They stood ______________ (respectful) when he entered the room.</span>
+        </div>
+        <div class="answer-box">✅ 答案：respectfully</div>
+        <div class="analysis-box">📝 解析：修饰动词 stood，用副词 respectfully。</div>
+        <div class="trans-box">🌐 翻译：当他走进房间时，他们都恭恭敬敬地站着。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">Please don't talk loudly in the library. Others are reading _________ (quiet).</span>
+        </div>
+        <div class="answer-box">✅ 答案：quietly</div>
+        <div class="analysis-box">📝 解析：修饰动词 reading，用副词 quietly。</div>
+        <div class="trans-box">🌐 翻译：请不要在图书馆大声喧哗。其他人在安静地看书。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">Miss Chen likes living in this small town because it's a(n) __________ (peace) place.</span>
+        </div>
+        <div class="answer-box">✅ 答案：peaceful</div>
+        <div class="analysis-box">📝 解析：形容词作定语修饰 place，peaceful 宁静的。</div>
+        <div class="trans-box">🌐 翻译：陈小姐喜欢住在这个小镇，因为它是一个宁静的地方。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">Xinjiang is famous for its ______ (taste) food and special scenic spots.</span>
+        </div>
+        <div class="answer-box">✅ 答案：tasty</div>
+        <div class="analysis-box">📝 解析：形容词修饰 food，tasty 美味的。</div>
+        <div class="trans-box">🌐 翻译：新疆以其美味的食物和独特的景点闻名。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 单项选择 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (3小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">【2025江苏镇江期末】She works hard, but she always has trouble ________ English.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. learns</span>
+            <span class="opt-item">B. learn</span>
+            <span class="opt-item">C. to learn</span>
+            <span class="opt-item">D. learning</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：have trouble doing sth. 做某事有困难。</div>
+        <div class="trans-box">🌐 翻译：她努力工作，但学英语总是有困难。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">Look at the sign “No swimming”. It warns us ________ in the lake.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. to swim</span>
+            <span class="opt-item">B. not to swim</span>
+            <span class="opt-item">C. swimming</span>
+            <span class="opt-item">D. swim</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：warn sb. not to do sth. 警告某人不要做某事。</div>
+        <div class="trans-box">🌐 翻译：看那个“禁止游泳”的标志。它警告我们不要在湖里游泳。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">We told him ________ risk ________ in these bad conditions.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. not to; travel</span>
+            <span class="opt-item">B. not; travel</span>
+            <span class="opt-item">C. not to; travelling</span>
+            <span class="opt-item">D. not; travelling</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：tell sb. not to do sth. 告诉某人不要做某事；risk doing sth. 冒险做某事。</div>
+        <div class="trans-box">🌐 翻译：我们告诉他不要冒险在这些恶劣的条件下旅行。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (4小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 9 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">礼貌待人，互相尊重。</span>
+        </div>
+        <div class="answer-box">✅ 答案：Be polite and treat one another/each other with respect.</div>
+        <div class="analysis-box">📝 解析：treat...with respect 以尊重的态度对待；one another/each other 互相。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">所有的乘客都下车了，等待下一班公共汽车。</span>
+        </div>
+        <div class="answer-box">✅ 答案：All the passengers got off and waited for the next bus.</div>
+        <div class="analysis-box">📝 解析：get off 下车；wait for 等待。</div>
+
+        <!-- 11 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">【2025江苏苏州期末·节选】她准备动身去巴黎。</span>
+        </div>
+        <div class="answer-box">✅ 答案：She is about to leave for Paris.</div>
+        <div class="analysis-box">📝 解析：be about to do 准备做某事；leave for 动身前往。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">杰克和他爸爸很相似。比如，他们都擅长运动。</span>
+        </div>
+        <div class="answer-box">✅ 答案：Jack is similar to his father. For example, they're both good at sports.</div>
+        <div class="analysis-box">📝 解析：be similar to 与……相似。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 短文填空 (首字母) ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (10小题·首字母)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>There is going to be a talk on visiting manners. The purpose of the talk is to teach students <strong>13. r_______</strong> for visiting.</p>
+            <p>Good visiting manners make our experiences <strong>14. h_______</strong>. Whether visiting museums, places of interest, or friends' homes, it's important to <strong>15. f_______</strong> proper rules.</p>
+            <p>When visiting museums, remember three rules. First, many places have <strong>16. p_______</strong> signs saying “No touching” or “No photos”—follow these instructions. Second, keep your <strong>17. v_______</strong> down. Just enjoy art and history quietly. Third, never run or shout as it troubles others.</p>
+            <p>When visiting a friend's home, bring a small <strong>18. g_______</strong> like flowers or chocolates. You are <strong>19. e_______</strong> to take off shoes in some families. Never <strong>20. t_______</strong> private things if the host doesn't agree.</p>
+            <p>For group visits like school trips, stay with your group and listen <strong>21. c_______</strong> to guides. Put up your hand for questions <strong>22. i_______</strong> of shouting out.</p>
+            <p>As the saying goes, “Good manners will open doors that the best education cannot.” Let's all be polite visitors.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            将有一个关于参观礼仪的讲座。讲座的目的是教学生参观时应遵循的规则。<br>
+            良好的参观礼仪让我们的体验变得愉快。无论参观博物馆、名胜古迹还是到访朋友家，遵守恰当的规则都很重要。<br>
+            参观博物馆时，记住三条规则。首先，很多地方有写着“禁止触摸”或“禁止拍照”的公共标识——遵守这些指示。其次，把你的声音放低。安静地欣赏艺术和历史。第三，不要跑或喊叫，这会打扰他人。<br>
+            拜访朋友家时，带一份像鲜花或巧克力这样的小礼物。在一些家庭里，主人期望你脱鞋。如果主人不同意，绝不要动私人用品。<br>
+            对于像学校旅行这类团体参观，要和团队待在一起，认真听导游讲解。提问时举手，而不是大喊大叫。<br>
+            俗话说：“良好的礼仪能打开最好的教育也无法打开的门。”让我们都做有礼貌的参观者。
+        </div>
+
+        <!-- 13-22 -->
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">rules</span></div>
+        <div class="answer-box">✅ 答案：rules</div>
+        <div class="analysis-box">📝 解析：teach students rules for visiting 教学生参观规则。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">happy</span></div>
+        <div class="answer-box">✅ 答案：happy</div>
+        <div class="analysis-box">📝 解析：make our experiences happy 使体验愉快。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">follow</span></div>
+        <div class="answer-box">✅ 答案：follow</div>
+        <div class="analysis-box">📝 解析：follow rules 遵守规则。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">public</span></div>
+        <div class="answer-box">✅ 答案：public</div>
+        <div class="analysis-box">📝 解析：public signs 公共标识。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">voice</span></div>
+        <div class="answer-box">✅ 答案：voice</div>
+        <div class="analysis-box">📝 解析：keep your voice down 压低声音。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">gift</span></div>
+        <div class="answer-box">✅ 答案：gift</div>
+        <div class="analysis-box">📝 解析：bring a small gift 带小礼物。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">expected</span></div>
+        <div class="answer-box">✅ 答案：expected</div>
+        <div class="analysis-box">📝 解析：be expected to do 被期望做。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">touch</span></div>
+        <div class="answer-box">✅ 答案：touch</div>
+        <div class="analysis-box">📝 解析：touch private things 触碰私人物品。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">carefully</span></div>
+        <div class="answer-box">✅ 答案：carefully</div>
+        <div class="analysis-box">📝 解析：listen carefully 认真听。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">instead</span></div>
+        <div class="answer-box">✅ 答案：instead</div>
+        <div class="analysis-box">📝 解析：instead of 而不是。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 阅读还原 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 阅读还原 (5小题·处理争论)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：文章提供了有关处理人际关系中的争论的实用建议。</div>
+        <div class="passage-box">
+            <p>We often have arguments in all relationships. But that is not always a bad thing. Sometimes we can choose to be in a win-win situation. What is important is how we manage the argument. <strong>1.</strong> _____</p>
+            <p><strong>Treat each other with respect.</strong> If your friend calls you names or makes fun of you, tell him or her to stop. <strong>2.</strong> _____ walk away and tell him or her you do not want to talk any more. Respect has to be won and if you want people to respect you, do the same to them.</p>
+            <p><strong>Listen to other people patiently.</strong> When everyone is talking, who does the listening? Listen to understand, not to reply. <strong>3.</strong> _____ Listening in silence is sometimes stronger than arguing in vain.</p>
+            <p><strong>4.</strong> _____ If giving in to others can lead to a nice result, there is no need to argue just to win against someone else. After all, solving an argument doesn't have to be a tug-of-war.</p>
+            <p>In a word, we each should do our own part to deal with arguments. <strong>5.</strong> _____</p>
+        </div>
+        <div class="word-box">🔤 选项：<br>A. If your friend continues,<br>B. Give in when necessary.<br>C. The following suggestions may be of some help to you.<br>D. Don't be in a hurry to judge what you hear.<br>E. That way, we can reach a win-win situation.</div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            在各种人际关系中，我们经常会有争论。但这不总是一件坏事。有时我们可以选择双赢的局面。重要的是我们如何处理争论。下面的建议可能会对你有所帮助。<br>
+            <strong>互相尊重。</strong> 如果你的朋友辱骂你或取笑你，告诉他/她停下。如果你的朋友继续，走开并告诉他/她你不想再谈了。尊重必须靠赢得，如果你想要别人尊重你，也要同样对待他们。<br>
+            <strong>耐心倾听他人。</strong> 当每个人都在说话时，谁在倾听？倾听是为了理解，而不是为了回复。不要急于判断你所听到的。静静地倾听有时比徒劳地争论更有力。<br>
+            <strong>在必要的时候让步。</strong> 如果向他人让步能带来好的结果，就没有必要为了胜过别人而争论。毕竟，解决争论不必像拔河比赛。<br>
+            总之，我们每个人都应尽自己的一份力来处理争论。这样，我们可以达到双赢的局面。
+        </div>
+
+        <!-- 1-5 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：前文说重要的是如何处理争论，C项“下面的建议可能会对你有所帮助”引出下文。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：如果朋友继续（辱骂），就走开。A项符合。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：倾听时要理解，不要急于判断。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：本段讲让步，B项“在必要的时候让步”是标题。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">5</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：E</div>
+        <div class="analysis-box">📝 解析：总结达到双赢。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅵ 阅读表达 ========= -->
+<div class="section-card collapsed" id="section6">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅵ 阅读表达 (4小题·中西方待客之道)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文介绍了中西方国家不同的待客之道。</div>
+        <div class="passage-box">
+            <p>In the eyes of many foreigners, the Chinese are the best hosts and the worst guests in the world. And Western hosts sometimes look rude in the eyes of Chinese guests. It is because the guest-host relationship in China is quite different from that in some Western countries.</p>
+            <p>In China, guests are almost like gods. Whenever I enter a Chinese friend's home, there is always fruit on the table for me, and someone is quick to bring me a cup of tea or water. In the West, generally the guest is not a god. Acting according to the host's way of doing things is usual behaviour for a guest.</p>
+            <p>My wife's mother, a very kind Chinese lady, doesn't smoke. When I see some of her guests smoking in her house, as a non-smoker I feel unhappy. Usually I want to stop them directly, but I must realize that in China, to be a good host, she must not do that.</p>
+            <p>In most North American homes, if you are a guest, and the hosts are not smokers, you should not smoke in their houses. At the very least, you should ask “Is it OK if I smoke?” But don't be surprised if they say, “No, you can't smoke.” In my culture, if you smoke in their houses, you are a bad guest, but if they don't allow you to smoke in their houses, they are not rude hosts.</p>
+            <p>In a word, no matter where you are, the best way to be a good guest is to adapt to the local customs. Just as the saying goes, “When in Rome, do as the Romans do.”</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            在许多外国人眼中，中国人是世界上最好的主人和最差的客人。而西方主人有时在中国客人眼中显得粗鲁。这是因为中国的主客关系与一些西方国家完全不同。<br>
+            在中国，客人几乎像神一样。每当我进入中国朋友的家，桌上总有水果招待我，有人会很快给我端来茶或水。在西方，客人通常不是神。按照主人的方式行事是客人的通常行为。<br>
+            我岳母是一位非常善良的中国女士，她不抽烟。当我看到她的一些客人在她家里抽烟时，作为一个不抽烟的人我感到不高兴。通常我想直接阻止他们，但我必须意识到，在中国，作为一个好主人，她不能那样做。<br>
+            在大多数北美家庭，如果你是客人，而主人不抽烟，你不应该在他们家抽烟。至少你应该问：“我可以抽烟吗？”但如果他们说“不行，你不能抽烟”，不要惊讶。在我的文化里，如果你在他们家抽烟，你是坏客人；但如果他们不允许你在他们家抽烟，他们并不是粗鲁的主人。<br>
+            总之，无论你在哪里，做一个好客人的最佳方式就是适应当地习俗。正如俗话所说：“入乡随俗。”
+        </div>
+
+        <!-- 6 -->
+        <div class="q-item-inline"><span class="q-num-inline">6</span><span class="q-text-inline">To many foreigners, who are the best hosts and the worst guests in the world?</span></div>
+        <div class="answer-box">✅ 答案：The Chinese.</div>
+        <div class="analysis-box">📝 解析：第一段第一句明确。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline"><span class="q-num-inline">7</span><span class="q-text-inline">What is usual behaviour for a guest in the West?</span></div>
+        <div class="answer-box">✅ 答案：Acting according to the host's way of doing things.</div>
+        <div class="analysis-box">📝 解析：第二段最后一句。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline"><span class="q-num-inline">8</span><span class="q-text-inline">If a guest wants to smoke in an American host's home, what question should he ask?</span></div>
+        <div class="answer-box">✅ 答案：Is it OK if I smoke?</div>
+        <div class="analysis-box">📝 解析：第四段提到应问这个问题。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline"><span class="q-num-inline">9</span><span class="q-text-inline">What do you think is impolite for a guest to do? (开放性试题)</span></div>
+        <div class="answer-box">✅ 答案示例：It's impolite for a guest to talk loudly.</div>
+        <div class="analysis-box">📝 解析：开放性试题，言之有理即可。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
