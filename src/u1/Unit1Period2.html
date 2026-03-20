@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 1 Past and present · Period 2 Reading (Ⅰ) 同步训练</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 40px;
+            padding: 14px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 12px rgba(0,30,45,0.05);
+            border: 1px solid #dde7f0;
+        }
+        .top-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+        }
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f8fbfe;
+        }
+        .title-area h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #0d4c6e, #0b3b55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title-area p {
+            color: #54738f;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .close-btn {
+            background: #ecf3fa;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1d577b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid #bed3e6;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .close-btn:hover {
+            background: #dae6f2;
+            color: #093852;
+            border-color: #7fa9c7;
+            box-shadow: 0 4px 10px rgba(0,60,90,0.1);
+        }
+        .close-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: white;
+            border-radius: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 22px -6px rgba(20, 50, 70, 0.12);
+            overflow: hidden;
+            border: 1px solid #e2eef9;
+            transition: box-shadow 0.2s;
+        }
+        .section-header {
+            background: white;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #10435c;
+            transition: background 0.15s, padding 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .section-header:hover {
+            background: #e9f2fa;
+        }
+        .section-header .toggle-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #2c779b;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+        /* 折叠样式 */
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .section-content {
+            padding: 8px 28px 28px 28px;
+            border-top: 1px solid #d1e2f0;
+            background: #ffffff;
+        }
+
+        /* 题目元素 */
+        .question-item {
+            margin-top: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e0ecf5;
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+        .q-num {
+            display: inline-block;
+            background: #cde1f0;
+            color: #0f4b6b;
+            font-weight: 700;
+            padding: 4px 16px 5px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin-bottom: 12px;
+            border: 1px solid #aac6dd;
+        }
+        .q-text {
+            font-size: 1.04rem;
+            font-weight: 500;
+            color: #113845;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: #f5faff;
+            padding: 16px 22px;
+            border-radius: 24px;
+            border-left: 5px solid #3182a3;
+            box-shadow: inset 0 1px 4px #d7e6f5;
+        }
+        .options {
+            margin: 12px 0 16px 8px;
+            color: #1d506b;
+            background: #f0f6fd;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-weight: 460;
+        }
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 28px;
+            white-space: nowrap;
+        }
+        .answer-box, .analysis-box, .trans-box {
+            margin: 12px 0 8px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+        .answer-box {
+            background: #e2f0fa;
+            color: #004d7c;
+            font-weight: 600;
+            border-left: 6px solid #0073aa;
+        }
+        .analysis-box {
+            background: #fff6e5;
+            color: #624c2a;
+            border-left: 6px solid #efb13b;
+        }
+        .trans-box {
+            background: #e1f1e8;
+            color: #1b6e4a;
+            border-left: 6px solid #2e9e68;
+        }
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+        .small-note {
+            font-size: 0.86rem;
+            color: #6a859e;
+            margin-top: 12px;
+            padding-left: 12px;
+        }
+        .word-box {
+            background: #e7f0fa;
+            padding: 12px 20px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #145a82;
+            border: 1px dashed #7dafd1;
+        }
+        .passage-box {
+            background: #f9f7f0;
+            padding: 20px 24px;
+            border-radius: 28px;
+            margin: 20px 0 30px 0;
+            border-left: 6px solid #8f6d3f;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #2d3b45;
+        }
+        .passage-box p {
+            margin-bottom: 1em;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #c4d7e8;
+            margin: 20px 0;
+        }
+        .sentence-answer {
+            background: #d7e9ff;
+            padding: 4px 16px;
+            border-radius: 40px;
+            display: inline-block;
+        }
+
+        @media (max-width: 600px) {
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 12px 18px; }
+            .title-area h1 { font-size: 1.4rem; }
+            .section-header { font-size: 1.15rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 20px; }
+            .q-text { padding: 12px; font-size: 0.98rem; }
+            .opt-item { display: block; margin: 6px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>📖 Unit 1 Past and present · Period 2</h1>
+        <p>Reading (Ⅰ) 基础+能力 全解全析（含原文）</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础单词填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础单词填空 (4小题·首字母/音标)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">【2025江苏无锡一模】An inventor is always a p________ in trying something new. We should learn the spirit of fearlessness.</div>
+            <div class="answer-box">✅ 答案：pioneer</div>
+            <div class="analysis-box">📝 详细解析：根据句意“发明家在尝试新事物时总是先锋/先驱”，首字母p，应填 pioneer (先驱，先锋)。且后文“学习无畏的精神”也呼应 pioneer 的创新精神。</div>
+            <div class="trans-box">🌐 中文翻译：发明家总是在尝试新事物方面是先锋。我们应该学习这种无畏的精神。</div>
+        </div>
+        <!-- 2 -->
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">The Luban lock is a kind of e____________ toy similar to building blocks, but it is a mortise and tenon joint structure (榫卯结构).</div>
+            <div class="answer-box">✅ 答案：educational</div>
+            <div class="analysis-box">📝 详细解析：根据描述“类似于积木，但是榫卯结构”，可知这是一种有教育意义的玩具。educational (教育的，有教育意义的) 符合首字母e。Luban lock 鲁班锁常作为益智教具。</div>
+            <div class="trans-box">🌐 中文翻译：鲁班锁是一种类似于积木的教育玩具，但它是一种榫卯结构。</div>
+        </div>
+        <!-- 3 -->
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">【2025山东泰安中考·改编】—What happened to you yesterday afternoon? —I fell off the __________ /ɪˈlektrɪk/ bicycle. Luckily, I wore a helmet and didn’t hurt my head.</div>
+            <div class="answer-box">✅ 答案：electric</div>
+            <div class="analysis-box">📝 详细解析：根据音标 /ɪˈlektrɪk/ 得出单词 electric (电动的)。electric bicycle 电动车。句意：我从电动车上摔下来了。</div>
+            <div class="trans-box">🌐 中文翻译：——昨天下午你怎么了？——我从电动自行车上摔了下来。幸运的是，我戴了头盔，没有伤到头。</div>
+        </div>
+        <!-- 4 -->
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">【2025江苏扬州三模】5G will not only offer new chances for ____________ /ˈɪndəstriz/, but also bring completely new thoughts to connected services.</div>
+            <div class="answer-box">✅ 答案：industries</div>
+            <div class="analysis-box">📝 详细解析：音标 /ˈɪndəstriz/ 对应单词 industries (工业，行业)。5G 为各行各业提供新机会。注意复数形式。</div>
+            <div class="trans-box">🌐 中文翻译：5G不仅将为各行各业提供新机会，也将为联网服务带来全新的思路。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 卡片Ⅱ 单项选择 -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (3小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 5 -->
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">【2025江苏南京三模】There are special machines that will carve ice to artists' designs. Because of this new ________, ice sculptors can create designs with more details.</div>
+            <div class="options">
+                <span class="opt-item">A. material</span>
+                <span class="opt-item">B. programme</span>
+                <span class="opt-item">C. evidence</span>
+                <span class="opt-item">D. technology</span>
+            </div>
+            <div class="answer-box">✅ 答案：D (technology)</div>
+            <div class="analysis-box">📝 详细解析：句意：有能按照艺术家设计雕刻冰块的特殊机器。由于这种新____，冰雕师能创作出更多细节。前面提到“特殊机器”属于技术，因此 technology (技术) 最合适。material 材料，programme 节目/程序，evidence 证据，均不符合。</div>
+            <div class="trans-box">🌐 中文翻译：有能按照艺术家的设计雕刻冰块的特殊机器。由于这项新技术，冰雕师可以创作出有更多细节的设计。</div>
+        </div>
+        <!-- 6 -->
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">【2025江苏淮安期末】Look! What a kind dog! It ________ a blind man across the road.</div>
+            <div class="options">
+                <span class="opt-item">A. lead</span>
+                <span class="opt-item">B. leads</span>
+                <span class="opt-item">C. is leading</span>
+                <span class="opt-item">D. will lead</span>
+            </div>
+            <div class="answer-box">✅ 答案：C (is leading)</div>
+            <div class="analysis-box">📝 详细解析：由“Look!”可知是现在进行时，表示正在发生的动作。主语 It 是第三人称单数，用 is leading。</div>
+            <div class="trans-box">🌐 中文翻译：看！多么善良的一条狗啊！它正领着一个盲人过马路。</div>
+        </div>
+        <!-- 7 -->
+        <div class="question-item">
+            <span class="q-num">7</span>
+            <div class="q-text">【2025北京丰台区调研】He used to be quite shy, but he ________ a lot since he joined the Acting Club.</div>
+            <div class="options">
+                <span class="opt-item">A. was changing</span>
+                <span class="opt-item">B. changed</span>
+                <span class="opt-item">C. will change</span>
+                <span class="opt-item">D. has changed</span>
+            </div>
+            <div class="answer-box">✅ 答案：D (has changed)</div>
+            <div class="analysis-box">📝 详细解析：since 引导的时间状语从句，主句常用现在完成时。表示从过去一直持续到现在的变化。故用 has changed。</div>
+            <div class="trans-box">🌐 中文翻译：他过去很害羞，但自从加入了表演俱乐部，他改变了很多。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 卡片Ⅲ 根据中文完成句子 -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 根据中文完成句子 (3小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 8 -->
+        <div class="question-item">
+            <span class="q-num">8</span>
+            <div class="q-text">位于北京中心位置的故宫是中国最大的古建筑群。<br>The Palace Museum, which is _________________________, is China's largest ancient building complex.</div>
+            <div class="answer-box">✅ 答案：at the heart of Beijing</div>
+            <div class="analysis-box">📝 详细解析：“位于北京中心位置”可用 at the heart of Beijing，也可用 in the center of Beijing。at the heart of 更书面化。</div>
+            <div class="trans-box">🌐 翻译：位于北京中心位置的故宫是中国最大的古建筑群。</div>
+        </div>
+        <!-- 9 -->
+        <div class="question-item">
+            <span class="q-num">9</span>
+            <div class="q-text">【2025广东深圳调研】她多年来积累了丰富的经验，对自己的新工作感到十分自如。<br>Having accumulated ________________________ over the years, she feels completely at ease in her new job.</div>
+            <div class="answer-box">✅ 答案：a wealth of experience</div>
+            <div class="analysis-box">📝 详细解析：“丰富的经验”可用 a wealth of experience (wealth 表示大量/丰富)。也可用 rich experience，但所给提示是 a wealth of，固定搭配。积累 accumulate。</div>
+            <div class="trans-box">🌐 翻译：她多年来积累了丰富的经验，对自己的新工作感到十分自如。</div>
+            <div class="small-note">知识拓展：wealthy adj. 富有的。</div>
+        </div>
+        <!-- 10 -->
+        <div class="question-item">
+            <span class="q-num">10</span>
+            <div class="q-text">我们每个人都很了不起。例如，我的表妹可以通过写作谋生。<br>Each of us is amazing. For example, my cousin can ________________________.</div>
+            <div class="answer-box">✅ 答案：make a living by writing</div>
+            <div class="analysis-box">📝 详细解析：谋生 make a living，通过写作 by writing。情态动词 can 后接动词原形。</div>
+            <div class="trans-box">🌐 翻译：我们每个人都很了不起。例如，我的表妹可以通过写作谋生。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 卡片Ⅳ 短文填空 (方框选词) -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (5小题·方框选词)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">
+            🔤 方框内单词/短语：search for, used to, how, opposite, memories
+        </div>
+        <div class="question-item">
+            <div class="q-text">Some people still live in their hometown. However, others may only see it once or twice a year. Now millions of Chinese leave the countryside to <strong>11. ____________</strong> work in the cities. Among these is Zhong Wei, a 46-year-old husband and father. He has lived in Beijing in the last 13 years. With a hard job in a factory, he doesn’t find much time to visit his hometown. “I <strong>12. _________</strong> return home at least once a year, but I haven’t been back for three years now,” he said. Many people like Zhong Wei are interested in <strong>13. _____</strong> their hometowns have changed. Besides large hospitals and new roads, the government has also built new schools and sent teachers from the cities to help. Zhong Wei thinks such changes are good, and he also knows that his hometown cannot stay the same. However, some things will never change. “In my hometown, there was a big old tree <strong>14. __________</strong> the school. It is still there and has become a symbol of the place. Most of the children in my time liked to play together under that big tree, especially during the summer holidays. It was such a happy childhood. Our hometown has given me many sweet <strong>15. __________</strong>.”</div>
+            <div class="answer-box">✅ 11. search for  12. used to  13. how  14. opposite  15. memories</div>
+            <div class="analysis-box">
+                📝 详细解析：<br>
+                <strong>11.</strong> search for 寻找。leave the countryside to search for work 离开农村去寻找工作。<br>
+                <strong>12.</strong> used to 过去常常。根据 but I haven't been back for three years now 可知以前常回家。<br>
+                <strong>13.</strong> how 如何。be interested in how their hometowns have changed 对家乡如何变化感兴趣。<br>
+                <strong>14.</strong> opposite 在……对面。a big old tree opposite the school 学校对面的一棵老树。<br>
+                <strong>15.</strong> memories 回忆。many sweet memories 许多甜蜜的回忆。
+            </div>
+            <div class="trans-box">
+                🌐 中文翻译：有些人仍然住在他们的家乡。然而，其他人可能每年只见一两次。如今数百万中国人离开农村到城市寻找工作。其中就有钟伟，一位46岁的丈夫和父亲。他在北京生活了13年。由于在工厂工作辛苦，他没什么时间回家乡。“我过去每年至少回家一次，但现在我已经三年没回去了，”他说。许多像钟伟一样的人对家乡发生了怎样的变化很感兴趣。除了大医院和新道路，政府还新建了学校，并从城市派遣教师来帮助。钟伟认为这些变化是好的，他也知道家乡不可能一成不变。然而，有些东西永远不会改变。“在我的家乡，学校对面有一棵大老树。它还在那里，成了那个地方的象征。我小时候大多数孩子都喜欢在那棵大树下一起玩耍，尤其是暑假期间。那是多么快乐的童年。家乡给了我许多甜蜜的回忆。”
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 卡片Ⅴ 阅读选择 (含原文) -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 阅读选择 (4小题·“秋裤村”原文+题目)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 语篇导读 -->
+        <div class="word-box" style="background: #f2e8d5;">
+            📘 语篇导读：本文主要介绍了山东省泰安市姚家坡村生产秋裤的情况及其发展历程。词数286，难度★★★，建议用时8分钟。
+        </div>
+        
+        <!-- 阅读原文 (英文) -->
+        <div class="passage-box">
+            <h3 style="margin-top:0; color:#6b4f2a;">📜 阅读原文</h3>
+            <p><strong>Yaojiapo Village</strong> is in Tai’an, Shandong, and it is also called the “qiuku village”. As the temperatures drop, many people put on qiuku, known as long johns in English, to fight against the cold, and the village becomes busy producing (生产) long johns.</p>
+            <p>The village has been making long johns for more than 40 years. About half of homes (over 160 homes) in the village do the business (生意) for a living. It provides jobs for over 1,600 people in the village and its neighbouring areas. Every morning, the villagers go to the market to collect materials they need and take them home. Each house acts as a small workshop, turning the materials into thermal (保暖的) clothing. Then it is sold around China and even to countries in Africa.</p>
+            <p>“We can make a pair of long johns in just five minutes, producing 1,300 to 1,400 pairs a day,” said Zhang Feng, a villager whose family has been in the business for 35 years. “The busy season for selling is from August to the Chinese Lunar New Year,” he added. When Zhang was a child, his parents could only make around 20 pairs a day. At that time, they used scissors and an old-style sewing (缝纫) machine to make long johns. Now, with automated (自动化的) sewing machines, people can work much faster than before.</p>
+            <p>Another villager, Shi Hui, has also introduced better machines to help save water and protect the environment. The village is also planning to build a large industrial (工业的) park. In the future, people will see a more modern “qiuku village”.</p>
+        </div>
+        
+        <!-- 全文翻译 (中文) -->
+        <div class="trans-box" style="margin-bottom:30px;">
+            🌐 <strong>全文翻译：</strong><br>
+            姚家坡村位于山东泰安，也被称为“秋裤村”。随着气温下降，许多人穿上秋裤（英语中称为long johns）来抵御寒冷，这个村子便忙于生产秋裤。<br>
+            该村生产秋裤已有40多年历史。村里大约一半的家庭（超过160户）以经营秋裤生意为生。它为村里及周边地区提供了1600多个就业岗位。每天早晨，村民们去市场收集所需材料，然后带回家。每户人家就是一个小作坊，将材料制成保暖衣物。然后这些秋裤销往中国各地，甚至远销非洲国家。<br>
+            “我们能在五分钟内制作一条秋裤，每天生产1300到1400条，”已经在秋裤行业做了35年的村民张峰说。“销售旺季是从八月到农历新年，”他补充道。在张峰小时候，他的父母一天只能做大约20条。那时，他们用剪刀和老式缝纫机做秋裤。现在，有了自动化缝纫机，人们的工作速度比以前快得多。<br>
+            另一位村民石慧还引进了更好的机器，以帮助节水和保护环境。村里还计划建设一个大型工业园区。将来，人们会看到一个更现代的“秋裤村”。
+        </div>
+
+        <!-- 题目1 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">What are long johns?</div>
+            <div class="options">
+                <span class="opt-item">A. Clothes only made in Yaojiapo Village.</span>
+                <span class="opt-item">B. Clothes made by a man named John.</span>
+                <span class="opt-item">C. Clothes that can make people cool.</span>
+                <span class="opt-item">D. Clothes that can keep people warm.</span>
+            </div>
+            <div class="answer-box">✅ 答案：D</div>
+            <div class="analysis-box">📝 解析：细节题。第一段“As the temperatures drop, many people put on qiuku, known as long johns in English, to fight against the cold”可知 long johns 是保暖衣物。</div>
+            <div class="trans-box">🌐 翻译：什么是 long johns? A. 只在姚家坡村制作的衣服；B. 一个叫约翰的人做的衣服；C. 能让人凉爽的衣服；D. 能让人保暖的衣服。</div>
+        </div>
+        <!-- 题目2 -->
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">From the second paragraph, we can know that ________.<br>① how many homes make long johns<br>② how many people live in the village<br>③ where the villagers make long johns<br>④ where the villagers sell their long johns</div>
+            <div class="options">
+                <span class="opt-item">A. ①②③</span>
+                <span class="opt-item">B. ①②④</span>
+                <span class="opt-item">C. ①③④</span>
+                <span class="opt-item">D. ②③④</span>
+            </div>
+            <div class="answer-box">✅ 答案：C</div>
+            <div class="analysis-box">📝 解析：第二段提到约160多户家庭制作秋裤 (①)，每个家庭作为小作坊 (③)，产品销往中国甚至非洲 (④)。没有提到村里居住的总人数 (②)，故选 C。</div>
+            <div class="trans-box">🌐 翻译：从第二段我们可以知道________。①多少家庭制作秋裤；②村里住着多少人；③村民在哪里制作秋裤；④村民在哪里销售秋裤。</div>
+        </div>
+        <!-- 题目3 -->
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">What does the writer mainly talk about in Paragraph 3?</div>
+            <div class="options">
+                <span class="opt-item">A. The best time to sell long johns.</span>
+                <span class="opt-item">B. Improvements in long johns making.</span>
+                <span class="opt-item">C. The history of Zhang's family business.</span>
+                <span class="opt-item">D. Different machines for long johns making.</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：主旨题。第三段对比了过去用剪刀和老式缝纫机每天做20条，现在用自动化机器速度更快，主要讲制作工艺的改进。故选B。</div>
+            <div class="trans-box">🌐 翻译：作者在第三段主要谈论了什么？A. 销售秋裤的最佳时间；B. 秋裤制作的改进；C. 张氏家族生意历史；D. 制作秋裤的不同机器。</div>
+        </div>
+        <!-- 题目4 -->
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">What's the village's next plan?</div>
+            <div class="options">
+                <span class="opt-item">A. To open a big factory.</span>
+                <span class="opt-item">B. To build an industrial park.</span>
+                <span class="opt-item">C. To do business with foreign countries.</span>
+                <span class="opt-item">D. To introduce greener machines.</span>
+            </div>
+            <div class="answer-box">✅ 答案：B</div>
+            <div class="analysis-box">📝 解析：细节题。最后一段“The village is also planning to build a large industrial park.”明确计划建工业园区。</div>
+            <div class="trans-box">🌐 翻译：村里的下一个计划是什么？A. 开大工厂；B. 建工业园区；C. 与外国做生意；D. 引进更环保的机器。</div>
+        </div>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<div class="bottom-bar">
+    <span style="color:#3f627c; font-size:0.95rem;">📌 点击上方标题展开/折叠 · 所有题目均附详细解析与翻译</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    // 折叠/展开功能
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) {
+            card.classList.toggle('collapsed');
+        }
+    }
+
+    // 关闭页面尝试
+    function attemptClose() {
+        if (confirm("是否尝试关闭本页面？若浏览器阻止，请使用快捷键 (Ctrl+W / ⌘+W) 手动关闭。")) {
+            try {
+                window.close();
+            } catch (e) {
+                alert("无法直接关闭，请手动关闭标签页。");
+            }
+        }
+    }
+
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    attemptClose();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    attemptClose();
+    //});
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+
+    // 默认所有卡片已经带有 collapsed 类（在HTML中已加）
+</script>
+</body>
+</html>
