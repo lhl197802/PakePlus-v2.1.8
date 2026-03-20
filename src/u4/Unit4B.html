@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 4 A good read · 外刊时文阅读速递</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>📚 Unit 4 A good read · 外刊时文阅读速递</h1>
+        <p>Leo Tolstoy · Childhood  |  词数280 难度★★★</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 外刊时文阅读卡片 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>📖 阅读选择 · 《童年》节选 (列夫·托尔斯泰)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 语篇导读 -->
+        <div class="word-box" style="background: #f2e8d5;">
+            📘 语篇导读：本文介绍了《童年》的第一部分节选，通过小男孩的视角描述了早晨被家庭教师叫醒的情景，展现了他的心理活动。建议用时8分钟。
+        </div>
+        
+        <!-- 阅读原文 (英文) -->
+        <div class="passage-box">
+            <h3 style="margin-top:0; color:#6b4f2a;">📜 阅读原文</h3>
+            <p>Childhood is Leo Tolstoy's first novel. This novel shows us the growth process of children. Let's read the first part of it together now.</p>
+            <p>On the 12th of August, I was awakened at seven o'clock in the morning by Karl Ivanitch. He slapped the fly on the wall close to my head with a fly-flap made of sugar paper and a stick. He was too careless and he hit the picture behind my bed. Unluckily, the dead fly fell down on my hair. I flicked the dead fly on the floor with my finger. I looked at Karl Ivanitch with sleepy, wrathful eyes. He wore a cotton coat and a red hat. He went on walking around the wall and slapping flies.</p>
+            <p>I thought to myself, "I am just a small boy. Why did he trouble me? Why didn't he go killing flies around Woloda's bed? No! Woloda is older than me. And I am the youngest of the family. He woke me up, but he pretended not to notice it. I don't like him. I don't like his clothes and hat."</p>
+            <p>But while I was thinking about this, Karl Ivanitch walked to his bed and looked at his watch. Then he turned around to us in the most cheerful mood.</p>
+            <p>"Get up, children! Your mother is already in the dining room," he said loudly. Then he sat down at my feet. "Well, well, little lazy one!" he said with a smile.</p>
+            <p>"How kind he is, and how much he likes us!" I thought to myself…</p>
+        </div>
+        
+        <!-- 全文翻译 (中文) -->
+        <div class="trans-box" style="margin-bottom:20px;">
+            🌐 <strong>全文翻译：</strong><br>
+            《童年》是列夫·托尔斯泰的第一部小说。这部小说向我们展示了儿童的成长过程。现在让我们一起阅读它的第一部分。<br>
+            八月十二日早晨七点，我被卡尔·伊万尼奇叫醒。他用一个用糖纸和棍子做的苍蝇拍拍打靠近我头部的墙上的苍蝇。他太粗心了，打到了我床后的画。不幸的是，死苍蝇落在了我的头发上。我用手指把死苍蝇弹到地上。我用睡眼惺忪、愤怒的眼神看着卡尔·伊万尼奇。他穿着一件棉外套，戴着一顶红帽子。他继续绕着墙走动，拍打苍蝇。<br>
+            我心想：“我只是个小男孩。他为什么要打扰我？他为什么不去沃洛佳床边打苍蝇？不！沃洛佳比我大。我是家里最小的。他把我吵醒了，却假装没注意到。我不喜欢他。我不喜欢他的衣服和帽子。”<br>
+            但就在我这样想的时候，卡尔·伊万尼奇走到他的床边看了看表。然后他以最愉快的表情转向我们。<br>
+            “起床了，孩子们！你们的妈妈已经在餐厅了，”他大声说。然后他在我脚边坐下。“好啦，好啦，小懒虫！”他笑着说。<br>
+            “他是多么善良，多么喜欢我们啊！”我心想……
+        </div>
+
+        <!-- 题目1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">What made the boy wake up?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Ivanitch hit the bed with a fly-flap.</span>
+            <span class="opt-item">B. Ivanitch slapped the fly on the wall.</span>
+            <span class="opt-item">C. Ivanitch shook the tree near the bed.</span>
+            <span class="opt-item">D. Ivanitch made a fly-flap in the room.</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：细节题。第一段明确说被Ivanitch用苍蝇拍拍打墙上苍蝇的声音吵醒。</div>
+        <div class="trans-box">🌐 翻译：什么让男孩醒来？A. 伊万尼奇用苍蝇拍拍床；B. 伊万尼奇拍打墙上的苍蝇；C. 伊万尼奇摇晃床边的树；D. 伊万尼奇在房间里做苍蝇拍。</div>
+
+        <!-- 题目2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">Which word is close to the underlined word “wrathful”?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Happy.</span>
+            <span class="opt-item">B. Sad.</span>
+            <span class="opt-item">C. Angry.</span>
+            <span class="opt-item">D. Big.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：词义猜测题。苍蝇落在头发上，男孩很生气，wrathful意为“愤怒的”，与angry同义。</div>
+        <div class="trans-box">🌐 翻译：哪个单词与划线词“wrathful”意思最接近？A. 快乐；B. 悲伤；C. 生气；D. 大。</div>
+
+        <!-- 题目3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">What does the third paragraph mainly talk about?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. The boy's thought and emotion.</span>
+            <span class="opt-item">B. The boy's mind and dream.</span>
+            <span class="opt-item">C. Ivanitch's action and effect.</span>
+            <span class="opt-item">D. Ivanitch's idea and feeling.</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：主旨题。第三段以“I thought to myself”开头，描述男孩的内心想法和情绪。</div>
+        <div class="trans-box">🌐 翻译：第三段主要讲了什么？A. 男孩的想法和情感；B. 男孩的头脑和梦想；C. 伊万尼奇的行动和影响；D. 伊万尼奇的想法和感受。</div>
+
+        <!-- 题目4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">What did Ivanitch mean by saying “Your mother is already in the dining room”?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. He will be late for school.</span>
+            <span class="opt-item">B. He is waiting for the boy.</span>
+            <span class="opt-item">C. The mother is going to work.</span>
+            <span class="opt-item">D. It is time for breakfast.</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：推理题。妈妈已经在餐厅，意味着早餐时间到了，该起床了。</div>
+        <div class="trans-box">🌐 翻译：伊万尼奇说“你们的妈妈已经在餐厅了”是什么意思？A. 他上学要迟到了；B. 他在等男孩；C. 妈妈要去上班；D. 该吃早餐了。</div>
+
+        <!-- 题目5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">What might the boy do in the end?</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. He slapped the fly with Ivanitch.</span>
+            <span class="opt-item">B. He asked Ivanitch to tell him the time.</span>
+            <span class="opt-item">C. He forgave Ivanitch and got up at once.</span>
+            <span class="opt-item">D. He told Ivanitch what he wanted to eat.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：推理题。最后一段男孩心里想“他多么善良”，说明他原谅了老师，会立刻起床。</div>
+        <div class="trans-box">🌐 翻译：男孩最后可能会做什么？A. 他和伊万尼奇一起拍苍蝇；B. 他让伊万尼奇告诉他时间；C. 他原谅了伊万尼奇并立刻起床；D. 他告诉伊万尼奇他想吃什么。</div>
+
+        <!-- 知识拓展 -->
+        <div class="small-note" style="margin-top:20px;">
+            📘 知识拓展：wake up 意为“醒来；活跃起来”。
+        </div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
