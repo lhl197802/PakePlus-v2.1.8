@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 6 Sunshine for all · Period 3 Reading (Ⅱ)</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>☀️ Unit 6 Sunshine for all · Period 3</h1>
+        <p>Reading (Ⅱ) 基础+能力 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础适当形式填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础适当形式填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">The teacher reminds me __________ (behave) well at school tomorrow.</span>
+        </div>
+        <div class="answer-box">✅ 答案：to behave</div>
+        <div class="analysis-box">📝 解析：remind sb. to do sth. 提醒某人做某事。</div>
+        <div class="trans-box">🌐 翻译：老师提醒我明天在学校好好表现。</div>
+        <div class="small-note">链接狂K：remind 的详细讲解见狂K重点P33。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">The country life he was used to has changed _________ (great) since 1992.</span>
+        </div>
+        <div class="answer-box">✅ 答案：greatly</div>
+        <div class="analysis-box">📝 解析：修饰动词 changed，用副词 greatly。</div>
+        <div class="trans-box">🌐 翻译：自1992年以来，他习惯的乡村生活发生了巨大变化。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">He was invited to lots of ______________ (compete) around the world.</span>
+        </div>
+        <div class="answer-box">✅ 答案：competitions</div>
+        <div class="analysis-box">📝 解析：lots of 后接可数名词复数，competition 的复数形式。</div>
+        <div class="trans-box">🌐 翻译：他被邀请参加了世界各地的许多比赛。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">The __________ (athlete) work hard in training to win the gold medal at the national sports meeting.</span>
+        </div>
+        <div class="answer-box">✅ 答案：athletes</div>
+        <div class="analysis-box">📝 解析：谓语 work 是复数，主语用复数 athletes。</div>
+        <div class="trans-box">🌐 翻译：为了在全国运动会上赢得金牌，运动员们努力训练。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">The teacher wants the children to feel __________ (confidence) about asking questions when they don't understand.</span>
+        </div>
+        <div class="answer-box">✅ 答案：confident</div>
+        <div class="analysis-box">📝 解析：feel confident about 对……感到有信心。</div>
+        <div class="trans-box">🌐 翻译：老师希望孩子们在不懂时能自信地提问。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 方框选词填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 方框选词填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">🔤 方框内单词：smooth, ability, require, be, grateful (需适当形式变化)</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">This new pen costs me 20 yuan. It writes very __________.</span>
+        </div>
+        <div class="answer-box">✅ 答案：smoothly</div>
+        <div class="analysis-box">📝 解析：修饰动词 writes，用副词 smoothly。</div>
+        <div class="trans-box">🌐 翻译：这支新钢笔花了我20元。它写起来很流畅。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">We must practise our listening, speaking, reading and writing __________.</span>
+        </div>
+        <div class="answer-box">✅ 答案：abilities</div>
+        <div class="analysis-box">📝 解析：此处指四种技能，用复数 abilities。</div>
+        <div class="trans-box">🌐 翻译：我们必须练习我们的听、说、读、写能力。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">The project is important and __________ a lot of time and effort to complete successfully.</span>
+        </div>
+        <div class="answer-box">✅ 答案：requires</div>
+        <div class="analysis-box">📝 解析：主语 The project 是第三人称单数，一般现在时用 requires。</div>
+        <div class="trans-box">🌐 翻译：这个项目很重要，需要大量的时间和精力才能顺利完成。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">My parents expect me ______ a teacher.</span>
+        </div>
+        <div class="answer-box">✅ 答案：to be</div>
+        <div class="analysis-box">📝 解析：expect sb. to do sth. 期望某人做某事。</div>
+        <div class="trans-box">🌐 翻译：我的父母期望我成为一名老师。</div>
+        <div class="small-note">链接狂K：expect 的详细讲解见狂K重点P32。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">I am deeply __________ to my parents because of their kindness.</span>
+        </div>
+        <div class="answer-box">✅ 答案：grateful</div>
+        <div class="analysis-box">📝 解析：be grateful to sb. 对某人感激。</div>
+        <div class="trans-box">🌐 翻译：我深深地感谢我的父母，因为他们的善良。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 11 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">【2025江苏扬州期中】对志愿者们来说接受培训是重要的。(It is+adj.+for sb to do sth.)</span>
+        </div>
+        <div class="answer-box">✅ 答案：It is important for volunteers to receive training.</div>
+        <div class="analysis-box">📝 解析：It is + adj. + for sb. to do sth. 句型。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">学好英语，以便我们能够与世界分享中国故事。(so that)</span>
+        </div>
+        <div class="answer-box">✅ 答案：Learn English well so that we can share Chinese stories with the world.</div>
+        <div class="analysis-box">📝 解析：so that 引导目的状语从句。</div>
+
+        <!-- 13 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">13</span>
+            <span class="q-text-inline">我们经常聚集在这里讨论阅读什么。(疑问词+不定式)</span>
+        </div>
+        <div class="answer-box">✅ 答案：We often gather here and discuss what to read.</div>
+        <div class="analysis-box">📝 解析：what to read 疑问词+不定式作宾语。</div>
+
+        <!-- 14 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">14</span>
+            <span class="q-text-inline">【2025江苏扬州期末】你捐款给盲人是乐于助人的。(It is+adj.+of sb to do sth.)</span>
+        </div>
+        <div class="answer-box">✅ 答案：It's helpful of you to donate money to the blind.</div>
+        <div class="analysis-box">📝 解析：It is + adj. + of sb. to do sth. 形容词描述人的品质用 of。</div>
+
+        <!-- 15 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">15</span>
+            <span class="q-text-inline">【2025江苏南通期末】不管怎样，看到小镇这些令人惊叹的变化还是不错的。(it's good to…)</span>
+        </div>
+        <div class="answer-box">✅ 答案：Anyway, it's good to see the amazing changes in the town.</div>
+        <div class="analysis-box">📝 解析：it's good to do sth. 做某事是好的。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 短文填空 (首字母) ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (10小题·首字母)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>Mr Smith is a kind-hearted man. He is the <strong>16. m________</strong> of a small company in London. He lives <strong>17. i___</strong> the countryside, and goes to work by train every day. He always walks from the station to his office unless it is raining, because he thinks <strong>18. w________</strong> is good for his health. It was a <strong>19. s______</strong> day and Mr Smith was walking along the street <strong>20. h________</strong>. Suddenly a stranger <strong>21. s________</strong> him and said, “You probably don't remember me, sir. Seven years ago I came to London without a penny in <strong>22. m___</strong> pocket. I asked you for five pounds in this street, and you lent me five pounds. You said you were willing to take a chance to give a man a good beginning on the way to success.”</p>
+            <p>Mr Smith stared at him and thought for a few <strong>23. m________</strong> and said, “Oh, I remember you. Go on with your story.” <strong>24. H________</strong>, what the stranger said next made Mr Smith very <strong>25. s________</strong>!</p>
+            <p>“Well,” the stranger said, “are you willing to take a chance again?”</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            史密斯先生是个好心人。他是伦敦一家小公司的经理。他住在乡下，每天乘火车上班。除非下雨，他总是从车站步行到办公室，因为他认为步行有益健康。那是一个阳光明媚的日子，史密斯先生正愉快地沿着街道散步。突然一个陌生人拦住了他说：“先生，您可能不记得我了。七年前我身无分文来到伦敦，在这条街上向您借五英镑，您借给了我。您说您愿意冒险给一个人成功路上的一个好开端。”<br>
+            史密斯先生盯着他，想了一会儿说：“哦，我记得你。继续说你的故事。”然而，陌生人接下来所说的话让史密斯先生非常惊讶！<br>
+            “那么，”陌生人说，“您愿意再冒一次险吗？”
+        </div>
+
+        <!-- 16-25 -->
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">manager</span></div>
+        <div class="answer-box">✅ 答案：manager</div>
+        <div class="analysis-box">📝 解析：经理。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">in</span></div>
+        <div class="answer-box">✅ 答案：in</div>
+        <div class="analysis-box">📝 解析：in the countryside 在农村。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">walking</span></div>
+        <div class="answer-box">✅ 答案：walking</div>
+        <div class="analysis-box">📝 解析：动名词作主语，步行。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">sunny</span></div>
+        <div class="answer-box">✅ 答案：sunny</div>
+        <div class="analysis-box">📝 解析：晴朗的。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">happily</span></div>
+        <div class="answer-box">✅ 答案：happily</div>
+        <div class="analysis-box">📝 解析：高兴地。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">stopped</span></div>
+        <div class="answer-box">✅ 答案：stopped</div>
+        <div class="analysis-box">📝 解析：拦住，过去式。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">my</span></div>
+        <div class="answer-box">✅ 答案：my</div>
+        <div class="analysis-box">📝 解析：我的口袋。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">moments/minutes</span></div>
+        <div class="answer-box">✅ 答案：moments/minutes</div>
+        <div class="analysis-box">📝 解析：几分钟/片刻。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">24</span><span class="q-text-inline">However</span></div>
+        <div class="answer-box">✅ 答案：However</div>
+        <div class="analysis-box">📝 解析：然而，表转折。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">25</span><span class="q-text-inline">surprised</span></div>
+        <div class="answer-box">✅ 答案：surprised</div>
+        <div class="analysis-box">📝 解析：惊讶的。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 完形填空 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 完形填空 (15小题·善良的回报)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要讲述了作者受人帮助搭上便车后又意外地在多年后将这份恩惠回报给当初的好心人的故事。</div>
+        <div class="passage-box">
+            <p>In 1978, I was 18 and was working as a nurse in a small town about 270 km away from Sydney, Australia. I was looking forward to having five <strong>1.</strong> off duty. Unfortunately, the only one train a day back to my home in Sydney had already <strong>2.</strong>. So I thought I'd hitch a lift.</p>
+            <p>I waited by the side of the highway for three hours <strong>3.</strong> no one stopped for me. Finally, a man walked over here and <strong>4.</strong> himself as Gordon. He said that although he couldn't give me a lift, he could offer me lunch. He noticed me <strong>5.</strong> for hours in the November heat and thought I must be <strong>6.</strong>. I was in <strong>7.</strong> as a young girl but he assured me I was safe, and he also <strong>8.</strong> to help me find a lift home later. When I arrived at his house, he made me sandwiches. <strong>9.</strong> lunch, he helped me find a lift home.</p>
+            <p>Twenty-five years later, in 2003, while I was driving to a nearby town one day, I saw a(n) <strong>10.</strong> man standing in the glaring heat, trying to hitch a lift. I thought it was a(n) <strong>11.</strong> to repay the favour I'd been given decades earlier. I pulled over and <strong>12.</strong> him up. I made him comfortable on the back seat and offered him some water.</p>
+            <p>After a few moments of small talk, the man said to me, "You haven't changed a bit. Even your red hair is still the same." <strong>13.</strong>, I realized I had met him before. I just couldn't remember <strong>14.</strong> I'd met him. He then told me he was the man who had given me <strong>15.</strong> and helped me find a lift many years ago. It was Gordon.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            1978年，我18岁，在澳大利亚悉尼约270公里外的一个小镇当护士。我期待着有五天的假期。不幸的是，每天唯一一趟返回悉尼的火车已经离开了。所以我想搭便车。<br>
+            我在公路边等了三个小时，但没有人为我停下来。终于，一个男人走过来，自我介绍叫戈登。他说虽然不能让我搭车，但可以给我提供午餐。他注意到我在11月的酷暑中站了好几个小时，认为我一定很饿。作为一个年轻女孩，我很怀疑，但他让我确信我是安全的，并且之后他还主动帮我找了便车回家。当我到他家时，他给我做了三明治。午饭后，他帮我找了便车回家。<br>
+            二十五年后，2003年，有一天我开车去附近的小镇，看到一位老人站在酷暑中试图搭便车。我认为这是一个机会来回报我几十年前得到的恩惠。我把车停在路边，让他上了车。我让他在后座坐舒服，给了他一些水。<br>
+            闲聊了一会儿，那人说：“你一点儿都没变。甚至你的红头发还是老样子。”我突然意识到我以前见过他。我只是不记得在哪里见过他。他然后告诉我他就是多年前给我午饭并帮我找到便车的那个人。那是戈登。
+        </div>
+
+        <!-- 1-15 选项 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">A. seconds  B. minutes  C. hours  D. days</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：休假五天，用 days。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">A. left  B. begun  C. finished  D. completed</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：火车已经离开。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">A. and  B. but  C. or  D. so</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：等了三个小时，但没人停下，转折。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">A. advised  B. supported  C. interviewed  D. introduced</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：introduce oneself 自我介绍。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">5</span><span class="q-text-inline">A. running  B. walking  C. standing  D. lying</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：站在路边。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">6</span><span class="q-text-inline">A. hungry  B. angry  C. sleepy  D. lazy</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：一定是饿了。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">7</span><span class="q-text-inline">A. danger  B. doubt  C. trouble  D. surprise</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：in doubt 怀疑。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">8</span><span class="q-text-inline">A. asked  B. encouraged  C. offered  D. advised</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：主动提出帮助。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">9</span><span class="q-text-inline">A. After  B. Before  C. Until  D. Since</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：午饭后。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">10</span><span class="q-text-inline">A. young  B. elderly  C. strong  D. active</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：25年后那人成了老人。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">11</span><span class="q-text-inline">A. decision  B. order  C. choice  D. chance</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：一个机会。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">12</span><span class="q-text-inline">A. picked  B. woke  C. cheered  D. gave</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：pick up 接载。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">A. Luckily  B. Suddenly  C. Sadly  D. Probably</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：突然意识到。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">A. how  B. why  C. where  D. whether</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：在哪里见过。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">A. breakfast  B. lunch  C. dinner  D. supper</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：给了午饭。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅵ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section6">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅵ 阅读选择 (3小题·改变牌子文字)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文讲述了一个好心人通过改变牌子上的字帮助一个盲人男孩的故事。</div>
+        <div class="passage-box">
+            <p>One morning, a blind boy sat on the steps of a building with a hat by his feet. He held a sign which said, "I am blind, please help me." There were only a few coins in the hat. A man was walking by. He took out a few coins from his pocket and dropped them into the hat. He then took the sign and turned it over, and wrote some words on it. He put the sign back so that everyone who walked by could see the new words.</p>
+            <p>Soon the hat was filled up. More and more people were giving money to the blind boy. That afternoon the man came to see how things were. The boy recognized his footsteps and asked, "Are you the one who changed my sign in the morning? What did you write?" The man said, "I only wrote the truth. I said what you said, but in a different way." What the man had written was, "Today is a beautiful day, but I can't see it."</p>
+            <p>Of course both signs told people the boy was blind. But the first sign simply told people to help the boy by putting some money in the hat. The second sign told people that they could enjoy the beauty of the day but the boy couldn't, because he was blind. We're very lucky because we can not only see the beautiful world but also help others. So, enjoy what you have owned today!</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            一天早上，一个盲人男孩坐在一栋楼的台阶上，脚边放着一顶帽子。他举着一个牌子，上面写着：“我是盲人，请帮帮我。”帽子里只有几枚硬币。一个男人路过。他从口袋里掏出几枚硬币扔进帽子。然后他拿起牌子翻过来，在上面写了些字。他把牌子放回去，这样每个路过的人都能看到新写的字。<br>
+            很快帽子就装满了。越来越多的人给盲人男孩钱。那天下午，那个人来看情况。男孩听出了他的脚步声，问：“你是早上改我牌子的那个人吗？你写了什么？”那人说：“我只是写了真相。我说了你说的，但是用不同的方式。”那个人写的是：“今天是美好的一天，但我看不见它。”<br>
+            当然两个牌子都告诉人们男孩是盲人。但第一个牌子只是告诉人们往帽子里放钱来帮助男孩。第二个牌子告诉人们他们可以享受这美好的一天，但男孩不能，因为他是盲人。我们很幸运，因为我们不仅能看见美丽的世界，还能帮助别人。所以，珍惜你今天所拥有的！
+        </div>
+
+        <!-- 16 -->
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">What happened after the boy held the sign written by himself?</span></div>
+        <div class="options">
+            <span class="opt-item">A. There were many coins in his hat.</span>
+            <span class="opt-item">B. Nobody dropped coins into his hat.</span>
+            <span class="opt-item">C. People dropped only a few coins into his hat.</span>
+            <span class="opt-item">D. A man gave lots of coins to him.</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：第一段说帽子里只有几枚硬币。</div>
+
+        <!-- 17 -->
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">The word "recognized" here means "________" in Chinese.</span></div>
+        <div class="options">
+            <span class="opt-item">A. 承认</span>
+            <span class="opt-item">B. 接受</span>
+            <span class="opt-item">C. 表扬</span>
+            <span class="opt-item">D. 认出</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：根据脚步声认出。</div>
+
+        <!-- 18 -->
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">Which is the best title for this story?</span></div>
+        <div class="options">
+            <span class="opt-item">A. Give More Money to the Poor</span>
+            <span class="opt-item">B. Give More Money to the Blind</span>
+            <span class="opt-item">C. Be Kind to the Blind</span>
+            <span class="opt-item">D. Treasure What You Have</span>
+        </div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：最后一句点题，珍惜所拥有的。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅶ 阅读还原 ========= -->
+<div class="section-card collapsed" id="section7">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅶ 阅读还原 (5小题·志愿服务)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文介绍了志愿服务，包括其含义、方式和影响等。</div>
+        <div class="passage-box">
+            <p>Volunteering is a great way to help others, whether it's a friend who is struggling with his homework or an elderly person who feels lonely. Helping others can actually help you too.</p>
+            <p><strong>19.</strong> _____</p>
+            <p>If somebody volunteers, he does something for the benefit of another person or the world around us, such as our local community, without being paid. <strong>20.</strong> _____ It can be organized, such as working for a charity or helping your neighbours with their food shopping. Many people volunteer to help the environment by picking up litter or planting trees.</p>
+            <p><strong>How does helping others help you?</strong><br>Research has shown that volunteering improves our well-being. It can give you a sense of purpose, which can in turn develop your self-confidence and make you feel motivated. <strong>21.</strong> _____ For example, if you love nature, why not volunteer for a wildlife charity?</p>
+            <p><strong>How does it impact your health?</strong><br><strong>22.</strong> _____ It has been shown to reduce feelings of anxiety because many people find that they are distracted from their worries by concentrating on the needs of others. Volunteering also provides an opportunity for you to meet and connect with people. "It is good news for our mental health," says Jolie Goodman of the Mental Health Foundation. <strong>23.</strong> _____</p>
+        </div>
+        <div class="word-box">🔤 选项：<br>A. What is volunteering?<br>B. (未使用)<br>C. Volunteering comes in all shapes and sizes.<br>D. Volunteering can make you feel happier.<br>E. It can also help you use your interests and passions.<br>F. Research has shown that volunteering can also improve your physical health.</div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            志愿服务是帮助他人的好方法，无论是帮助做作业有困难的朋友，还是帮助感到孤独的老人。帮助别人实际上也能帮助你。<br>
+            <strong>志愿服务是什么？</strong><br>如果某人做志愿者，他是在为另一个人或我们周围的世界（如我们的当地社区）的利益做事，而不获得报酬。志愿服务有各种各样的形式和规模。可以是有组织的，比如为慈善机构工作，或帮助邻居购买食品。许多人通过捡垃圾或植树来帮助环境做志愿者。<br>
+            <strong>帮助别人如何帮助你？</strong><br>研究表明，志愿服务能改善我们的幸福感。它能给你一种目标感，进而增强你的自信心，让你有动力。它还可以帮助你利用你的兴趣和热情。例如，如果你热爱自然，为什么不为野生动物慈善机构做志愿者呢？<br>
+            <strong>它如何影响你的健康？</strong><br>志愿服务能让你感到更快乐。研究表明，它能减少焦虑感，因为许多人发现专注于他人的需求能让他们从忧虑中分心。志愿服务也为你提供与人见面和联系的机会。“这对我们的心理健康是个好消息，”心理健康基金会的乔莉·古德曼说。研究表明，志愿服务还能改善你的身体健康。
+        </div>
+
+        <!-- 19-23 -->
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：后文解释什么是志愿服务，A项提问。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：后文提到不同形式，C项总说各种形式和规模。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：E</div>
+        <div class="analysis-box">📝 解析：后文举例说明结合兴趣，E项说可以利用兴趣。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：本段讲健康，D项说让你更快乐。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：F</div>
+        <div class="analysis-box">📝 解析：F项说还能改善身体健康，与上文心理健康并列。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
