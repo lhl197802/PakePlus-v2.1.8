@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 8 A green world · Period 3 Reading (Ⅱ)</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🌱 Unit 8 A green world · Period 3</h1>
+        <p>Reading (Ⅱ) 基础+能力 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础适当形式填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础适当形式填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">【2025江苏盐城期末】The man ___________ (fine) by the police because he broke the traffic rules.</span>
+        </div>
+        <div class="answer-box">✅ 答案：was fined</div>
+        <div class="analysis-box">📝 解析：根据语境，男子被罚款，一般过去时的被动语态，主语单数用 was fined。</div>
+        <div class="trans-box">🌐 翻译：这名男子因违反交通规则而被警察罚款。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">【2025江苏南京调研】People should take action at once to protect our natural ___________ (resource).</span>
+        </div>
+        <div class="answer-box">✅ 答案：resources</div>
+        <div class="analysis-box">📝 解析：natural resources 自然资源，常用复数。</div>
+        <div class="trans-box">🌐 翻译：人们应该立即采取行动保护我们的自然资源。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">That is why we have to choose between things and spend our money ________ (wise).</span>
+        </div>
+        <div class="answer-box">✅ 答案：wisely</div>
+        <div class="analysis-box">📝 解析：修饰动词 spend，用副词 wisely。</div>
+        <div class="trans-box">🌐 翻译：那就是为什么我们必须在事物之间作出选择，并且明智地花钱。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">【2025江苏无锡一模】The new movie is so ______________ (success) directed that many children, even adults, like it.</span>
+        </div>
+        <div class="answer-box">✅ 答案：successfully</div>
+        <div class="analysis-box">📝 解析：修饰动词 directed，用副词 successfully。</div>
+        <div class="trans-box">🌐 翻译：这部新电影导演得如此成功，以至于许多孩子，甚至大人，都喜欢它。</div>
+
+        <!-- 5 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">The woman in red would be responsible for the ____________ (manage) of the department.</span>
+        </div>
+        <div class="answer-box">✅ 答案：management</div>
+        <div class="analysis-box">📝 解析：the + 名词，manage 的名词形式 management。</div>
+        <div class="trans-box">🌐 翻译：那位穿红衣服的女士将负责这个部门的管理工作。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 方框选词填空 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 方框选词填空 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">🔤 方框内单词：separate, break, wide, lucky, deal (需适当形式变化)</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">The teacher ___________ the students into four groups last week.</span>
+        </div>
+        <div class="answer-box">✅ 答案：separated</div>
+        <div class="analysis-box">📝 解析：separate...into 把……分成，last week 用过去式 separated。</div>
+        <div class="trans-box">🌐 翻译：上周老师把学生分成了四组。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">【2025江苏常州期中】I think it's necessary to punish the person who ________ the rules, no matter who he or she is.</span>
+        </div>
+        <div class="answer-box">✅ 答案：breaks</div>
+        <div class="analysis-box">📝 解析：break the rules 违反规则，主语 who 指代 the person，三单用 breaks。</div>
+        <div class="trans-box">🌐 翻译：我认为惩罚违反规则的人是必要的，无论他或她是谁。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">【2025江苏徐州质检】In China, QR codes are ________ used for mobile payment.</span>
+        </div>
+        <div class="answer-box">✅ 答案：widely</div>
+        <div class="analysis-box">📝 解析：widely used 被广泛使用。</div>
+        <div class="trans-box">🌐 翻译：在中国，二维码被广泛用于移动支付。</div>
+        <div class="small-note">链接狂K：widely 的详细讲解见狂K重点P44。</div>
+
+        <!-- 9 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">He went to the box office to buy tickets. _________, he bought the last ticket.</span>
+        </div>
+        <div class="answer-box">✅ 答案：Luckily</div>
+        <div class="analysis-box">📝 解析：副词修饰整个句子，Luckily 幸运地，句首大写。</div>
+        <div class="trans-box">🌐 翻译：他去售票处买票。幸运的是，他买到了最后一张票。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">【2025江苏无锡一模】Make a spending plan, and your problem of wasting pocket money will __________ with.</span>
+        </div>
+        <div class="answer-box">✅ 答案：be dealt</div>
+        <div class="analysis-box">📝 解析：deal with 处理，被动语态 will be dealt with。</div>
+        <div class="trans-box">🌐 翻译：制订一个支出计划，你浪费零花钱的问题将会得到解决。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (5小题)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 11 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">【2025江苏南通调研】如果你的钱花完了，你就不能买这本书。(run out)</span>
+        </div>
+        <div class="answer-box">✅ 答案：If your money runs out, you can't buy the book.</div>
+        <div class="analysis-box">📝 解析：run out 用完，主语 money 三单用 runs out。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">如果你想有所作为，你必须尽最大努力学习。(make a difference)</span>
+        </div>
+        <div class="answer-box">✅ 答案：If you want to make a difference, you must try your best to study.</div>
+        <div class="analysis-box">📝 解析：make a difference 有所作为，try one's best 尽最大努力。</div>
+
+        <!-- 13 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">13</span>
+            <span class="q-text-inline">当我们长大后，我们需要依靠自己。(depend on)</span>
+        </div>
+        <div class="answer-box">✅ 答案：After we grow up, we need to depend on ourselves.</div>
+        <div class="analysis-box">📝 解析：depend on 依靠。</div>
+
+        <!-- 14 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">14</span>
+            <span class="q-text-inline">我们学校的学生总数正在逐年增长。(the total number of)</span>
+        </div>
+        <div class="answer-box">✅ 答案：The total number of students in our school is growing year by year.</div>
+        <div class="analysis-box">📝 解析：the total number of ...的总数，作主语时谓语用单数。</div>
+
+        <!-- 15 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">15</span>
+            <span class="q-text-inline">在这次的演讲比赛前，老师们给我提供了很多建议。(plenty of)</span>
+        </div>
+        <div class="answer-box">✅ 答案：Plenty of advice was given to me by my teachers before this speech competition.</div>
+        <div class="analysis-box">📝 解析：plenty of 大量，advice 不可数，被动语态 was given。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 短文填空 (首字母) ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (10小题·首字母)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>Dear Peter,</p>
+            <p>I'm glad to <strong>16. r________</strong> your letter. Now I'd like to tell you something about the smog.</p>
+            <p>Since the winter last year, the smog has <strong>17. t______</strong> place for several times. It has done great harm to our <strong>18. d______</strong> life. Many traffic accidents happen just because of the heavy smog. More and more people have to go to see the doctor because the <strong>19. s________</strong> disease caused by the smog. Quite a lot of flights have to be put off. A great number of people have to stay at home for fear of the poisonous air caused by the smog.</p>
+            <p>People have <strong>20. r__________________</strong> the great harm caused by the smog and the importance of <strong>21. p___________</strong> the environment. People all over the country are taking <strong>22. a_______</strong> to reduce the smog. The government suggests people go to work or school with the <strong>23. p_______</strong> traffic, such as the bus and the underground. Also we should <strong>24. p______</strong> more trees.</p>
+            <p>As for me, I will go to school by bike or on foot, and I won't throw the waste <strong>25. a_________</strong>. Moreover, I will tell the people who I meet to save the environment. Would you like to tell me some good ideas? I'm looking forward to your reply.</p>
+            <p>Yours,<br>Wang Hua</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            亲爱的彼得：<br>
+            很高兴收到你的来信。现在我想告诉你一些关于雾霾的事情。<br>
+            自去年冬天以来，雾霾已经发生了几次。它对我们的日常生活造成了很大危害。许多交通事故就是由于严重的雾霾发生的。越来越多的人不得不去看医生，因为由雾霾引起的严重疾病。很多航班不得不推迟。大量的人因为担心雾霾引起的有毒空气而待在家里。<br>
+            人们已经意识到雾霾造成的巨大危害和保护环境的重要性。全国各地的人们正在采取措施减少雾霾。政府建议人们乘坐公共交通去上班或上学，如公共汽车和地铁。我们也应该种更多的树。<br>
+            至于我，我会骑自行车或步行去上学，而且我不会到处扔垃圾。此外，我会告诉我遇到的人保护环境。你愿意告诉我一些好主意吗？期待你的回信。<br>
+            你的朋友，王华
+        </div>
+
+        <!-- 16-25 -->
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">receive</span></div>
+        <div class="answer-box">✅ 答案：receive</div>
+        <div class="analysis-box">📝 解析：receive your letter 收到你的来信。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">taken</span></div>
+        <div class="answer-box">✅ 答案：taken</div>
+        <div class="analysis-box">📝 解析：take place 发生，has 后接过去分词 taken。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">daily</span></div>
+        <div class="answer-box">✅ 答案：daily</div>
+        <div class="analysis-box">📝 解析：daily life 日常生活。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">serious</span></div>
+        <div class="answer-box">✅ 答案：serious</div>
+        <div class="analysis-box">📝 解析：serious disease 严重的疾病。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">realized/realised</span></div>
+        <div class="answer-box">✅ 答案：realized/realised</div>
+        <div class="analysis-box">📝 解析：have realized 已经意识到。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">protecting</span></div>
+        <div class="answer-box">✅ 答案：protecting</div>
+        <div class="analysis-box">📝 解析：the importance of protecting 保护的重要性。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">action</span></div>
+        <div class="answer-box">✅ 答案：action</div>
+        <div class="analysis-box">📝 解析：take action 采取行动。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">public</span></div>
+        <div class="answer-box">✅ 答案：public</div>
+        <div class="analysis-box">📝 解析：public traffic 公共交通。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">24</span><span class="q-text-inline">plant</span></div>
+        <div class="answer-box">✅ 答案：plant</div>
+        <div class="analysis-box">📝 解析：plant more trees 种更多树。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">25</span><span class="q-text-inline">anywhere</span></div>
+        <div class="answer-box">✅ 答案：anywhere</div>
+        <div class="analysis-box">📝 解析：not...anywhere 不随处（扔垃圾）。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 完形填空 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 完形填空 (15小题·珠峰新规)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文主要介绍了珠穆朗玛峰因登山者排泄物污染问题实施的新规。</div>
+        <div class="passage-box">
+            <p>There is a new rule about going to the toilet on Mount Qomolangma. People climbing the world's highest peak will now have to <strong>1.</strong> their own poop back to Base Camp.</p>
+            <p>There has been an increase in the number of <strong>2.</strong> on the mountain. This has led to a problem of human waste being left on the mountain. A local official said, "Our mountains have begun to stink." He <strong>3.</strong>, "We are getting complaints that human poop is seen on rocks, and some climbers are <strong>4.</strong> sick. This is not acceptable. It reduces the <strong>5.</strong> others have for us." The new <strong>6.</strong> requires climbers to buy the "poop bag". They can <strong>7.</strong> the bag and its contents when they come down from the mountain. It will be "<strong>8.</strong>" by workers there.</p>
+            <p>The <strong>9.</strong> of human pollution on Mount Qomolangma has been growing for years. Many people leave camping equipment on the mountain. There are lots of <strong>10.</strong> oxygen cans left all over the mountain. A(n) <strong>11.</strong> organization said that there was around three tons of human poop <strong>12.</strong> Base Camp and the summit of Mount Qomolangma. Much of this freezes and does not degrade. A website <strong>13.</strong> the poop bags will help with the human waste problem. It wrote, "It is hoped that this measure, along with ongoing clean-up campaigns, can help the famous mountain become <strong>14.</strong> again." It added that the <strong>15.</strong> would protect the health of both climbers and the local environment.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            珠穆朗玛峰上有一条关于上厕所的新规定。攀登世界最高峰的人们现在必须把自己的粪便带回登山大本营。<br>
+            山上的登山者数量有所增加。这导致了人类垃圾被留在山上的问题。一位当地官员说：“我们的山开始发臭了。”他补充说：“我们收到投诉，说岩石上看到人类粪便，一些登山者生病了。这是不可接受的。它减少了别人对我们的尊重。”新规定要求登山者购买“便便袋”。他们下山时可以处理袋子及袋子里的东西。它会被那里的工作人员“检查”。<br>
+            多年来，珠穆朗玛峰上人类污染的问题一直在加剧。许多人在山上留下露营装备。满山都是空的氧气瓶。一个环保组织表示，在珠穆朗玛峰登山大本营和峰顶之间大约有三吨人类粪便。其中大部分冻结而不分解。一个网站称便便袋将有助于解决人类的垃圾问题。它写道：“希望这项措施，连同持续的清理活动，能帮助这座著名的山峰再次变干净。”它补充说，这种袋子将保护登山者和当地环境的健康。
+        </div>
+
+        <!-- 1-15 选项 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">A. put  B. take  C. give  D. pay</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：take back 带回。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">A. climbers  B. customers  C. hunters  D. businessmen</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：登山者数量增加。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">A. added  B. answered  C. thought  D. repeated</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：补充说道。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">A. driving  B. caring  C. falling  D. worrying</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：fall sick 生病。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">5</span><span class="q-text-inline">A. result  B. course  C. opinion  D. respect</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：减少别人的尊重。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">6</span><span class="q-text-inline">A. way  B. plan  C. rule  D. idea</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：新规定。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">7</span><span class="q-text-inline">A. deal with  B. give up  C. give away  D. think of</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：deal with 处理。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">8</span><span class="q-text-inline">A. bought  B. checked  C. sold  D. pushed</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：被检查。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">9</span><span class="q-text-inline">A. policy  B. money  C. journey  D. problem</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：污染问题。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">10</span><span class="q-text-inline">A. full  B. empty  C. lonely  D. new</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：空的氧气瓶。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">11</span><span class="q-text-inline">A. healthy  B. environmental  C. sports  D. cultural</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：环保组织。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">12</span><span class="q-text-inline">A. between  B. both  C. among  D. after</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：between...and 在……之间。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">A. meant  B. said  C. imagined  D. understood</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：网站称。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">A. dirty  B. ugly  C. strange  D. clean</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：再次变干净。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">A. dustbins  B. places  C. bags  D. workers</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：指便便袋。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅵ 阅读选择 ========= -->
+<div class="section-card collapsed" id="section6">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅵ 阅读选择 (3小题·社区空地改造)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文是一篇记叙文，主要讲述了莉莉带领大家把社区里的空地改造的故事。</div>
+        <div class="passage-box">
+            <p>Last spring, our neighbourhood's empty lot was an eyesore. Broken chairs, plastic bags, and dry grass filled every corner.</p>
+            <p>Lily, a ninth-grader, decided to change this. She talked to the community leader and put up posters asking for helpers. Over 50 people joined the project. We divided into groups: some cleaned the garbage; others brought young plants. Students from my school collected plastic bottles, cut them into halves, and turned them into flower pots. "We're giving waste a new life," Lily explained. An old gardener taught us to make compost from food waste—it's natural fertilizer that helps plants grow.</p>
+            <p>Every weekend, we worked together. At first, some neighbours worried it would be a waste of time. But as the lot turned green with vegetables and flowers, their doubts disappeared. Now, children play there after school, and people there share the harvest. "This project didn't just clean the lot," said Lily. "It made our community closer."</p>
+            <p>More neighbourhoods have started similar projects. It shows that small actions can make a big difference for the environment and people's lives.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            去年春天，我们社区的空地是个碍眼的地方。破椅子、塑料袋和干草堆满了每个角落。<br>
+            九年级学生莉莉决定改变这一切。她和社区负责人谈了谈，张贴了海报招募帮手。50多人加入了项目。我们分成小组：一些人清理垃圾；另一些人带来小树苗。我校的学生收集塑料瓶，把它们切成两半，做成花盆。“我们在给废物新生命，”莉莉解释说。一位老园丁教我们用食物垃圾做堆肥——这是帮助植物生长的天然肥料。<br>
+            每个周末，我们一起劳动。起初，一些邻居担心这会浪费时间。但随着空地种满蔬菜和花卉，他们的疑虑消失了。现在，孩子们放学后在那里玩耍，人们分享收获。“这个项目不仅清理了空地，”莉莉说。“它让我们的社区更紧密。”<br>
+            更多社区开始了类似的项目。这说明小行动可以对环境和人们的生活产生大影响。
+        </div>
+
+        <!-- 16 -->
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">What does the underlined word "eyesore" mean in Paragraph 1?</span></div>
+        <div class="options">
+            <span class="opt-item">A. A place that looks ugly.</span>
+            <span class="opt-item">B. A job that is tiring.</span>
+            <span class="opt-item">C. A plan that is smart.</span>
+            <span class="opt-item">D. A person who is helpful.</span>
+        </div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：根据描述，破椅子、塑料袋等，可知是难看的地方。</div>
+
+        <!-- 17 -->
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">What did the students do in the project?</span></div>
+        <div class="options">
+            <span class="opt-item">A. They taught the elderly to plant flowers.</span>
+            <span class="opt-item">B. They made flower pots from plastic bottles.</span>
+            <span class="opt-item">C. They sold the harvest to raise money.</span>
+            <span class="opt-item">D. They wrote posters to ask for plants.</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：第二段明确说学生们用塑料瓶做花盆。</div>
+
+        <!-- 18 -->
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">What is the structure of the passage?</span></div>
+        <div class="options">
+            <span class="opt-item">A. ①/②③/④</span>
+            <span class="opt-item">B. ①/②/③④</span>
+            <span class="opt-item">C. ①/②③/④</span>
+            <span class="opt-item">D. ①②/③/④</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：第一段引出问题，第二三段讲述过程，第四段讲影响和意义，总分总结构，C项①/②③/④符合。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅶ 阅读还原 ========= -->
+<div class="section-card collapsed" id="section7">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅶ 阅读还原 (5小题·公海条约)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：文章介绍了《公海条约》的相关信息。</div>
+        <div class="passage-box">
+            <p>On 4th March, after 10 years of difficult talks, nearly 200 countries agreed to a new UN agreement—the High Seas Treaty. It is the first of its kind in 40 years. <strong>19.</strong> _____</p>
+            <p>Oceans cover about 71% of the earth's surface, and are home to all kinds of animals and plants. Healthy oceans play a very important role in a healthy planet. <strong>20.</strong> _____ Overfishing has had terrible influence on many kinds of fish and other animals. Pollution has caused serious damage in many areas.</p>
+            <p>In 1982, one UN sea agreement described the "high seas"—the parts of the oceans that aren't controlled by any country. <strong>21.</strong> _____ The high seas cover about 2/3 of the ocean. But now only 1.2% of these areas are protected. <strong>22.</strong> _____ It also requires that research should first be done to see what influence human's activities might have on the ocean environment.</p>
+            <p>During the past 10 years, the talks were held time and time again. <strong>23.</strong> _____ For example, there are disagreements about how much to control fishing or pollution. Now the agreement has a long way to go, which must be officially accepted at a UN meeting and be supported by enough countries before it works.</p>
+        </div>
+        <div class="word-box">🔤 选项：<br>A. But today our oceans are in great danger.<br>B. It aims to protect the oceans and the animals there.<br>C. (未使用)<br>D. So every country has the right to fish and send ships there.<br>E. Different countries have different ideas.<br>F. The new agreement sets up a system to protect the high seas.</div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            3月4日，经过10年艰难的谈判，近200个国家达成了一项新的联合国协议——《公海条约》。这是40年来首个此类条约。它旨在保护海洋和那里的动物。<br>
+            海洋覆盖地球表面约71%，是各种动植物的家园。健康的海洋对健康的星球起着非常重要的作用。但今天我们的海洋处于巨大危险中。过度捕捞已经对许多种类的鱼和其他动物造成了糟糕的影响。污染已经造成了很多区域的严重破坏。<br>
+            1982年，一项联合国海洋协议将不受任何国家控制的海洋区域称为“公海”。所以所有的国家都有权利来捕鱼和派船只到那里。公海覆盖了约三分之二的海洋。但是现在仅有1.2%的这些区域得到了保护。新协议建立了一个保护公海的系统。它还要求首先进行研究，以了解人类活动可能对海洋环境产生什么影响。<br>
+            在过去的十年里，谈判举行了一次又一次。不同的国家有不同的想法。例如，关于在何种程度上管控捕鱼或污染的意见不一致。现在该协议还有很长的路要走，它必须在联合国会议上正式通过，并在生效前得到足够多的国家支持。
+        </div>
+
+        <!-- 19-23 -->
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：前文介绍条约，B项说明其目的。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：后文讲过度捕捞和污染，A项说海洋处于危险中，引起下文。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：前文说公海不受任何国家控制，D项说明因此所有国家都有权捕鱼和派船。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：F</div>
+        <div class="analysis-box">📝 解析：前文说只有1.2%被保护，F项说新协议建立了保护系统。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">23</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：E</div>
+        <div class="analysis-box">📝 解析：后文举例说明分歧，E项总说不同国家有不同想法。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
