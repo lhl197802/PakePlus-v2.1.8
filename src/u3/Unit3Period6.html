@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 3 The world at one click · Period 6 Integration (Ⅱ) & Assessment & Further study</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        .topic-item {
+            display: flex;
+            align-items: baseline;
+            margin: 16px 0;
+            background: #f5faff;
+            padding: 12px 20px;
+            border-radius: 20px;
+            border-left: 5px solid #8bb9d1;
+        }
+        .topic-zh {
+            width: 140px;
+            font-weight: 500;
+            color: #1b3c4f;
+        }
+        .topic-en {
+            flex: 1;
+            font-weight: 600;
+            color: #1e4f6b;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+            .topic-item { flex-direction: column; }
+            .topic-zh { width: auto; margin-bottom: 6px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>🌐 Unit 3 The world at one click · Period 6</h1>
+        <p>Integration (Ⅱ) & Assessment & Further study 写作专项</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 高分词句储备 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 高分词句储备 (话题词汇+佳句仿写)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 话题词汇 -->
+        <div class="word-box">📝 一、话题词汇</div>
+        <div class="topic-item">
+            <span class="topic-zh">1. 游览</span>
+            <span class="topic-en">tour</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">2. 探索</span>
+            <span class="topic-en">explore</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">3. 介绍</span>
+            <span class="topic-en">introduction</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">4. 激动；兴奋</span>
+            <span class="topic-en">excitement</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">5. 以……而闻名</span>
+            <span class="topic-en">be well-known/famous for</span>
+        </div>
+        <div class="topic-item">
+            <span class="topic-zh">6. 奇妙的经历</span>
+            <span class="topic-en">an amazing experience</span>
+        </div>
+        <div class="small-note">知识拓展：experience 意为“经历”时是可数名词，意为“经验”时是不可数名词。</div>
+
+        <!-- 佳句仿写 (7,8) -->
+        <div class="word-box" style="margin-top:30px;">📝 二、佳句仿写</div>
+
+        <div class="q-item-inline">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">【教材原句】I got very interested and decided to explore it online. (get interested; decide) → 仿写：我对线上旅行产生了兴趣，决定亲自体验一次。</span>
+        </div>
+        <div class="answer-box">✅ 答案：I got interested in the online tour and decided to try one/it myself/in person.</div>
+        <div class="analysis-box">📝 解析：get interested in 对……产生兴趣；decide to do 决定做某事；try it myself 亲自尝试。</div>
+
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">【教材原句】I felt like I was there in person. (feel like; in person) → 仿写：我感觉自己正在那座城市里行走。</span>
+        </div>
+        <div class="answer-box">✅ 答案：I felt like I was walking in the city in person.</div>
+        <div class="analysis-box">📝 解析：feel like + 从句，感觉好像……；in person 亲自。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 经典范文模板 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 经典范文模板 (My Online Tour of Huangshan)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p><strong>My Online Tour of Huangshan</strong></p>
+            <p>I saw a beautiful picture of Huangshan in a book last week. I got very interested and decided to explore it online.</p>
+            <p>Huangshan, or the Yellow Mountain, is in Anhui Province, China. It is famous for its strange pines, hot springs, and sea of clouds. Many people say it is the most beautiful mountain in China.</p>
+            <p>I took a virtual tour and saw many famous spots. I could see the steep cliffs and grand views clearly. There were short videos showing the clouds moving like a real ocean. I felt like I was standing on the mountain myself.</p>
+            <p>Online travel is wonderful. I enjoyed the fantastic views without any crowds, and it didn't cost anything. It was a special and exciting experience.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>我的黄山线上之旅</strong><br>
+            上周我在一本书里看到了一张黄山的美丽图片。我非常感兴趣，决定在线探索它。<br>
+            黄山位于中国安徽省。它以奇松、温泉和云海而闻名。许多人说它是中国最美丽的山。<br>
+            我进行了一次虚拟游览，看到了许多著名景点。我能清晰地看到陡峭的悬崖和壮丽的景色。有短视频展示云海移动，就像真正的大海。我感觉自己正站在山上。<br>
+            线上旅行很棒。我欣赏了绝妙的景色，没有拥挤的人群，而且不花一分钱。这是一次特别而激动人心的经历。
+        </div>
+        <div class="analysis-box">📝 写作亮点：运用比喻（like a real ocean），描述清晰，结构完整（起因-介绍-体验-感受）。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 高分范文赏析 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 高分范文赏析 (My Wonderful Online Tour of Wulingyuan)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 假如你校英语社团网站举办了以“My Wonderful Online Tour”为主题的征文活动，请你根据以下要点，写一篇英语短文投稿，介绍你的武陵源线上之旅。要点提示：(1)你是如何知道并决定线上游览武陵源的；(2)武陵源的地理位置和特色；(3)你线上游览的经过和感受；(4)你对线上旅行方式的看法。</div>
+        <div class="passage-box">
+            <p><strong>My Wonderful Online Tour of Wulingyuan</strong></p>
+            <p>Last week, I saw a short video about Wulingyuan on the Internet. The beautiful scenery caught my eye, so I decided to take an online tour of it.</p>
+            <p>Wulingyuan is located in Hunan Province, China. It is famous for its thousands of tall sandstone pillars, clear lakes and thick forests. People call it a "real-life fairyland".</p>
+            <p>During my online tour, I visited the main scenic spots. I saw the towering pillars and deep valleys. The water in the lakes was so clear that I could see the bottom. I even watched a 360-degree video and felt like I was flying over the mountains. It was an amazing experience!</p>
+            <p>In my opinion, online travel is a great way to explore the world. It's convenient and cheap. You can visit any place at any time. Although it's not the same as traveling in person, it still brings you lots of fun and knowledge. I love online tours!</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>我的武陵源奇妙线上之旅</strong><br>
+            上周，我在网上看到一个关于武陵源的短视频。美丽的景色吸引了我的注意，于是我决定进行一次线上游览。<br>
+            武陵源位于中国湖南省。它以数千根高大的砂岩柱、清澈的湖泊和茂密的森林而闻名。人们称之为“现实生活中的仙境”。<br>
+            在线上游览中，我参观了主要景点。我看到了高耸的石柱和深谷。湖水清澈见底。我还观看了一个360度视频，感觉自己仿佛飞越群山。这真是一次奇妙的经历！<br>
+            在我看来，线上旅行是探索世界的好方式。它方便又便宜，可以随时参观任何地方。虽然和亲自旅行不同，但它仍然带给你很多乐趣和知识。我喜欢线上旅行！
+        </div>
+        <div class="analysis-box">📝 写作结构：第一段起因（看视频决定游览）；第二段地理位置和特色（位于湖南，以石柱、湖泊、森林闻名）；第三段游览经过（看景点、观视频、感受）；第四段个人看法（方便、有趣、增长知识）。语言流畅，逻辑清晰。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 实战演练 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 实战演练 (Exploring Chinatown: A Cultural Adventure)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 在一次课后英语自主探索学习中，你在线搜索了有关“Chinatown”的内容，进行了一次有意义的在线游览。你发现那里有很多中式风格的建筑物，有中式餐馆还有很多有中国特色的文化体验活动。请以“Exploring Chinatown: A Cultural Adventure”为题，写一篇短文投稿给学校英语报，描述你的见闻和感受。参考词汇：archway (牌楼), souvenir (纪念品), charm (魅力), calligraphy (书法), lacquer fan (漆扇)。</div>
+        <div class="passage-box">
+            <p><strong>Exploring Chinatown: A Cultural Adventure</strong></p>
+            <p>Last weekend, I visited the amazing Chinatowns in many foreign countries online.</p>
+            <p>Every Chinatown starts with a beautiful archway, and red lanterns hang everywhere. The streets are always crowded with people, and you can hear lively music. It feels just like a little China abroad.</p>
+            <p>There are many interesting things to do. I saw people trying calligraphy and watching tea art shows. Some were making lacquer fans too. The shops are great—there are Chinese medicine stores, souvenir shops with nice crafts, and snack bars. I "tasted" delicious dumplings and mooncakes, and even "tried" Chinese milk tea!</p>
+            <p>Chinatown keeps our traditional culture alive. It shows the world the charm of Chinese culture. I feel so proud of our rich traditions. It's wonderful to see our culture being loved by so many people.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>探索唐人街：一场文化冒险</strong><br>
+            上周末，我在线游览了国外许多奇妙的唐人街。<br>
+            每个唐人街都从一座美丽的牌楼开始，到处挂着红灯笼。街上总是挤满了人，你可以听到热闹的音乐。感觉就像在国外的一个小中国。<br>
+            有很多有趣的事情可以做。我看到人们尝试书法，观看茶艺表演。有些人还在制作漆扇。商店很棒——有中药店、卖精美工艺品的小礼品店和小吃店。我“品尝”了美味的饺子和月饼，甚至还“喝了”奶茶！<br>
+            唐人街让我们的传统文化保持活力。它向世界展示了中国文化的魅力。我为我们丰富的传统感到自豪。看到我们的文化被这么多人喜爱真是太棒了。
+        </div>
+        <div class="analysis-box">
+            📝 解析：范文紧扣题目要求，第一段总起线上游览；第二段描述唐人街整体印象（牌楼、灯笼、音乐、感觉）；第三段详细描述文化活动和体验（书法、茶艺、漆扇、小吃、奶茶）；第四段表达感受和自豪感。使用了参考词汇 archway, souvenir, charm, calligraphy, lacquer fan，内容丰富，情感真挚。
+        </div>
+        <div class="small-note">写作要求：词数100左右，开头已给出，不得使用真实姓名和校名。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
