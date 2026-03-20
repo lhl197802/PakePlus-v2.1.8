@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 7 Charities · Period 5 Integration (Ⅰ)</title>
+    <style>
+        /* 科学配色，柔和护眼 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans', sans-serif;
+        }
+
+        body {
+            background: #faf7f2;  /* 柔和暖灰 */
+            padding: 24px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 16px;       /* 基础字号16px */
+            line-height: 1.6;
+            color: #2d3e4f;
+        }
+
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ffffffec;
+            backdrop-filter: blur(2px);
+            border-radius: 48px;
+            padding: 16px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 18px rgba(110, 90, 70, 0.06);
+            border: 1px solid #e9ddd0;
+        }
+
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f5f1ea;
+        }
+
+        .title-area h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #1e4f6b, #123a4d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .title-area p {
+            color: #6d7b8a;
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+
+        .close-btn {
+            background: #e6dfd6;
+            border: none;
+            border-radius: 60px;
+            padding: 10px 26px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2a4d66;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            border: 1px solid #cbbeb0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+
+        .close-btn:hover {
+            background: #d9cfc2;
+            color: #0f2e3b;
+            border-color: #a88f7a;
+            box-shadow: 0 6px 12px rgba(120, 80, 50, 0.08);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: #ffffff;
+            border-radius: 36px;
+            margin-bottom: 28px;
+            box-shadow: 0 15px 30px -12px rgba(80, 60, 40, 0.12);
+            overflow: hidden;
+            border: 1px solid #e5dbd0;
+            transition: box-shadow 0.2s;
+        }
+
+        .section-header {
+            background: #ffffff;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #1e4f6b;
+            transition: background 0.15s;
+            border-bottom: 1px solid transparent;
+        }
+
+        .section-header:hover {
+            background: #f5efe8;
+        }
+
+        .section-header .toggle-icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #7f9aa8;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+        .section-content {
+            padding: 10px 28px 30px 28px;
+            border-top: 1px solid #e2d6c8;
+            background: #ffffff;
+        }
+
+        /* 题号与题目同行样式 */
+        .q-item-inline {
+            margin-top: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0d6ca;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .q-num-inline {
+            display: inline-block;
+            background: #dee9f0;
+            color: #1f506b;
+            font-weight: 600;
+            padding: 5px 18px 6px 18px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            border: 1px solid #b7cbda;
+            white-space: nowrap;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .q-text-inline {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #1b3c4f;
+            line-height: 1.7;
+            padding-left: 16px;
+            border-left: 4px solid #8bb9d1;
+            flex: 1;
+        }
+
+        /* 选项 */
+        .options {
+            margin: 14px 0 16px 8px;
+            color: #1f4a61;
+            background: #f4f0ea;
+            padding: 16px 24px;
+            border-radius: 28px;
+            font-weight: 460;
+            border-left: 4px solid #b7a287;
+        }
+
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 32px;
+            white-space: nowrap;
+            font-size: 0.98rem;
+        }
+
+        /* 答案/解析/翻译框 */
+        .answer-box, .analysis-box, .trans-box {
+            margin: 14px 0 10px 0;
+            padding: 14px 22px;
+            border-radius: 28px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+        }
+
+        .answer-box {
+            background: #e2edf5;
+            color: #1d5a7a;
+            font-weight: 600;
+            border-left: 6px solid #568fb3;
+        }
+
+        .analysis-box {
+            background: #fef5e6;
+            color: #6d4f2a;
+            border-left: 6px solid #e0aa6e;
+        }
+
+        .trans-box {
+            background: #e3f0e9;
+            color: #2b6e4f;
+            border-left: 6px solid #5fa882;
+        }
+
+        .small-note {
+            font-size: 0.9rem;
+            color: #7c6b5a;
+            margin-top: 16px;
+            padding-left: 16px;
+            border-left: 3px solid #cdbba9;
+        }
+
+        .word-box {
+            background: #eaf0f5;
+            padding: 14px 24px;
+            border-radius: 36px;
+            margin-bottom: 24px;
+            font-weight: 500;
+            color: #2d627b;
+            border: 1px dashed #acbfce;
+        }
+
+        .passage-box {
+            background: #f9f5ef;
+            padding: 24px 28px;
+            border-radius: 32px;
+            margin: 24px 0 14px 0;
+            border-left: 6px solid #bda68b;
+            font-size: 1rem;
+            line-height: 1.75;
+            color: #2d3a42;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px dashed #cfc1b2;
+            margin: 24px 0;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 16px; }
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 14px 20px; }
+            .title-area h1 { font-size: 1.5rem; }
+            .section-header { font-size: 1.2rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 24px; }
+            .q-text-inline { font-size: 1rem; }
+            .opt-item { display: block; margin: 8px 0; }
+            .q-item-inline { flex-direction: column; align-items: stretch; gap: 8px; }
+            .q-num-inline { align-self: flex-start; }
+            .q-text-inline { padding-left: 14px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>❤️ Unit 7 Charities · Period 5</h1>
+        <p>Integration (Ⅰ) 综合训练 全解全析</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 基础适当形式填空 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 基础适当形式填空 (共4小题，每小题1分，计4分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">1</span>
+            <span class="q-text-inline">【2025江苏苏州期中】Look at these sports players. They are all Olympic __________ (champion).</span>
+        </div>
+        <div class="answer-box">✅ 答案：champions</div>
+        <div class="analysis-box">📝 解析：根据 They are all... 可知用复数，champion 的复数形式 champions。</div>
+        <div class="trans-box">🌐 翻译：看这些运动员。他们都是奥运冠军。</div>
+
+        <!-- 2 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">2</span>
+            <span class="q-text-inline">One of the most _____________ (influence) Broadway musicals worldwide is called Cats.</span>
+        </div>
+        <div class="answer-box">✅ 答案：influential</div>
+        <div class="analysis-box">📝 解析：形容词修饰 musicals，influence 的形容词形式 influential。</div>
+        <div class="trans-box">🌐 翻译：世界范围内最有影响力的百老汇音乐剧之一叫作《猫》。</div>
+
+        <!-- 3 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">3</span>
+            <span class="q-text-inline">【2025江苏连云港调研】Nelson Mandela was a fighter for the ________ (right) of many Africans.</span>
+        </div>
+        <div class="answer-box">✅ 答案：rights</div>
+        <div class="analysis-box">📝 解析：right 在此意为“权利”，常用复数 rights。</div>
+        <div class="trans-box">🌐 翻译：纳尔逊·曼德拉是为许多非洲人的权利而战的斗士。</div>
+
+        <!-- 4 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">4</span>
+            <span class="q-text-inline">The mountain is too high. I have difficulty __________ (climb) it in such a short time alone.</span>
+        </div>
+        <div class="answer-box">✅ 答案：climbing</div>
+        <div class="analysis-box">📝 解析：have difficulty (in) doing sth. 做某事有困难。</div>
+        <div class="trans-box">🌐 翻译：山太高了。我很难在这么短的时间内独自爬上去。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 单项选择 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 单项选择 (共4小题，每小题1分，计4分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 5 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">5</span>
+            <span class="q-text-inline">【2025江苏镇江期末】The ________ of the flu was very fast last winter. Many students had to stay at home.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. sound</span>
+            <span class="opt-item">B. spread</span>
+            <span class="opt-item">C. noise</span>
+            <span class="opt-item">D. message</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：spread 传播，符合句意“流感的传播非常快”。</div>
+        <div class="trans-box">🌐 翻译：去年冬天流感的传播速度非常快。许多学生不得不待在家里。</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">6</span>
+            <span class="q-text-inline">The doctor warned us that a new ________ is causing many people to get sick. We should wash hands often.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. bacteria</span>
+            <span class="opt-item">B. virus</span>
+            <span class="opt-item">C. fever</span>
+            <span class="opt-item">D. cough</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：virus 病毒，符合句意“一种新病毒正在导致许多人生病”。</div>
+        <div class="trans-box">🌐 翻译：医生提醒我们，一种新病毒正在导致许多人生病。我们应该勤洗手。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">7</span>
+            <span class="q-text-inline">【2025江苏南京期中】They are just little children. It’s ________ for them to finish the hard work.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. possible</span>
+            <span class="opt-item">B. important</span>
+            <span class="opt-item">C. impossible</span>
+            <span class="opt-item">D. enjoyable</span>
+        </div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：impossible 不可能的，根据“他们还是孩子”可知完成任务不可能。</div>
+        <div class="trans-box">🌐 翻译：他们只是小孩子。对他们来说完成这项艰巨的工作是不可能的。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">8</span>
+            <span class="q-text-inline">—Is Bob your son, Mr Brown? —Yes, he’s my youngest child. ________, I have three others.</span>
+        </div>
+        <div class="options">
+            <span class="opt-item">A. Instead of</span>
+            <span class="opt-item">B. In addition</span>
+            <span class="opt-item">C. In the end</span>
+            <span class="opt-item">D. What’s worse</span>
+        </div>
+        <div class="answer-box">✅ 答案：B</div>
+        <div class="analysis-box">📝 解析：In addition 另外，符合句意“另外我还有三个孩子”。</div>
+        <div class="trans-box">🌐 翻译：——布朗先生，鲍勃是你的儿子吗？——是的，他是我最小的孩子。另外，我还有三个孩子。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 翻译句子 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 翻译句子 (共4小题，每小题2分，计8分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 9 -->
+        <div class="q-item-inline">
+            <span class="q-num-inline">9</span>
+            <span class="q-text-inline">【2025江苏徐州调研】请确保在你旅行前一切准备就绪。</span>
+        </div>
+        <div class="answer-box">✅ 答案：Please make sure everything is ready before you go on a trip.</div>
+        <div class="analysis-box">📝 解析：make sure 确保；go on a trip 旅行。</div>
+
+        <!-- 10 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">10</span>
+            <span class="q-text-inline">只要你努力学习，你就能取得进步。</span>
+        </div>
+        <div class="answer-box">✅ 答案：You can make progress as long as you study hard.</div>
+        <div class="analysis-box">📝 解析：make progress 取得进步；as long as 只要。</div>
+
+        <!-- 11 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">11</span>
+            <span class="q-text-inline">因特网为我们提供了很多可供查找的信息。</span>
+        </div>
+        <div class="answer-box">✅ 答案：The internet provides us with a lot of information to look up.</div>
+        <div class="analysis-box">📝 解析：provide sb. with sth. 提供某人某物；look up 查找。</div>
+
+        <!-- 12 -->
+        <div class="q-item-inline" style="margin-top:30px;">
+            <span class="q-num-inline">12</span>
+            <span class="q-text-inline">她因为睡过头错过了面试机会。</span>
+        </div>
+        <div class="answer-box">✅ 答案：She missed out on the job interview because she overslept.</div>
+        <div class="analysis-box">📝 解析：miss out on 错过；oversleep 睡过头。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 短文填空 (首字母) ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 短文填空 (共10小题，每小题1分，计10分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p>When Betty became the president of the volunteer club in her school, she thought her <strong>13. c________________</strong> should do something to help the old people in the nursing home nearby. This nursing home was in <strong>14. n_____</strong> of financial help according to a local newspaper, so Betty decided to hold an event where all the money they raised would go toward the old. They came up with the idea of <strong>15. r________</strong> a market at school on Saturday. The event <strong>16. l_______</strong> from 9:00 a.m. until 5:00 p.m. Since it was <strong>17. m___________</strong>, everyone in the club worked to make the event a success.</p>
+            <p>In the weeks before the event, the club members put up posters to encourage their fellow students and teachers to <strong>18. d_______</strong> anything they did not want, such as old clothes, unused electrical appliances, and second-hand furniture. To <strong>19. a____</strong> variety to the market, they sold lemonade and hot dogs. In getting the <strong>20. n_____</strong> of the event out, they made as much use of social media as possible to reduce costs. <strong>21. S______</strong> one person's rubbish is another person's gold, the market attracted a lot of buyers. Most <strong>22. i____________</strong>, it helped Betty and her club members raise lots of money for the old.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            当贝蒂成为学校志愿者俱乐部的主席时，她认为她的同学们/俱乐部应该做点什么来帮助附近的养老院的老人。据当地一家报纸报道，这家养老院需要经济援助，所以贝蒂决定举办一个活动，他们筹到的所有钱都将用于老人。他们想出了在星期六在学校经营一个市场的主意。活动从上午9点持续到下午5点。因为它很有意义，俱乐部里的每个人都努力使这次活动取得成功。<br>
+            在活动前的几周，俱乐部成员张贴海报，鼓励他们的同学和老师捐赠他们不需要的任何东西，比如旧衣服、不用的电器和二手家具。为了增加市场的多样性，他们卖柠檬水和热狗。在发布活动消息时，他们尽可能多地利用社交媒体来降低成本。因为一个人的垃圾是另一个人的黄金，市场吸引了很多买家。最重要的是，它帮助贝蒂和她的俱乐部成员为老人筹集了大量资金。
+        </div>
+
+        <!-- 13-22 答案 -->
+        <div class="q-item-inline"><span class="q-num-inline">13</span><span class="q-text-inline">classmates/club</span></div>
+        <div class="answer-box">✅ 答案：classmates/club</div>
+        <div class="analysis-box">📝 解析：根据语境，她的同学们或俱乐部成员应该做点事。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">14</span><span class="q-text-inline">need</span></div>
+        <div class="answer-box">✅ 答案：need</div>
+        <div class="analysis-box">📝 解析：in need of 需要。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">15</span><span class="q-text-inline">running</span></div>
+        <div class="answer-box">✅ 答案：running</div>
+        <div class="analysis-box">📝 解析：run a market 经营市场，介词 of 后接动名词。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">16</span><span class="q-text-inline">lasted</span></div>
+        <div class="answer-box">✅ 答案：lasted</div>
+        <div class="analysis-box">📝 解析：last 持续，过去式 lasted。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">17</span><span class="q-text-inline">meaningful</span></div>
+        <div class="answer-box">✅ 答案：meaningful</div>
+        <div class="analysis-box">📝 解析：it was meaningful 很有意义。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">18</span><span class="q-text-inline">donate</span></div>
+        <div class="answer-box">✅ 答案：donate</div>
+        <div class="analysis-box">📝 解析：to donate 捐赠。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">19</span><span class="q-text-inline">add</span></div>
+        <div class="answer-box">✅ 答案：add</div>
+        <div class="analysis-box">📝 解析：add variety to 增加多样性。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">20</span><span class="q-text-inline">news</span></div>
+        <div class="answer-box">✅ 答案：news</div>
+        <div class="analysis-box">📝 解析：get the news out 发布消息。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">21</span><span class="q-text-inline">Since</span></div>
+        <div class="answer-box">✅ 答案：Since</div>
+        <div class="analysis-box">📝 解析：Since 因为，引导原因状语从句。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">22</span><span class="q-text-inline">importantly</span></div>
+        <div class="answer-box">✅ 答案：importantly</div>
+        <div class="analysis-box">📝 解析：Most importantly 最重要的是。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅴ 阅读还原 ========= -->
+<div class="section-card collapsed" id="section5">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅴ 阅读还原 (共4小题，每小题2分，计8分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：本文讲述了志愿者可以通过帮助老人、残疾人、贫困家庭以及在假期关心别人等方式来帮助他人。</div>
+        <div class="passage-box">
+            <p>Today more and more people would like to do volunteer work. Here are some ideas for you on how to help others through volunteering.</p>
+            <p><strong>1.</strong> _____</p>
+            <p>When people get older, it becomes harder to do many things, from walking to the store to doing the housework. <strong>2.</strong> _____ As a volunteer, you can do a lot to help the old in your neighbourhood. You could visit them and help them with their housework.</p>
+            <p><strong>Helping the disabled.</strong> Many people with disabilities need help. You could volunteer to read books to the blind or deliver something for people who can't get around too well.</p>
+            <p><strong>Helping poor families.</strong> Some families don't have enough money to buy food or clothes for their kids. <strong>3.</strong> _____ To help these people as a volunteer, you can give clothes, food or money to them, or raise money for a charity.</p>
+            <p><strong>Helping people during holidays.</strong> Sometimes people need more help when the holidays come. Holidays are happy, but for people who are alone or unlucky, they can be a lonely, hard time. <strong>4.</strong> _____ And you can visit the lonely old people and serve food to the homeless.</p>
+        </div>
+        <div class="word-box">🔤 选项：<br>A. Helping your elderly neighbours.<br>B. (未使用)<br>C. Elderly people living alone can also feel lonely.<br>D. Some people have no place to live at all.<br>E. You can take holiday meals to unlucky people.</div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            如今越来越多的人愿意做志愿工作。这里有一些关于如何通过志愿服务帮助他人的想法。<br>
+            <strong>帮助你的年长邻居。</strong> 当人们变老时，做许多事情变得更困难，从步行去商店到做家务。独居老人也会感到孤独。作为志愿者，你可以做很多事情来帮助社区里的老人。你可以拜访他们，帮他们做家务。<br>
+            <strong>帮助残疾人。</strong> 许多残疾人需要帮助。你可以志愿为盲人读书，或为行动不便的人送东西。<br>
+            <strong>帮助贫困家庭。</strong> 有些家庭没有足够的钱为孩子买食物或衣服。有些人根本没有住的地方。作为志愿者帮助这些人，你可以给他们衣服、食物或钱，或者为慈善机构筹款。<br>
+            <strong>在假期帮助人们。</strong> 有时假期来临时人们需要更多帮助。假期是快乐的，但对于孤独或不幸的人来说，这可能是一段孤独、艰难的时光。你可以把节日晚餐带给不幸的人。你也可以拜访孤独的老人，为无家可归者提供食物。
+        </div>
+
+        <!-- 1-4 -->
+        <div class="q-item-inline"><span class="q-num-inline">1</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：A</div>
+        <div class="analysis-box">📝 解析：后文讲帮助老人，A项“帮助你的年长邻居”是合适的小标题。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">2</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：C</div>
+        <div class="analysis-box">📝 解析：前文提到老人做事困难，C项“独居老人也会感到孤独”承接上文，引出下文的帮助。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">3</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：D</div>
+        <div class="analysis-box">📝 解析：本段讲贫困家庭，D项“有些人根本没有住的地方”进一步说明困境。</div>
+
+        <div class="q-item-inline"><span class="q-num-inline">4</span><span class="q-text-inline">______</span></div>
+        <div class="answer-box">✅ 答案：E</div>
+        <div class="analysis-box">📝 解析：后文提到拜访孤独老人、为无家可归者提供食物，E项“你可以把节日晚餐带给不幸的人”符合。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅵ 阅读表达 ========= -->
+<div class="section-card collapsed" id="section6">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅵ 阅读表达 (共4小题，每小题2分，计8分)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 语篇导读：文章主要介绍了一个用笑声来筹集资金的慈善组织。</div>
+        <div class="passage-box">
+            <p>As an old saying goes, laughter is the best medicine. It's true that laughter is really good for our health. So, the next time you're feeling stressed, try to laugh a lot, develop a sense of humour and watch funny films.</p>
+            <p>Comic Relief charity, an organization that helps people in need, uses laughter to raise money. Every two years in spring, many British people put on a red nose, make a fool of themselves and do "silly" things to make themselves and others laugh.</p>
+            <p>Here are some examples of silly things you can do:</p>
+            <p>Invite friends round to your house to watch funny films. They have to pay to watch the films, and those with the most comfortable chairs pay more, and for food and drinks.</p>
+            <p>Hold a talent show at school and ask your friends and teachers to sing, dance or tell jokes. Sell tickets for the show to the rest of the school.</p>
+            <p>Have a red nose party at your house. All your friends come dressed in red, including the red nose, and you serve red food and drinks. If they don't wear red, they have to pay a fine.</p>
+            <p>Get the students in your school to make funny sculptures using all kinds of materials. Sell tickets to your Red Nose Day exhibition and part of the money goes to Comic Relief.</p>
+            <p>The organization has helped people for more than 20 years. And how much have they collected since the first Red Nose Day celebrated in Britain? Over 600 million pounds! The idea of Red Nose Day has travelled to other countries too. In New Zealand, for example, people have made big red noses which they put on the front of cars and even buildings.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>全文翻译：</strong><br>
+            俗话说，笑声是最好的良药。笑确实对我们的健康有好处。所以，下次你感到压力大的时候，试着多笑，培养幽默感，看有趣的电影。<br>
+             Comic Relief慈善组织是一个帮助有需要的人的组织，它利用笑声来筹集资金。每隔两年的春天，许多英国人戴上红鼻子，自嘲一番，做一些“傻事”来让自己和别人发笑。<br>
+            以下是一些你可以做的傻事的例子：<br>
+            邀请朋友到你家看有趣的电影。他们必须付费观看电影，坐在最舒服椅子上的人付更多钱，还要付食物和饮料的钱。<br>
+            在学校举办才艺表演，请你的朋友和老师唱歌、跳舞或讲笑话。向学校其他人出售演出门票。<br>
+            在你家举办红鼻子派对。你所有的朋友都穿着红色衣服，包括红鼻子，你提供红色食物和饮料。如果他们不穿红色衣服，就得付罚款。<br>
+            让学生们用各种材料制作有趣的雕塑。向你的红鼻子日展览出售门票，一部分钱捐给 Comic Relief。<br>
+            这个组织已经帮助人们20多年了。自从英国第一个红鼻子日以来，他们筹集了多少钱？超过6亿英镑！红鼻子日的想法也传到了其他国家。例如，在新西兰，人们制作了大的红鼻子，放在汽车甚至建筑物的前面。
+        </div>
+
+        <!-- 5 -->
+        <div class="q-item-inline"><span class="q-num-inline">5</span><span class="q-text-inline">What is Comic Relief charity?</span></div>
+        <div class="answer-box">✅ 答案：It is an organization that helps people in need and uses laughter to raise money.</div>
+        <div class="analysis-box">📝 解析：第二段第一句直接说明。</div>
+
+        <!-- 6 -->
+        <div class="q-item-inline"><span class="q-num-inline">6</span><span class="q-text-inline">For which silly thing may people pay a fine?</span></div>
+        <div class="answer-box">✅ 答案：People have to pay a fine if they don't wear red at a red nose party.</div>
+        <div class="analysis-box">📝 解析：倒数第四段提到红鼻子派对上不穿红色要罚款。</div>
+
+        <!-- 7 -->
+        <div class="q-item-inline"><span class="q-num-inline">7</span><span class="q-text-inline">According to the passage, in which countries do people celebrate the Red Nose Day?</span></div>
+        <div class="answer-box">✅ 答案：In Britain, New Zealand and some other countries.</div>
+        <div class="analysis-box">📝 解析：最后一段提到红鼻子日在英国、新西兰等地庆祝。</div>
+
+        <!-- 8 -->
+        <div class="q-item-inline"><span class="q-num-inline">8</span><span class="q-text-inline">What do you think of Comic Relief? (开放性试题)</span></div>
+        <div class="answer-box">✅ 答案示例：It is a great success as a whole. / It helps people in need in a clever way.</div>
+        <div class="analysis-box">📝 解析：开放性试题，言之有理即可。</div>
+    </div>
+</div>
+
+<!-- 页脚 (已按要求修改) -->
+<div class="bottom-bar">
+    <span style="color:#5f6e7d; font-size:1rem;">📌 小红本英语 · 祝你快速提升 · 13193606199</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+    // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
