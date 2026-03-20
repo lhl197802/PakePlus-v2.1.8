@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>Unit 1 Past and present · Period 6 Integration (Ⅱ) & Assessment 写作专项</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        body {
+            background: #f4f7fb;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        /* 页眉与页脚 */
+        .top-bar, .bottom-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 40px;
+            padding: 14px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 6px 12px rgba(0,30,45,0.05);
+            border: 1px solid #dde7f0;
+        }
+        .top-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+        }
+        .bottom-bar {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            background: #f8fbfe;
+        }
+        .title-area h1 {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(145deg, #0d4c6e, #0b3b55);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title-area p {
+            color: #54738f;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .close-btn {
+            background: #ecf3fa;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1d577b;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s;
+            border: 1px solid #bed3e6;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        }
+        .close-btn:hover {
+            background: #dae6f2;
+            color: #093852;
+            border-color: #7fa9c7;
+            box-shadow: 0 4px 10px rgba(0,60,90,0.1);
+        }
+        .close-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* 卡片样式 */
+        .section-card {
+            background: white;
+            border-radius: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 22px -6px rgba(20, 50, 70, 0.12);
+            overflow: hidden;
+            border: 1px solid #e2eef9;
+            transition: box-shadow 0.2s;
+        }
+        .section-header {
+            background: white;
+            padding: 20px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #10435c;
+            transition: background 0.15s, padding 0.2s;
+            border-bottom: 1px solid transparent;
+        }
+        .section-header:hover {
+            background: #e9f2fa;
+        }
+        .section-header .toggle-icon {
+            font-size: 1.8rem;
+            line-height: 1;
+            color: #2c779b;
+            transition: transform 0.25s ease;
+            user-select: none;
+        }
+        /* 折叠样式 */
+        .section-card.collapsed .section-content {
+            display: none;
+        }
+        .section-card.collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+        .section-content {
+            padding: 8px 28px 28px 28px;
+            border-top: 1px solid #d1e2f0;
+            background: #ffffff;
+        }
+
+        /* 题目元素 */
+        .question-item {
+            margin-top: 28px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e0ecf5;
+        }
+        .question-item:last-child {
+            border-bottom: none;
+        }
+        .q-num {
+            display: inline-block;
+            background: #cde1f0;
+            color: #0f4b6b;
+            font-weight: 700;
+            padding: 4px 16px 5px 16px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            letter-spacing: 0.4px;
+            margin-bottom: 12px;
+            border: 1px solid #aac6dd;
+        }
+        .q-text {
+            font-size: 1.04rem;
+            font-weight: 500;
+            color: #113845;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            background: #f5faff;
+            padding: 16px 22px;
+            border-radius: 24px;
+            border-left: 5px solid #3182a3;
+            box-shadow: inset 0 1px 4px #d7e6f5;
+        }
+        .options {
+            margin: 12px 0 16px 8px;
+            color: #1d506b;
+            background: #f0f6fd;
+            padding: 14px 20px;
+            border-radius: 20px;
+            font-weight: 460;
+        }
+        .opt-item {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            margin-right: 28px;
+            white-space: nowrap;
+        }
+        .answer-box, .analysis-box, .trans-box {
+            margin: 12px 0 8px 0;
+            padding: 12px 18px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+        }
+        .answer-box {
+            background: #e2f0fa;
+            color: #004d7c;
+            font-weight: 600;
+            border-left: 6px solid #0073aa;
+        }
+        .analysis-box {
+            background: #fff6e5;
+            color: #624c2a;
+            border-left: 6px solid #efb13b;
+        }
+        .trans-box {
+            background: #e1f1e8;
+            color: #1b6e4a;
+            border-left: 6px solid #2e9e68;
+        }
+        .fill-blank {
+            background: #ffead4;
+            font-weight: 600;
+            padding: 2px 12px 4px 12px;
+            border-radius: 40px;
+            display: inline-block;
+            margin: 0 4px;
+            border: 1px solid #d9b386;
+        }
+        .small-note {
+            font-size: 0.86rem;
+            color: #6a859e;
+            margin-top: 12px;
+            padding-left: 12px;
+        }
+        .word-box {
+            background: #e7f0fa;
+            padding: 12px 20px;
+            border-radius: 28px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            color: #145a82;
+            border: 1px dashed #7dafd1;
+        }
+        .passage-box {
+            background: #f9f7f0;
+            padding: 20px 24px;
+            border-radius: 28px;
+            margin: 20px 0 10px 0;
+            border-left: 6px solid #8f6d3f;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #2d3b45;
+        }
+        hr {
+            border: none;
+            border-top: 1px dashed #c4d7e8;
+            margin: 20px 0;
+        }
+        @media (max-width: 600px) {
+            .top-bar, .bottom-bar { flex-wrap: wrap; padding: 12px 18px; }
+            .title-area h1 { font-size: 1.4rem; }
+            .section-header { font-size: 1.15rem; padding: 16px 20px; }
+            .section-content { padding: 8px 16px 20px; }
+            .q-text { padding: 12px; font-size: 0.98rem; }
+            .opt-item { display: block; margin: 6px 0; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- 页眉 -->
+<div class="top-bar">
+    <div class="title-area">
+        <h1>📖 Unit 1 Past and present · Period 6</h1>
+        <p>Integration (Ⅱ) & Assessment & Further study 写作专项</p>
+    </div>
+    <!--button class="close-btn" id="closePageTop" title="尝试关闭本页">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageTop" title="返回导航页">返回导航页</button>
+</div>
+
+<!-- ========== 卡片Ⅰ 高分词句储备 ========= -->
+<div class="section-card collapsed" id="section1">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅰ 高分词句储备 (词汇+佳句仿写)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <!-- 1-4 话题词汇 -->
+        <div class="question-item">
+            <span class="q-num">1</span>
+            <div class="q-text">方便的 (汉译英)</div>
+            <div class="answer-box">✅ 答案：convenient</div>
+            <div class="trans-box">🌐 翻译：convenient</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">2</span>
+            <div class="q-text">满怀希望的 (汉译英)</div>
+            <div class="answer-box">✅ 答案：hopeful</div>
+            <div class="trans-box">🌐 翻译：hopeful</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">3</span>
+            <div class="q-text">随着……的发展 (汉译英)</div>
+            <div class="answer-box">✅ 答案：with the development of</div>
+            <div class="trans-box">🌐 翻译：with the development of</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">4</span>
+            <div class="q-text">鼓励某人做某事 (汉译英)</div>
+            <div class="answer-box">✅ 答案：encourage sb to do sth</div>
+            <div class="trans-box">🌐 翻译：encourage sb to do sth</div>
+        </div>
+
+        <!-- 5-6 佳句仿写 -->
+        <div class="question-item">
+            <span class="q-num">5</span>
+            <div class="q-text">【教材原句】Thanks to the government’s support, the roads in the village have improved a lot in recent years. (thanks to)<br>→ 仿写：多亏因特网，我们和世界连接了起来。</div>
+            <div class="answer-box">✅ 答案：Thanks to the internet, we are connected with the world.</div>
+            <div class="analysis-box">📝 解析：thanks to 意为“多亏，由于”，后接名词或名词短语。原句使用了现在完成时，仿写可根据语境使用一般现在时。</div>
+            <div class="trans-box">🌐 翻译：Thanks to the internet, we are connected with the world.</div>
+        </div>
+        <div class="question-item">
+            <span class="q-num">6</span>
+            <div class="q-text">【教材原句】Today, however, many college students return and do all kinds of jobs. (however)<br>→ 仿写：然而，这些天，我们镇上正在发生一些不同寻常的事情。</div>
+            <div class="answer-box">✅ 答案：However, these days, something unusual is happening in our town.</div>
+            <div class="analysis-box">📝 解析：however 表示转折，常置于句首，后用逗号。these days 常与现在进行时连用。</div>
+            <div class="trans-box">🌐 翻译：However, these days, something unusual is happening in our town.</div>
+        </div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅱ 经典范文模板 ========= -->
+<div class="section-card collapsed" id="section2">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅱ 经典范文模板 (Changes in Our Life)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="passage-box">
+            <p><strong>Changes in Our Life</strong></p>
+            <p>In recent years, great changes have taken place in our life.</p>
+            <p>Firstly, in my hometown, old small houses have been replaced by many tall buildings. Secondly, our lifestyle has improved. Instead of just watching TV at home, we can now visit many kinds of museums. Thirdly, I used to be afraid of learning English. However, through reading aloud and watching English videos, I have fallen in love with it.</p>
+            <p>For the future, I wish to become a better English learner and make my daily life more colourful. To achieve this, I will ask teachers for help after class and travel to different cities to broaden my horizons.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>我们生活中的变化</strong><br>
+            近年来，我们的生活发生了巨大的变化。<br>
+            首先，在我的家乡，旧的小房子已被许多高楼大厦取代。其次，我们的生活方式改善了。现在我们可以参观各种博物馆，而不只是在家看电视。第三，我过去害怕学英语。然而，通过大声朗读和看英语视频，我已经喜欢上了它。<br>
+            对于未来，我希望成为更好的英语学习者，让我的日常生活更加丰富多彩。为了实现这一目标，我将在课后向老师请教，并去不同的城市旅行以拓宽视野。
+        </div>
+        <div class="small-note">结构：总—分—总，列举了住房、生活方式、学习三个方面的变化。</div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅲ 高分范文赏析 ========= -->
+<div class="section-card collapsed" id="section3">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅲ 高分范文赏析 (Changes Around Us)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📝 【2025江苏扬州期中】随着社会的发展，我们的生活变得越来越好。学校英语角本周的主题是“Changes Around Us”。请你根据下列提示，从学习、环境、交通、旅游等方面对比过去和现在的变化，并谈谈自己的看法。</div>
+        <div class="passage-box">
+            <p><strong>Changes Around Us</strong></p>
+            <p>In the past few years, great changes have taken place around us.</p>
+            <p>In the past, we used to study in dark classrooms, but now we have bright and modern classrooms with computers. The environment has also improved. There used to be dirty rivers, but now they are clean and fish can be seen. Transport is much faster than before. We can travel by high-speed train instead of slow buses. Moreover, more people can afford to travel abroad during holidays.</p>
+            <p>These changes make our life more convenient and enjoyable. I think they are the result of the country's development. I hope our life will become even better in the future.</p>
+        </div>
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>我们周围的变化</strong><br>
+            在过去的几年里，我们周围发生了巨大的变化。<br>
+            过去，我们常常在昏暗的教室里学习，但现在我们有了明亮、现代化的带电脑的教室。环境也改善了。过去河流肮脏，现在它们干净了，可以看到鱼儿。交通比以前快得多。我们可以乘坐高铁，而不是慢速公交车。而且，更多的人在假期能负担得起出国旅游。<br>
+            这些变化使我们的生活更方便、更愉快。我认为这是国家发展的结果。我希望未来我们的生活能变得更好。
+        </div>
+        <div class="analysis-box">
+            📝 写作要点分析：<br>
+            - 体裁：说明文<br>
+            - 时态：一般现在时、一般过去时、现在完成时<br>
+            - 人称：第一人称和第三人称<br>
+            - 结构：总—分—总，从学习、环境、交通、旅游四个方面对比变化，最后表达感受。
+        </div>
+    </div>
+</div>
+
+<!-- ========== 卡片Ⅳ 实战演练 ========= -->
+<div class="section-card collapsed" id="section4">
+    <div class="section-header" onclick="toggleSection(this)">
+        <span>Ⅳ 实战演练 (I have changed a lot 发言稿)</span>
+        <span class="toggle-icon">▼</span>
+    </div>
+    <div class="section-content">
+        <div class="word-box">📘 【2025山西太原质检】随着全球青少年之间的交流日益增加，一个主题为“I have changed a lot”的全球青少年交流沙龙即将在线上进行。你作为我国的青少年代表将进行发言。请你结合自己进入初中以来的变化，用英语写一篇发言稿。内容包括：<br>
+        (1) the biggest change you’ve had<br>
+        (2) your story about what made you change<br>
+        (3) the things you’ve learnt from your story</div>
+        
+        <div class="passage-box">
+            <p><strong>Good morning, everyone!</strong></p>
+            <p>I’m glad to share my story about changes. The biggest change I’ve had since entering junior high is becoming more confident.</p>
+            <p>I used to be shy and afraid to speak in public. Once, my English teacher asked me to give a presentation. At first, I wanted to refuse, but she encouraged me, saying, “You can do it! Just try.” I spent days preparing, practising in front of the mirror. When I stood on the stage, my hands were shaking but I took a deep breath and started. To my surprise, I finished successfully and even got applause.</p>
+            <p>From this experience, I learnt that confidence comes from trying. Don’t be afraid of challenges. Take a step forward, and you’ll find yourself growing.</p>
+            <p>Thank you!</p>
+        </div>
+
+        <div class="trans-box">
+            🌐 <strong>中文翻译：</strong><br>
+            <strong>大家早上好！</strong><br>
+            我很高兴分享我关于变化的故事。进入初中以来，我最大的变化是变得更加自信。<br>
+            我过去很害羞，不敢在公共场合说话。有一次，我的英语老师让我做一个展示。起初我想拒绝，但她鼓励我说：“你能行！试试看。”我花了几天时间准备，在镜子前练习。当我站在舞台上时，我的手在颤抖，但我深吸了一口气，开始了。令我惊讶的是，我成功地完成了，甚至还得到了掌声。<br>
+            从这次经历中，我学到自信源于尝试。不要害怕挑战。迈出一步，你会发现自己正在成长。<br>
+            谢谢！
+        </div>
+
+        <div class="analysis-box">
+            📝 解析：<br>
+            - 时态：一般现在时、一般过去时、现在完成时结合。<br>
+            - 结构：开篇点题（最大变化）→ 具体故事（起因、经过、结果）→ 感悟收获。<br>
+            - 亮点：使用了encourage, spend time doing, to my surprise等短语；最后一句Take a step forward...富有感染力。<br>
+            - 注意：发言稿需有称呼和结束语。
+        </div>
+        <div class="small-note">链接狂K：when引导的时间状语从句讲解见狂K重点P5。</div>
+    </div>
+</div>
+
+<!-- 页脚 -->
+<div class="bottom-bar">
+    <span style="color:#3f627c; font-size:0.95rem;">📌 点击上方标题展开/折叠 · 所有范文均附解析与翻译</span>
+    <!--button class="close-btn" id="closePageBottom">✕ 关闭本页</button-->
+    <button class="close-btn" id="backPageBottom" title="返回导航页">返回导航页</button>
+</div>
+
+<script>
+    function toggleSection(header) {
+        const card = header.closest('.section-card');
+        if (card) card.classList.toggle('collapsed');
+    }
+   // 直接关闭窗口，无提示
+    function closeWindow() {
+        window.close();
+    }
+    //document.getElementById('closePageTop').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+    //document.getElementById('closePageBottom').addEventListener('click', function(e) {
+    //    e.stopPropagation();
+    //    closeWindow();
+    //});
+
+
+     // 返回上一页功能
+    function goBack() {
+        window.history.back();
+    }
+
+    // 为两个返回按钮绑定事件
+    document.getElementById('backPageTop').addEventListener('click', function(e) {
+        e.stopPropagation();  // 防止冒泡到上层折叠事件
+        goBack();
+    });
+    document.getElementById('backPageBottom').addEventListener('click', function(e) {
+        e.stopPropagation();
+        goBack();
+    });
+</script>
+</body>
+</html>
